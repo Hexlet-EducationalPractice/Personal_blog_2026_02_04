@@ -1,0 +1,51 @@
+name: Setup Labels
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              { name: "feature", color: "0EA5E9", description: "Новая функциональность" },
+              { name: "bug", color: "EF4444", description: "Ошибка или баг" },
+              { name: "fix", color: "F97316", description: "Исправление бага" },
+              { name: "refactor", color: "8B5CF6", description: "Рефакторинг без изменения логики" },
+              { name: "docs", color: "10B981", description: "Документация" },
+              { name: "test", color: "14B8A6", description: "Тесты" },
+              { name: "chore", color: "6B7280", description: "Технические задачи / обслуживание" },
+
+              { name: "frontend", color: "2563EB", description: "Изменения во frontend (UI, компоненты)" },
+              { name: "backend", color: "7C3AED", description: "Изменения в backend (API, логика)" },
+              { name: "fullstack", color: "0D9488", description: "Затрагивает frontend и backend" },
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+              } catch (e) {
+                if (e.status === 422) {
+                  console.log(`Label ${label.name} already exists`);
+                } else {
+                  throw e;
+                }
+              }
+            }
