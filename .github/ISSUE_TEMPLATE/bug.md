@@ -1,5 +1,5 @@
 ---
-name: bug
+name: Bug
 about: Ошибка или некорректное поведение
 title: Баг
 labels: bug
