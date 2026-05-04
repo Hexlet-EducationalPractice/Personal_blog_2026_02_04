@@ -1,7 +1,7 @@
 const required = (key: string): string => {
   const v = import.meta.env[key];
   if (!v || typeof v !== 'string') {
-    throw new Error(`Missing env ${key}. Скопируйте .env.example в .env и заполните значения.`);
+    throw new Error(`Missing env ${key}. Скопируйте .env.example в .env.`);
   }
   return v;
 };
