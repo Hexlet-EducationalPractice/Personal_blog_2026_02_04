@@ -10,7 +10,8 @@ const required = (key: string): string => {
 }
 
 export const env = {
+  supabaseUrl: required('VITE_SUPABASE_URL'),
+  supabaseAnonKey: required('VITE_SUPABASE_ANON_KEY'),
   apiUrl: required('VITE_API_URL'),
   blogOwnerId: required('VITE_BLOG_OWNER_ID'),
-  siteUrl: required('VITE_SITE_URL'),
 } as const
