@@ -42,23 +42,36 @@
     opacity: 0.1;
 }
 
-.sm {
-    height: 32px;
+.xs {
+    width: 34px;
+    height: 14px;
     padding: 0 16px;
     font-size: 12px;
+    border-radius: 5px;
 }
 
-.md {
-    height: 40px;
+.s {
+    width: 60px;
+    height: 14px;
     padding: 0 20px;
     font-size: 14px;
+    border-radius: 5px;
 }
 
-.lg {
-    height: 48px;
+.m {
+    width: 120px;
+    height: 40px;
     padding: 0 24px;
     font-size: 16px;
+    border-radius: 25px;
 }
+
+.l {
+    width: 120px;
+    height: 30px;
+    padding: 0 16px;
+    font-size: 12px;
+    border-radius: 5px;}
 
 .disabled {
     opacity: 0.5;
