@@ -1,38 +1,32 @@
-:root {
-    --color-primary: #3137C9;
-    --color-white: #FFFFFF;
-    --color-secondary: #ED3024;
-}
-
 .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 25px;
+    border-radius: var(--radius-md);
     font-weight: bold;
     cursor: pointer;
-    transform: 0.2s ease;
-    padding: 16px 16px;
-    margin: 4px;
+    padding: var(--space-4);
 }
 
 .primary {
     background-color: var(--color-primary);
-    color: var(--color-white);
+    color: var(--color-text-primary);
 }
 
 .primary:hover {
-    opacity: 0.9;
+    transition: 0.2s ease;
+    background-color: var(--color-primary-hover);
 }
 
 .secondary {
-    background-color: var(--color-secondary);
-    color: var(--color-white);
+    background-color: var(--color-danger);
+    color: var(--color-text-primary);
 }
 
 .secondary:hover {
-    opacity: 0.9;
+    transition: 0.2s ease;
+    background-color: var(--color-accent-soft);
 }
 
 .ghost {
@@ -44,7 +38,8 @@
 }
 
 .ghost:hover {
-    opacity: 0.9;
+    transition: 0.2s ease;
+    opacity: 0.1;
 }
 
 .sm {
@@ -78,7 +73,6 @@
     border-top: 4px solid #333; /* тёмная часть, создающая эффект вращения */
     border-radius: 50%;
     animation: css-animation-spin 1s linear infinite; /* бесконечное вращение */
-    margin: 20px auto; /* выравнивание по центру */
 }
 
 @keyframes css-animation-spin {
