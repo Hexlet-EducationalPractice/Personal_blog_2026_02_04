@@ -10,7 +10,7 @@ create table if not exists profiles (
 
 create table if not exists posts (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users on delete cascade,
+  user_id uuid not null references profiles(id) on delete cascade,
   title text not null,
   body text not null,
   image_url text,
@@ -21,7 +21,7 @@ create table if not exists posts (
 create table if not exists comments (
   id uuid primary key default gen_random_uuid(),
   post_id uuid not null references posts on delete cascade,
-  user_id uuid not null references auth.users on delete cascade,
+  user_id uuid not null references profiles(id) on delete cascade,
   parent_id uuid references comments on delete cascade,
   body text not null,
   created_at timestamptz default now()
