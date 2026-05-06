@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import styles from './Avatar.module.css'
 type AvatarSize = 'sm' | 'md' | 'lg'
 type AvatarProps = {
@@ -35,8 +35,8 @@ function getBackgroundColor(name: string): string {
 }
 export function Avatar({ src, name, size = 'md' }: AvatarProps) {
   const [hasImageError, setHasImageError] = useState(false)
-  const initials = useMemo(() => getInitials(name), [name])
-  const backgroundColor = useMemo(() => getBackgroundColor(name), [name])
+  const initials = getInitials(name)
+  const backgroundColor = getBackgroundColor(name)
   const avatarSizeClass = sizeClassMap[size]
   const showImage = Boolean(src) && !hasImageError
   if (showImage) {
