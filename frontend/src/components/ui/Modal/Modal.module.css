@@ -1,33 +1,40 @@
 .overlay {
   position: fixed;
   inset: 0;
-
   background: rgba(0, 0, 0, 0.5);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 16px;
-
   opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   transition: opacity 200ms ease;
-
   z-index: 1000;
 }
 
 .overlayOpen {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-body.modal-open {
+:global(body.modal-open) {
   overflow: hidden;
 }
 
 .content {
   transform: scale(0.95);
-  transition: transform 200ms ease, opacity 200ms ease;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
   opacity: 0;
+  background-color: #202020;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.25);
 }
 
 .contentOpen {
