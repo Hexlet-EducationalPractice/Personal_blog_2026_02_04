@@ -9,8 +9,9 @@ export interface ModalProps {
   children: React.ReactNode;
 }
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
-  const modalRoot = document.getElementById("modal-root");
+const modalRoot = document.getElementById("modal-root")
+
+export function Modal({ isOpen, onClose, title, children }: ModalProps) {;
   if (!modalRoot) throw new Error("Modal root not found");
 
   useEffect(() => {
