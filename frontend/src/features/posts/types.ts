@@ -1,9 +1,18 @@
-import { type Database } from '@/types/database'
+import { type Tables } from '@/types/database'
 
-export type Post = Database['public']['Tables']['posts']['Row']
+export type Post = Tables<'posts'>
 
-export type CreatePostInput = Database['public']['Tables']['posts']['Insert']
+
+export type Profile = Tables<'profiles'>
+
 
 export type PostWithAuthor = Post & {
-  author: Database['public']['Tables']['profiles']['Row']
+  author: Pick<Profile, 'id' | 'name' | 'avatar_url'> | null
+}
+
+export type CreatePostInput = {
+  title: string
+  body: string
+  image_url: string | null
+  tag: string | null
 }
