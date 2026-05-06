@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase'
-import type { PostWithAuthor, CreatePostInput, Post } from './types'
+import type { PostWithAuthor, CreatePostInput } from './types'
 
 type GetPostsParams = {
     page: number
