@@ -14,7 +14,7 @@ export interface ButtonProps
 export const Button: React.FC<ButtonProps> =
     ({
          variant = "primary",
-         size = "md",
+         size = "m",
          loading = false,
          disabled,
          type = "button",

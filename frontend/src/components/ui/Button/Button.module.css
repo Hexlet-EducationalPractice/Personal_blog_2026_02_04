@@ -7,25 +7,24 @@
     font-weight: bold;
     cursor: pointer;
     padding: var(--space-4);
+    transition: 0.2s ease;
 }
 
 .primary {
     background-color: var(--color-primary);
-    color: var(--color-text-primary);
+    color: var(--color-text-inverse);
 }
 
 .primary:hover {
-    transition: 0.2s ease;
     background-color: var(--color-primary-hover);
 }
 
 .secondary {
     background-color: var(--color-danger);
-    color: var(--color-text-primary);
+    color: var(--color-text-inverse);
 }
 
 .secondary:hover {
-    transition: 0.2s ease;
     background-color: var(--color-accent-soft);
 }
 
@@ -38,8 +37,7 @@
 }
 
 .ghost:hover {
-    transition: 0.2s ease;
-    opacity: 0.1;
+    opacity: 0.9;
 }
 
 .xs {
@@ -47,7 +45,7 @@
     height: 14px;
     padding: 0 16px;
     font-size: 12px;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
 }
 
 .s {
@@ -55,7 +53,7 @@
     height: 14px;
     padding: 0 20px;
     font-size: 14px;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
 }
 
 .m {
@@ -63,7 +61,7 @@
     height: 40px;
     padding: 0 24px;
     font-size: 16px;
-    border-radius: 25px;
+    border-radius: var(--radius-md);
 }
 
 .l {
@@ -71,7 +69,7 @@
     height: 30px;
     padding: 0 16px;
     font-size: 12px;
-    border-radius: 5px;}
+    border-radius: var(--radius-sm);}
 
 .disabled {
     opacity: 0.5;
