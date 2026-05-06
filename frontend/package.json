@@ -12,8 +12,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "react-hook-form": "^7.75.0",
+    "react-router-dom": "^6.30.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -23,6 +27,7 @@
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.4",
