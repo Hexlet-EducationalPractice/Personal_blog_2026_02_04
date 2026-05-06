@@ -1,7 +1,13 @@
 import { createPortal } from "react-dom";
-import type { ModalProps } from ".";
 import { useEffect } from "react";
 import styles from "./Modal.module.css";
+
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+}
 
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   const modalRoot = document.getElementById("modal-root");
@@ -28,8 +34,6 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -39,7 +43,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   return createPortal(
     <div className={`${styles.overlay} ${isOpen ? styles.overlayOpen : ""}`} onClick={handleOverlayClick}>
         <div className={`${styles.content} ${isOpen ? styles.contentOpen : ""}`} onClick={(e) => e.stopPropagation()}>
-            {title ? title : null}
+            {title ? <h2 className={styles.title}>{title}</h2> : null}
             {children}
         </div>
     </div>,
