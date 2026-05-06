@@ -29,12 +29,12 @@
     transform 200ms ease,
     opacity 200ms ease;
   opacity: 0;
-  background-color: #202020;
-  padding: 24px;
-  border-radius: 12px;
+  background-color: var(--color-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-sm);
   max-width: 500px;
   width: 100%;
-  box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-modal);
 }
 
 .contentOpen {
@@ -43,8 +43,8 @@
 }
 
 .title {
-  margin-bottom: 16px;
-  font-size: 20px;
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-x1);
   font-weight: 600;
 }
 
@@ -61,10 +61,7 @@
 
   .content {
     max-width: 100%;
-    width: 100%;
-
     border-radius: 16px 16px 0 0;
-
     transform: translateY(40px);
   }
 
