@@ -1,9 +1,5 @@
 import type { ReactNode } from 'react';
 
-interface Props {
-  children: ReactNode;
-}
-
-export function ProtectedRoute({ children }: Props) {
+export function ProtectedRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
