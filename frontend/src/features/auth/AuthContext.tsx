@@ -6,8 +6,7 @@ import type { AuthContextValue, Profile } from './types'
 import type { User } from '@supabase/supabase-js'
 import type { ReactNode } from 'react'
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
