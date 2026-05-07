@@ -32,15 +32,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    if (!user) return
+    if (!user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setProfile(null)
+      return
+    }
 
     supabase
       .from('profiles')
       .select('*')
       .eq('id', user.id)
       .single()
-      .then(({ data }) => {
-        setProfile(data ?? null)
+      .then(res => {
+        const { data, error } = res
+        if (error) throw error
+
+        setProfile(data)
       })
   }, [user])
 
@@ -79,7 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{ user, profile, isLoading, signIn, signUp, signOut, resetPassword }}
     >
-      {!isLoading && children}
+      {children}
     </AuthContext.Provider>
   )
 }
