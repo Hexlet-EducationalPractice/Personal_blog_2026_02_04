@@ -48,6 +48,8 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
 
   useEffect(() => {
     const controller = new AbortController();
+    
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPosts(controller.signal);
 
     return () => {
