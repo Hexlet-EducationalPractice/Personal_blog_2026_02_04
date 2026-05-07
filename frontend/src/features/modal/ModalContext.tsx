@@ -1,18 +1,31 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-const ModalContext = createContext<any>(null);
+interface ModalContextType {
+  modal: string | null;
+  openContact: () => void;
+  closeModal: () => void;
+}
 
-export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
-  const [modal, setModal] = useState(null);
+const ModalContext = createContext<ModalContextType | null>(null);
+
+export const ModalProvider = ({ children }: { children: ReactNode }) => {
+  const [modal, setModal] = useState<string | null>(null);
+  
+  const openContact = () => setModal('contact');
+  const closeModal = () => setModal(null);
+
   return (
-    <ModalContext.Provider value={{ 
-      modal, 
-      openContact: () => setModal('contact'),
-      closeModal: () => setModal(null) 
-    }}>
+    <ModalContext.Provider value={{ modal, openContact, closeModal }}>
       {children}
     </ModalContext.Provider>
   );
 };
 
-export const useModal = () => useContext(ModalContext);
+// eslint-disable-next-line react-refresh/only-export-components
+export const useModal = () => {
+  const context = useContext(ModalContext);
+  if (!context) {
+    throw new Error('useModal must be used within ModalProvider');
+  }
+  return context;
+};
