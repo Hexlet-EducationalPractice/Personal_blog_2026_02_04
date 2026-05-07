@@ -1,22 +1,45 @@
-import { Routes, Route } from 'react-router-dom'
-import { Home } from '@/pages/Home/Home'
-import { TextPage } from '@/pages/TextPage/TextPage'
-import { SearchResult } from '@/pages/SearchResult/SearchResult'
-import { Works } from '@/pages/Works/Works'
-import { Auth } from '@/pages/Auth/Auth'
-import { Profile } from '@/pages/Profile/Profile'
-import { NotFound } from '@/pages/NotFound/NotFound'
+import { createBrowserRouter } from 'react-router-dom'
+import { Layout } from '../components/Layout'
+import { Home } from '../pages/Home/Home'
+import { TextPage } from '../pages/TextPage/TextPage'
+import { SearchResult } from '../pages/SearchResult/SearchResult'
+import { Works } from '../pages/Works/Works'
+import { Profile } from '../pages/Profile/Profile'
+import { Auth } from '../pages/Auth/Auth'
+import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute'
 
-export function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/post/:id" element={<TextPage />} />
-      <Route path="/search" element={<SearchResult />} />
-      <Route path="/works" element={<Works />} />
-      <Route path="/auth" element={<Auth />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  )
-}
+export const router = createBrowserRouter([
+  {
+    path: '/auth',
+    element: <Auth />,
+  },
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: '/post/:id',
+        element: <TextPage />,
+      },
+      {
+        path: '/search',
+        element: <SearchResult />,
+      },
+      {
+        path: '/works',
+        element: <Works />,
+      },
+      {
+        path: '/profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+])
