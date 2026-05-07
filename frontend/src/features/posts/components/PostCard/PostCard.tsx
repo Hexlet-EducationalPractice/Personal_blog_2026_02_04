@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 
 import { formatDate } from '@/lib/format-date'
 import { truncate } from '@/lib/truncate'
-
 import type { PostWithAuthor } from '@/features/posts/types'
+
+import styles from './PostCard.module.css'
 
 type PostCardProps = {
   post: PostWithAuthor
@@ -13,29 +14,32 @@ export function PostCard({ post }: PostCardProps) {
   const postUrl = `/post/${post.id}`
   const formattedDate = post.created_at ? formatDate(post.created_at) : 'Дата неизвестна'
   const preview = truncate(post.body, 200)
-  const authorName = post.author?.name ?? 'Автор'
 
   return (
-    <Link to={postUrl}>
-      <article>
-        <div>
+    <Link className={styles.link} to={postUrl}>
+      <article className={styles.card}>
+        <div className={styles.imageContainer}>
           {post.image_url ? (
-            <img src={post.image_url} alt={post.title} />
+            <img className={styles.image} src={post.image_url} alt={post.title} />
           ) : (
-            <div>Нет изображения</div>
+            <div className={styles.placeholder}>Нет изображения</div>
           )}
         </div>
 
-        <div>
-          {post.tag && <span>{post.tag}</span>}
+        <div className={styles.content}>
+          <h2 className={styles.title}>{post.title}</h2>
 
-          <h2>{post.title}</h2>
+          <p className={styles.preview}>{preview}</p>
 
-          <time dateTime={post.created_at ?? undefined}>{formattedDate}</time>
+          <div className={styles.meta}>
+            <time className={styles.date} dateTime={post.created_at ?? undefined}>
+              {formattedDate}
+            </time>
 
-          <span>{authorName}</span>
+            {post.tag && <span className={styles.tag}>{post.tag}</span>}
+          </div>
 
-          <p>{preview}</p>
+          <span className={styles.readMore}>читать</span>
         </div>
       </article>
     </Link>
