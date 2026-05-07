@@ -43,3 +43,6 @@ export const router = createBrowserRouter([
     ],
   },
 ])
+
+// Заглушка для билда, если другие файлы импортируют AppRoutes
+export const AppRoutes = () => null;

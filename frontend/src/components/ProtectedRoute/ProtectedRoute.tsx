@@ -1,4 +1,9 @@
-import { ReactNode } from 'react';
-export function ProtectedRoute({ children }: { children: ReactNode }) {
+import type { ReactNode } from 'react';
+
+interface Props {
+  children: ReactNode;
+}
+
+export function ProtectedRoute({ children }: Props) {
   return <>{children}</>;
 }
