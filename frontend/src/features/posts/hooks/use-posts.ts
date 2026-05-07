@@ -1,7 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getPosts } from '../api';
 import { getErrorMessage } from '../../../utils/getErrorMessage';
-import type { Post } from '../../../types';
+
+export interface Post {
+  id: string;
+  title: string;
+  body: string;
+  image_url?: string;
+  created_at: string;
+}
 
 interface UsePostsParams {
   page: number;
@@ -28,10 +35,10 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
     setError(null);
 
     try {
-      const response = await getPosts({ page, perPage, q, signal });
+      const response = await getPosts({ page, perPage, q });
       
       if (!signal?.aborted) {
-        setPosts(response.posts);
+        setPosts(response.posts as Post[]);
         setTotal(response.total);
       }
     } catch (e) {
@@ -49,7 +56,6 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
   useEffect(() => {
     const controller = new AbortController();
     
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPosts(controller.signal);
 
     return () => {
