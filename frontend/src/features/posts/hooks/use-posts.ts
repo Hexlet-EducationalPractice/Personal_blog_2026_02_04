@@ -56,7 +56,9 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
   useEffect(() => {
     const controller = new AbortController();
     
-    fetchPosts(controller.signal);
+    (async () => {
+      await fetchPosts(controller.signal);
+    })();
 
     return () => {
       controller.abort();
