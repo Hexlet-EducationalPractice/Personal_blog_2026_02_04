@@ -1,7 +1,7 @@
-import type { Tables } from "@/types/database"
-import type { User } from "@supabase/supabase-js"
+import type { Tables } from '@/types/database'
+import type { User } from '@supabase/supabase-js'
 
-export type Profile = Tables<"profiles">
+export type Profile = Tables<'profiles'>
 
 export interface AuthContextValue {
   user: User | null

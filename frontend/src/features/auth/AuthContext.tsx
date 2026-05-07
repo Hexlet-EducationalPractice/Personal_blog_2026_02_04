@@ -1,11 +1,13 @@
-import { useEffect, useState, type ReactNode } from "react"
-import { supabase } from "@/lib/supabase"
-import { env } from "@/lib/env"
+import { createContext, useContext, useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
+import { env } from '@/lib/env'
 
-import type { Profile } from "./types"
-import type { User } from "@supabase/supabase-js"
+import type { AuthContextValue, Profile } from './types'
+import type { User } from '@supabase/supabase-js'
+import type { ReactNode } from 'react'
 
-import { AuthContext } from "./context"
+// eslint-disable-next-line react-refresh/only-export-components
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -34,9 +36,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user) return
 
     supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
       .single()
       .then(({ data }) => {
         setProfile(data ?? null)
@@ -78,7 +80,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{ user, profile, isLoading, signIn, signUp, signOut, resetPassword }}
     >
-      {isLoading && children}
+      {!isLoading && children}
     </AuthContext.Provider>
   )
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useAuth() {
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuth must be used with context')
+  return ctx
 }
