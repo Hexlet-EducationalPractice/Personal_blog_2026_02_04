@@ -8,6 +8,7 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage/ErrorMessage'
 import { Input } from '@/components/ui/Input/Input'
 import { useAuth } from '@/features/auth/AuthContext'
 import { getErrorMessage } from '@/lib/get-error-message'
+import styles from './ForgotPasswordForm.module.css'
 
 const schema = z.object({
   email: z.string().email('Некорректный email'),
@@ -38,7 +39,7 @@ export function ForgotPasswordForm() {
 
   if (isSubmitted) {
     return (
-      <p role='status' style={{ color: 'var(--color-text-secondary)', lineHeight: 'var(--line-height-relaxed)' }}>
+      <p role='status' className={styles.successMessage}>
         Письмо отправлено. На указанный email отправлена инструкция по восстановлению. Если письма нет — проверьте
         папку Спам.
       </p>
@@ -51,7 +52,7 @@ export function ForgotPasswordForm() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}
+        className={styles.form}
       >
         <Input label='Email' type='email' autoComplete='email' {...register('email')} error={errors.email?.message} />
 
