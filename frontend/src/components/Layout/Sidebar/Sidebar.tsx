@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthContext';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -36,12 +37,16 @@ export function Sidebar() {
         Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов.
       </p>
       <div className={styles.actions}>
-        <Button variant="primary" size="md" shape="pill">
-          Мои работы
-        </Button>
-        <Button variant="secondary" size="md" shape="pill">
-          Написать мне
-        </Button>
+        <Link to="/works">
+          <Button variant="primary" size="md" shape="pill">
+            Мои работы
+          </Button>
+        </Link>
+        <Link to="/contact">
+          <Button variant="secondary" size="md" shape="pill">
+            Написать мне
+          </Button>
+        </Link>
       </div>
     </aside>
   );
