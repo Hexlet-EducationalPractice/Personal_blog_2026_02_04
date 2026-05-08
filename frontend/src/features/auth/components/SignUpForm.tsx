@@ -9,6 +9,7 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage/ErrorMessage'
 import { Input } from '@/components/ui/Input/Input'
 import { useAuth } from '@/features/auth/AuthContext'
 import { getErrorMessage } from '@/lib/get-error-message'
+import styles from './SignUpForm.module.css'
 
 const schema = z
   .object({
@@ -50,7 +51,7 @@ export function SignUpForm() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}
+        className={styles.form}
       >
         <Input label='Email' type='email' autoComplete='email' {...register('email')} error={errors.email?.message} />
 
