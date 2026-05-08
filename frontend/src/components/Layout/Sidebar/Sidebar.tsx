@@ -1,30 +1,47 @@
+import { useAuth } from '@/features/auth/AuthContext';
+import { Avatar } from '@/components/ui/Avatar';
+import { Button } from '@/components/ui/Button';
 import styles from './Sidebar.module.css';
 
 export function Sidebar() {
+  const { profile } = useAuth();
+
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.cover}><img src="/images/cover.jpg" alt="" /></div>
+      <div className={styles.cover}>
+        <div style={{ width: '100%', height: '100%', background: 'var(--color-surface-dark)' }} />
+      </div>
       <div className={styles.avatarWrap}>
-        <img src="/images/default-avatar.jpg" alt="" className={styles.avatar} />
+        <Avatar 
+          src={profile?.avatar_url || undefined} 
+          name={profile?.name || 'Пользователь'} 
+          size="xl" 
+        />
       </div>
-      <div className={styles.name}>Дмитрий Валак</div>
-      <div className={styles.role}>блог front-end разработчика</div>
-      
+      <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
+      <p className={styles.role}>Разработчик</p>
       <div className={styles.socials}>
-        <a href="#" className={`${styles.social} ${styles.instagram}`}>In</a>
-        <a href="#" className={`${styles.social} ${styles.vk}`}>Vk</a>
-        <a href="#" className={`${styles.social} ${styles.pinterest}`}>Pi</a>
+        <a href="#" className={`${styles.social} ${styles.instagram}`}>
+          IG
+        </a>
+        <a href="#" className={`${styles.social} ${styles.vk}`}>
+          VK
+        </a>
+        <a href="#" className={`${styles.social} ${styles.pinterest}`}>
+          P
+        </a>
       </div>
-
-      <div className={styles.divider} />
+      <div className={styles.divider}></div>
       <p className={styles.bio}>
-        Front-end разработчик. Практик верстки сайтов. Созданием сайтов занимаюсь с 2012 года.
+        Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов.
       </p>
-      <div className={styles.divider} />
-
       <div className={styles.actions}>
-        <button className={styles.btnRed}>Мои работы</button>
-        <button className={styles.btnBlue}>Написать мне</button>
+        <Button variant="primary" size="md" shape="pill">
+          Мои работы
+        </Button>
+        <Button variant="secondary" size="md" shape="pill">
+          Написать мне
+        </Button>
       </div>
     </aside>
   );
