@@ -39,35 +39,8 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
   }, [page, perPage, q])
 
   useEffect(() => {
-    let isMounted = true
-
-    const load = async () => {
-      setIsLoading(true)
-      setError(null)
-
-      try {
-        const response = await getPosts({ page, perPage, q })
-        if (isMounted) {
-          setPosts(response.posts)
-          setTotal(response.total)
-        }
-      } catch (e) {
-        if (isMounted) {
-          setError(getErrorMessage(e))
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    load()
-
-    return () => {
-      isMounted = false
-    }
-  }, [page, perPage, q])
+    fetchPosts()
+  }, [fetchPosts])
 
   const refetch = useCallback(() => {
     fetchPosts()
