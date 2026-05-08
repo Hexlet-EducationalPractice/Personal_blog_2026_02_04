@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { getPosts } from '@/features/posts/api'
 import { getErrorMessage } from '@/lib/get-error-message'
 import type { PostWithAuthor } from '@/features/posts/types'
@@ -23,23 +23,38 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const isMountedRef = useRef(true)
+
   const fetchPosts = useCallback(async () => {
+    if (!isMountedRef.current) return
+
     setIsLoading(true)
     setError(null)
 
     try {
       const response = await getPosts({ page, perPage, q })
+
+      if (!isMountedRef.current) return
+
       setPosts(response.posts)
       setTotal(response.total)
     } catch (e) {
+      if (!isMountedRef.current) return
       setError(getErrorMessage(e))
     } finally {
+      if (!isMountedRef.current) return
       setIsLoading(false)
     }
   }, [page, perPage, q])
 
   useEffect(() => {
+    isMountedRef.current = true
+
     fetchPosts()
+
+    return () => {
+      isMountedRef.current = false
+    }
   }, [fetchPosts])
 
   const refetch = useCallback(() => {
