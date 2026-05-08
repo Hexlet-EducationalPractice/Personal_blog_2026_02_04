@@ -3,21 +3,22 @@
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  width: 100%;
+  background: var(--color-bg);
 }
+
 .wrapper {
   display: flex;
-  width: 1000px;
+  width: var(--container-width);
   min-height: 100vh;
 }
+
 .main {
   width: 700px;
-  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
-.content { flex: 1; width: 100%; }
-@media (max-width: 1024px) {
-  .wrapper { width: 100%; }
-  .main { width: auto; }
+
+.content {
+  flex: 1;
 }
