@@ -6,7 +6,7 @@ import { SearchResult } from '../pages/SearchResult/SearchResult';
 import { Works } from '../pages/Works/Works';
 import { Profile } from '../pages/Profile/Profile';
 import { Auth } from '../pages/Auth/Auth';
-import { ProtectedRoute } from '../components/ProtectedRoute/ProtectedRoute';
+import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute/ProtectedRoute';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const router = createBrowserRouter([
