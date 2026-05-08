@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { getPosts } from '../api'
-import { getErrorMessage } from '@/utils/getErrorMessage'
-import type { PostWithAuthor } from '../types'
+import { getPosts } from '@/features/posts/api'
+import { getErrorMessage } from '@/lib/get-error-message'
+import type { PostWithAuthor } from '@/features/posts/types'
 
 interface UsePostsParams {
   page: number
@@ -39,8 +39,35 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
   }, [page, perPage, q])
 
   useEffect(() => {
-    fetchPosts()
-  }, [fetchPosts])
+    let isMounted = true
+
+    const load = async () => {
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const response = await getPosts({ page, perPage, q })
+        if (isMounted) {
+          setPosts(response.posts)
+          setTotal(response.total)
+        }
+      } catch (e) {
+        if (isMounted) {
+          setError(getErrorMessage(e))
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    load()
+
+    return () => {
+      isMounted = false
+    }
+  }, [page, perPage, q])
 
   const refetch = useCallback(() => {
     fetchPosts()
