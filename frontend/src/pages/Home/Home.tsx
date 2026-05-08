@@ -20,8 +20,6 @@ export function Home() {
     perPage: POSTS_PER_PAGE,
   });
 
-  const totalPages = Math.ceil((total ?? 0) / POSTS_PER_PAGE);
-
   const handlePageChange = (page: number) => {
     setSearchParams({ page: String(page) });
   };
@@ -37,7 +35,9 @@ export function Home() {
   if (error) {
     return (
       <div className={styles.center}>
-        <ErrorMessage message="Ошибка загрузки постов" />
+        <ErrorMessage>
+          Ошибка загрузки постов
+        </ErrorMessage>
       </div>
     );
   }
@@ -60,7 +60,8 @@ export function Home() {
 
       <Pagination
         currentPage={uiPage}
-        totalPages={totalPages}
+        totalCount={total ?? 0}
+        perPage={POSTS_PER_PAGE}
         onPageChange={handlePageChange}
       />
     </div>
