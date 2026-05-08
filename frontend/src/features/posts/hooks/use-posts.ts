@@ -23,7 +23,7 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const isMountedRef = useRef(true)
+  const isMountedRef = useRef(false)
 
   const fetchPosts = useCallback(async () => {
     setIsLoading(true)
@@ -49,9 +49,11 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
   useEffect(() => {
     isMountedRef.current = true
 
-    ;(async () => {
+    const load = async () => {
       await fetchPosts()
-    })()
+    }
+
+    load()
 
     return () => {
       isMountedRef.current = false
