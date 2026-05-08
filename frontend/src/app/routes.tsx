@@ -1,12 +1,12 @@
-import { createBrowserRouter } from 'react-router-dom'
-import { Layout } from '@/components/Layout/Layout'
-import { Home } from '@/pages/Home/Home'
-import { TextPage } from '@/pages/TextPage/TextPage'
-import { SearchResult } from '@/pages/SearchResult/SearchResult'
-import { Works } from '@/pages/Works/Works'
-import { Profile } from '@/pages/Profile/Profile'
-import { Auth } from '@/pages/Auth/Auth'
-import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Layout } from '../components/Layout';
+import { Home } from '../pages/Home/Home';
+import { TextPage } from '../pages/TextPage/TextPage';
+import { SearchResult } from '../pages/SearchResult/SearchResult';
+import { Works } from '../pages/Works/Works';
+import { Profile } from '../pages/Profile/Profile';
+import { Auth } from '../pages/Auth/Auth';
+import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute/ProtectedRoute';
 
 export const router = createBrowserRouter([
   {
@@ -17,8 +17,8 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: '/', element: <Home /> },
+      { path: '/post/:id', element: <TextPage /> },
       { path: '/search', element: <SearchResult /> },
-      { path: '/articles', element: <TextPage /> },
       { path: '/works', element: <Works /> },
       {
         path: '/profile',
@@ -30,4 +30,8 @@ export const router = createBrowserRouter([
       },
     ],
   },
-])
+]);
+
+export function AppRoutes() {
+  return <RouterProvider router={router} />;
+}
