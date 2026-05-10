@@ -13,10 +13,8 @@ export function Home() {
   const rawPage = Number(searchParams.get('page'));
   const uiPage = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
 
-  const apiPage = uiPage - 1;
-
   const { posts, total, isLoading, error } = usePosts({
-    page: apiPage,
+    page: uiPage,
     perPage: POSTS_PER_PAGE,
   });
 
