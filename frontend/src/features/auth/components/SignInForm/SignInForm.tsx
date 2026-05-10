@@ -44,11 +44,11 @@ export function SignInForm() {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
       <Input
         type="email"
         placeholder="Email"
-        autoComplete="email"
+        autoComplete="off"
         className={styles.input}
         error={errors.email?.message}
         {...register('email')}
@@ -57,7 +57,7 @@ export function SignInForm() {
       <Input
         type="password"
         placeholder="Пароль"
-        autoComplete="current-password"
+        autoComplete="new-password"
         className={styles.input}
         error={errors.password?.message}
         {...register('password')}

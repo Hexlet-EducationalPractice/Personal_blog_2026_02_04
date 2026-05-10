@@ -45,11 +45,11 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
       <Input
         type="email"
         placeholder="Email"
-        autoComplete="email"
+        autoComplete="off"
         className={styles.input}
         error={errors.email?.message}
         {...register('email')}

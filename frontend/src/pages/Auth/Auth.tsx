@@ -9,9 +9,10 @@ import styles from './Auth.module.css'
 type Mode = 'login' | 'register' | 'restore'
 
 export function Auth() {
-  const { user } = useAuth()
+  const { user, isLoading } = useAuth()
   const [mode, setMode] = useState<Mode>('login')
 
+  if (isLoading) return null
   if (user) return <Navigate to="/" replace />
 
   const titles: Record<Mode, string> = {
