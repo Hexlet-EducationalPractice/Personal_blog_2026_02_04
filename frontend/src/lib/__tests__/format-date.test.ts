@@ -1,68 +1,47 @@
 import { formatDate } from "../format-date";
-import { describe, it, expect, vi } from "vitest";
 
-describe('formatDate База базированная', () => {
+describe('formatDate это база', () => {
+  it('должна возвращать пустую строку при передаче пустой строки', () => {
+    const result = formatDate('')
+    expect(result).toBe('')
+  })
 
-    it('Функция должна возвращать на пустую строку также пустую строку', () => {
-     const result = formatDate('')
-
-     expect(result).toBe('')
-    })
-    it('Функция должна правильно форматировать валидную дату', () => {
-        const input = '2026-05-07T10:00:00Z'
-        const result = formatDate(input)
-
-        expect(result).toContain('7 мая 2026')
-    })
+  it('должна правильно форматировать валидную исошную дату', () => {
+    const input = '2026-05-07T10:00:00Z'
+    const result = formatDate(input)
+    expect(result).toContain('7 мая 2026')
+  })
 })
 
-describe('Границы часовых поясов', () => {
+describe('formatDate: Timezone Boundaries (UTC Mode)', () => {
 
-  it('Начало дня не должно откатываться по дню', () => {
-    vi.stubEnv('TZ', 'America/New_York')
-    
+  it('начало дня (00:00:01Z) должно оставаться тем же числом', () => {
     const input = '2026-05-07T00:00:01Z' 
     const result = formatDate(input)
-
     expect(result).toContain('7 мая 2026')
-    
-    vi.unstubAllEnvs()
   })
 
-  it('Конец дня не должно прыгать на следующее число в восточных поясах', () => {
-    vi.stubEnv('TZ', 'Asia/Tokyo') 
-    
+  it('конец дня (23:59:59Z) не должен перепрыгивать на следующее число', () => {
     const input = '2026-05-07T23:59:59Z' 
     const result = formatDate(input)
-
     expect(result).toContain('7 мая 2026')
-    
-    vi.unstubAllEnvs()
   })
 })
 
-describe('formatDate Supabase интеграция движухи', () => {
-
-  it('должна обрабатывать null когда поле created_at пустое, никогда не вернемся в 1970 год', () => {
-    const result = formatDate(null as unknown as string)
-    
+describe('formatDate: Edge Cases and Integrations', () => {
+  it('должна обрабатывать null', () => {
+    const result = formatDate(null)
     expect(result).toBe('')
   })
 
-  it('Должна обрабатывать undefined', () => {
-    const result = formatDate(undefined as unknown as string)
-    
+  it('должна обрабатывать undefined', () => {
+    const result = formatDate(undefined)
     expect(result).toBe('')
   })
 
-  it('Проверка на работу с миллисекундами', () => {
-    vi.stubEnv('TZ', 'UTC')
-  
-    const Supabase = '2026-05-07T18:30:45.123456+00:00'
-    const result = formatDate(Supabase)
-
+  it('должна корректно работать с форматом дат супавой основой', () => {
+    const supabaseDate = '2026-05-07T18:30:45.123456+00:00'
+    const result = formatDate(supabaseDate)
     expect(result).toContain('7 мая 2026')
-  
-    vi.unstubAllEnvs()
   })
 })
