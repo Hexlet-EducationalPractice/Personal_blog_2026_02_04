@@ -1,4 +1,10 @@
-function formatDate(iso: string): string {
+function formatDate(iso: string | null | undefined): string {
+  
+  if (!iso) return '';
+  
+  const date = new Date(iso)
+
+  if (isNaN(date.getTime())) return '';
   return new Date(iso).toLocaleDateString('ru-RU', {
     day: 'numeric',
     month: 'long',
