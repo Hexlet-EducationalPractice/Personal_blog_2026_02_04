@@ -3,7 +3,7 @@ const required = (key: string): string => {
   if (!value || typeof value !== 'string') {
     throw new Error(
       `Missing required env variable: ${key}. ` +
-        `Скопируйте frontend/.env.example в frontend/.env и заполните значения.`
+        `Скопируйте frontend/.env.example в frontend/.env и заполните значения.`,
     )
   }
   return value

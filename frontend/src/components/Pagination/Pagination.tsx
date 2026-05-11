@@ -34,12 +34,7 @@ function buildPaginationItems(currentPage: number, totalPages: number): Paginati
   items.push(totalPages)
   return items
 }
-export function Pagination({
-  currentPage,
-  totalCount,
-  perPage,
-  onPageChange,
-}: PaginationProps) {
+export function Pagination({ currentPage, totalCount, perPage, onPageChange }: PaginationProps) {
   const totalPages = Math.ceil(totalCount / perPage)
 
   if (totalPages <= 1) {
@@ -59,13 +54,13 @@ export function Pagination({
     }
   }
   return (
-    <nav className={styles.pagination} aria-label='Pagination'>
+    <nav className={styles.pagination} aria-label="Pagination">
       <button
-        type='button'
+        type="button"
         className={styles.navButton}
         onClick={handlePrev}
         disabled={normalizedCurrentPage === 1}
-        aria-label='Previous page'
+        aria-label="Previous page"
       >
         {'<'}
       </button>
@@ -73,7 +68,7 @@ export function Pagination({
         {items.map((item) => {
           if (typeof item !== 'number') {
             return (
-              <li key={item} className={styles.ellipsis} aria-hidden='true'>
+              <li key={item} className={styles.ellipsis} aria-hidden="true">
                 ...
               </li>
             )
@@ -83,7 +78,7 @@ export function Pagination({
           return (
             <li key={item}>
               <button
-                type='button'
+                type="button"
                 className={`${styles.pageButton} ${isActive ? styles.activePage : ''}`}
                 onClick={isActive ? undefined : () => onPageChange(item)}
                 aria-current={isActive ? 'page' : undefined}
@@ -95,11 +90,11 @@ export function Pagination({
         })}
       </ul>
       <button
-        type='button'
+        type="button"
         className={styles.navButton}
         onClick={handleNext}
         disabled={normalizedCurrentPage === totalPages}
-        aria-label='Next page'
+        aria-label="Next page"
       >
         {'>'}
       </button>

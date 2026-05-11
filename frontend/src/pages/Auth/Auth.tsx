@@ -32,31 +32,19 @@ export function Auth() {
 
         <div className={styles.links}>
           {mode !== 'restore' && (
-            <button
-              type="button"
-              className={styles.linkBtn}
-              onClick={() => setMode('restore')}
-            >
+            <button type="button" className={styles.linkBtn} onClick={() => setMode('restore')}>
               забыли пароль?
             </button>
           )}
 
           {mode !== 'register' && (
-            <button
-              type="button"
-              className={styles.linkBtn}
-              onClick={() => setMode('register')}
-            >
+            <button type="button" className={styles.linkBtn} onClick={() => setMode('register')}>
               регистрация
             </button>
           )}
 
           {mode !== 'login' && (
-            <button
-              type="button"
-              className={styles.linkBtn}
-              onClick={() => setMode('login')}
-            >
+            <button type="button" className={styles.linkBtn} onClick={() => setMode('login')}>
               войти
             </button>
           )}

@@ -1,10 +1,9 @@
 function formatDate(iso: string | null | undefined): string {
-  
-  if (!iso) return '';
-  
+  if (!iso) return ''
+
   const date = new Date(iso)
 
-  if (isNaN(date.getTime())) return '';
+  if (isNaN(date.getTime())) return ''
   return new Date(iso).toLocaleDateString('ru-RU', {
     day: 'numeric',
     month: 'long',

@@ -23,7 +23,10 @@
   font-size: var(--font-size-sm);
   line-height: 1;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
 .navButton:hover,
 .pageButton:hover {

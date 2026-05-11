@@ -12,4 +12,4 @@ export const ROUTES = {
   authReset: '/auth/reset',
   authUpdatePassword: '/auth/update-password',
   profile: '/profile',
-} as const;
+} as const
