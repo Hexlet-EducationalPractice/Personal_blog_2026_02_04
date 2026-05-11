@@ -1,53 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { getWorks } from '@/features/works/api';
-import type { Work } from '@/features/works/types';
-import WorkCard from '@/features/works/components/WorkCard/WorkCard';
-import styles from './Works.module.css';
+import { useEffect, useRef, useState } from 'react'
+import { getWorks } from '@/features/works/api'
+import type { Work } from '@/features/works/types'
+import { WorkCard } from '@/features/works/components/WorkCard/WorkCard'
+// import { useBlogOwner } from '@/features/profile'
+import { getErrorMessage } from '@/lib/get-error-message'
+import { Spinner } from '@/components/ui/Spinner'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import styles from './Works.module.css'
 
-export const Works: React.FC = () => {
-  const [works, setWorks] = useState<Work[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function Works() {
+  const [works, setWorks] = useState<Work[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const isMountedRef = useRef(false)
+
+  // const { profile: owner } = useBlogOwner()
 
   useEffect(() => {
-    getWorks()
-      .then((data) => {
-        setWorks(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+    isMountedRef.current = true
 
-  if (loading) {
-    return <div className={styles.spinner}>Загрузка...</div>;
-  }
+    const load = async () => {
+      try {
+        const data = await getWorks()
+        if (!isMountedRef.current) return
+        setWorks(data)
+      } catch (err) {
+        if (!isMountedRef.current) return
+        setError(getErrorMessage(err))
+      } finally {
+        if (isMountedRef.current) {
+          setIsLoading(false)
+        }
+      }
+    }
 
-  if (error) {
-    return <div className={styles.error}>Ошибка: {error}</div>;
-  }
+    load()
 
-  if (works && works.length === 0) {
-    return (
-      <div className={styles.container}>
-        <h1 className={styles.pageTitle}>Мои работы</h1>
-        <div className={styles.empty}>Пока нет работ</div>
-      </div>
-    );
-  }
+    return () => {
+      isMountedRef.current = false
+    }
+  }, [])
 
   return (
     <div className={styles.container}>
-      {/* Заголовок вынесен за пределы сетки карточек */}
-      <h1 className={styles.pageTitle}>Мои работы</h1>
+      {/* <h1 className={styles.pageTitle}>
+        {owner ? `Мои работы — ${owner.name}` : 'Мои работы'}
+      </h1> */}
 
-      <div className={styles.grid}>
-        {works && works.map((work) => (
-          <WorkCard key={work.id} work={work} />
-        ))}
-      </div>
+      {isLoading && (
+        <div className={styles.center}>
+          <Spinner />
+        </div>
+      )}
+
+      {error && (
+        <div className={styles.center}>
+          <ErrorMessage>{error}</ErrorMessage>
+        </div>
+      )}
+
+      {!isLoading && !error && works.length === 0 && (
+        <div className={styles.center}>Пока нет работ</div>
+      )}
+
+      {!isLoading && !error && works.length > 0 && (
+        <div className={styles.grid}>
+          {works.map((work) => (
+            <WorkCard key={work.id} work={work} />
+          ))}
+        </div>
+      )}
     </div>
-  );
-};
+  )
+}

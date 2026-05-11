@@ -1,28 +1,28 @@
-.grid {
-  gap: 30px;
-  margin-left: 50px;
-}
-
-.spinner {
-  text-align: center;
-  padding: 20px;
-}
-.error {
-  color: red;
-  text-align: center;
-  padding: 20px;
-}
-.empty {
-  text-align: center;
-  padding: 20px;
+.container {
+  padding: var(--space-10) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
 .pageTitle {
-  color: #ffffff;    
-  font-size: 21px;
-  font-weight: bold;
-  margin-bottom: 32px; 
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
   text-align: left;
-  padding-left: 50px;
-  padding-top: 60px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8);
+  color: var(--color-text-secondary);
 }

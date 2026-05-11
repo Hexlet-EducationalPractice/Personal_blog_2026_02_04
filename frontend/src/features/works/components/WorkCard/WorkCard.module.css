@@ -1,58 +1,74 @@
 .card {
-  background: #202020;
+  background: var(--color-surface);
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  border-radius: 5px;
-  margin-bottom: 30px;
-  margin-right: 50px;
-  margin-top: 111px;
-  width: 600px;
+  align-items: stretch;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-6);
+  width: 100%;
+  max-width: 600px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.imageWrapper {
+  flex-shrink: 0;
+  width: 310px;
   height: 552px;
-  box-shadow: 0 4px 15px #00000059;
 }
 
 .image {
-  width: 310px;
-  height: 552px; 
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center; 
+  object-position: center;
+  display: block;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
 }
 
 .title {
-  margin: 12px 0 8px;
-  font-size: 24px;
-  padding-top: 28px;
-  padding-right: 25px;
-  padding-left: 25px;
-  color: #fff
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--line-height-tight);
 }
 
 .description {
-  font-size: 16px;
-  color: #D2D2D2;
-  margin-bottom: 12px;
-  width: 240px;
-  padding: 25px
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-normal);
 }
 
 .tags {
+  display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  flex: 1;
 }
 
 .tag {
-  background: #EA8C1E;
-  margin: 0px 13px 0px;
-  color: #ffffff;
-  padding: 2px 12px;
-  border-radius: 3px;
-  font-size: 14px;
-  font-family: sans-serif;
-  display: inline-block;
+  background: var(--color-accent);
+  color: var(--color-text-primary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
   white-space: nowrap;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  height: fit-content;
 }
 
+.buttonContainer {
+  margin-top: var(--space-4);
+  text-decoration: none;
+  align-self: flex-end;
+}
