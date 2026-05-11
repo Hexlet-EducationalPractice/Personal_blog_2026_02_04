@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { usePosts } from '@/features/posts/hooks/use-posts'
@@ -25,13 +25,19 @@ export function SearchResult() {
     q: isQueryValid ? q : undefined,
   })
 
+  const prevQRef = useRef(q)
+
   useEffect(() => {
-    if (uiPage !== 1) {
-      const params = new URLSearchParams(searchParams)
-      params.delete('page')
-      setSearchParams(params, { replace: true })
+    if (prevQRef.current !== q) {
+      prevQRef.current = q
+      const currentPage = Number(searchParams.get('page'))
+      if (!Number.isNaN(currentPage) && currentPage > 1) {
+        const params = new URLSearchParams(searchParams)
+        params.delete('page')
+        setSearchParams(params, { replace: true })
+      }
     }
-  }, [q, uiPage, searchParams, setSearchParams])
+  }, [q, searchParams, setSearchParams])
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams)
