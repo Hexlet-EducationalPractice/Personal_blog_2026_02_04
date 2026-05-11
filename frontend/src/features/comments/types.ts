@@ -9,6 +9,7 @@ export type CommentWithAuthor = Comment & {
 }
 
 export type CreateCommentInput = {
+  user_id: string
   post_id: string
   body: string
   parent_id?: string

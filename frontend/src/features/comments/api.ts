@@ -19,21 +19,9 @@ export async function getComments(postId: string): Promise<CommentWithAuthor[]> 
 }
 
 export async function createComment(input: CreateCommentInput): Promise<CommentWithAuthor> {
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser()
-
-  if (authError || !user) {
-    throw new Error('Unauthorized: You must be logged in to create a comment')
-  }
-
   const { data, error } = await supabase
     .from('comments')
-    .insert({
-      ...input,
-      user_id: user.id,
-    })
+    .insert(input)
     .select(COMMENT_WITH_AUTHOR_QUERY)
     .single()
 
