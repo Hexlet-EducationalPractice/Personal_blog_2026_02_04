@@ -12,7 +12,7 @@ export async function getComments(postId: string): Promise<CommentWithAuthor[]> 
     .from('comments')
     .select(COMMENT_WITH_AUTHOR_QUERY)
     .eq('post_id', postId)
-    .order('created_at', { ascending: true })
+    .order('created_at', { ascending: false })
 
   if (error) throw error
   return data as unknown as CommentWithAuthor[]
