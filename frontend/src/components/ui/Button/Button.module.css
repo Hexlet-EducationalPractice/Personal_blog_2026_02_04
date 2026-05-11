@@ -30,9 +30,10 @@
     opacity: 0.9;
 }
 .sm {
-    height: 32px;
+    height: 30px;
     padding: 0 16px;
-    font-size: 14px;
+    margin-top: 313px;
+    margin-left: 119px;
 }
 .md {
     height: 40px;

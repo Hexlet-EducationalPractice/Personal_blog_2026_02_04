@@ -1,0 +1,28 @@
+.grid {
+  gap: 30px;
+  margin-left: 50px;
+}
+
+.spinner {
+  text-align: center;
+  padding: 20px;
+}
+.error {
+  color: red;
+  text-align: center;
+  padding: 20px;
+}
+.empty {
+  text-align: center;
+  padding: 20px;
+}
+
+.pageTitle {
+  color: #ffffff;    
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom: 32px; 
+  text-align: left;
+  padding-left: 50px;
+  padding-top: 60px;
+}
