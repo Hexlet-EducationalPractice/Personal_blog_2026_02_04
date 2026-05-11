@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import { useAuth } from '@/features/auth/AuthContext';
-import { Avatar } from '@/components/ui/Avatar';
-import { Button } from '@/components/ui/Button';
-import styles from './Sidebar.module.css';
+import { Link } from 'react-router-dom'
+import { useAuth } from '@/features/auth/AuthContext'
+import { Avatar } from '@/components/ui/Avatar'
+import { Button } from '@/components/ui/Button'
+import styles from './Sidebar.module.css'
 
 export function Sidebar() {
-  const { profile } = useAuth();
+  const { profile } = useAuth()
 
   return (
     <aside className={styles.sidebar}>
@@ -13,10 +13,10 @@ export function Sidebar() {
         <div style={{ width: '100%', height: '100%', background: 'var(--color-surface-dark)' }} />
       </div>
       <div className={styles.avatarWrap}>
-        <Avatar 
-          src={profile?.avatar_url || undefined} 
-          name={profile?.name || 'Пользователь'} 
-          size="xl" 
+        <Avatar
+          src={profile?.avatar_url || undefined}
+          name={profile?.name || 'Пользователь'}
+          size="xl"
         />
       </div>
       <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
@@ -49,5 +49,5 @@ export function Sidebar() {
         </Link>
       </div>
     </aside>
-  );
+  )
 }

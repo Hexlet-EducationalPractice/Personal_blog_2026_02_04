@@ -1,4 +1,4 @@
-import { formatDate } from "../format-date";
+import { formatDate } from '../format-date'
 
 describe('formatDate это база', () => {
   it('должна возвращать пустую строку при передаче пустой строки', () => {
@@ -14,15 +14,14 @@ describe('formatDate это база', () => {
 })
 
 describe('formatDate: Timezone Boundaries (UTC Mode)', () => {
-
   it('начало дня (00:00:01Z) должно оставаться тем же числом', () => {
-    const input = '2026-05-07T00:00:01Z' 
+    const input = '2026-05-07T00:00:01Z'
     const result = formatDate(input)
     expect(result).toContain('7 мая 2026')
   })
 
   it('конец дня (23:59:59Z) не должен перепрыгивать на следующее число', () => {
-    const input = '2026-05-07T23:59:59Z' 
+    const input = '2026-05-07T23:59:59Z'
     const result = formatDate(input)
     expect(result).toContain('7 мая 2026')
   })

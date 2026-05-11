@@ -2,15 +2,6 @@
   "scripts": {
     "prepare": "husky"
   },
-  "lint-staged": {
-    "frontend/**/*.{ts,tsx}": [
-      "npx --prefix frontend eslint --fix",
-      "npx --prefix frontend prettier --write"
-    ],
-    "frontend/**/*.{json,css,md}": [
-      "npx --prefix frontend prettier --write"
-    ]
-  },
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0"

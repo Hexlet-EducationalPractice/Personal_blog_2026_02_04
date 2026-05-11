@@ -10,10 +10,6 @@ const sizeClassMap: Record<SpinnerSize, string> = {
 }
 export function Spinner({ size = 'md' }: SpinnerProps) {
   return (
-    <div
-      className={`${styles.spinner} ${sizeClassMap[size]}`}
-      role='status'
-      aria-label='Loading'
-    />
+    <div className={`${styles.spinner} ${sizeClassMap[size]}`} role="status" aria-label="Loading" />
   )
 }

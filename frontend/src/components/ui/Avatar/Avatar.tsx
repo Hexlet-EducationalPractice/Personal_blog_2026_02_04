@@ -17,10 +17,7 @@ const sizeClassMap: Record<AvatarSize, string> = {
 }
 
 function getInitials(name: string): string {
-  const parts = name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
+  const parts = name.trim().split(/\s+/).filter(Boolean)
 
   if (parts.length === 0) {
     return '?'

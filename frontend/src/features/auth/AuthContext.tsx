@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(session?.user ?? null)
     })
 
-    supabase.auth.getSession().then(response => {
+    supabase.auth.getSession().then((response) => {
       const {
         data: { session },
       } = response
@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .select('*')
       .eq('id', user.id)
       .single()
-      .then(res => {
+      .then((res) => {
         const { data, error } = res
         if (error) throw error
 

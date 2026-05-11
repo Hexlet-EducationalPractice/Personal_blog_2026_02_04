@@ -65,11 +65,7 @@ export function SignInForm() {
 
       {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
 
-      <Button
-        type="submit"
-        loading={isSubmitting}
-        className={styles.submit}
-      >
+      <Button type="submit" loading={isSubmitting} className={styles.submit}>
         Войти
       </Button>
     </form>

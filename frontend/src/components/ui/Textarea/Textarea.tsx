@@ -23,7 +23,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {error && <span className={styles.error}>{error}</span>}
       </label>
     )
-  }
+  },
 )
 
 Textarea.displayName = 'Textarea'

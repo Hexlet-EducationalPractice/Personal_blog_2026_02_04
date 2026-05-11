@@ -47,5 +47,14 @@
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.9",
     "vitest": "^4.1.5"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }

@@ -57,11 +57,7 @@ export function ForgotPasswordForm() {
 
       {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
 
-      <Button
-        type="submit"
-        loading={isSubmitting}
-        className={styles.submit}
-      >
+      <Button type="submit" loading={isSubmitting} className={styles.submit}>
         Отправить письмо
       </Button>
     </form>
