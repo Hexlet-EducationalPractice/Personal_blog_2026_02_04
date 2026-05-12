@@ -15,7 +15,7 @@ export const NotFound = () => {
           Проверьте адрес или вернитесь на главную.
         </p>
         <Link to="/" className={styles.buttonWrapper}>
-          <Button variant="primary" size="large">
+          <Button variant="primary">
             ← Вернуться на главную
           </Button>
         </Link>
