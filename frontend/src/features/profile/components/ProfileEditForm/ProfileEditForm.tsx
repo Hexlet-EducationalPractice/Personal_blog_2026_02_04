@@ -47,7 +47,7 @@ export function ProfileEditForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -59,7 +59,7 @@ export function ProfileEditForm() {
   })
 
   useEffect(() => {
-    if (!profile) return
+    if (!profile || isDirty) return
 
     reset({
       name: profile.name ?? '',
@@ -67,7 +67,7 @@ export function ProfileEditForm() {
       new_password: '',
       confirm_password: '',
     })
-  }, [profile, reset])
+  }, [profile, reset, isDirty])
 
   const onSubmit = async (data: FormValues) => {
     if (!user) return
