@@ -2,10 +2,13 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/features/auth/AuthContext'
 import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
+import { ContactModal } from '@/components/ContactModal'
 import styles from './Sidebar.module.css'
+import { useState } from 'react'
 
 export function Sidebar() {
   const { profile } = useAuth()
+  const [isContactOpen, setIsContactOpen] = useState(false)
 
   return (
     <aside className={styles.sidebar}>
@@ -38,15 +41,14 @@ export function Sidebar() {
       </p>
       <div className={styles.actions}>
         <Link to="/works">
-          <Button variant="primary" size="md" shape="pill">
+          <Button variant="secondary" size="md" shape="pill">
             Мои работы
           </Button>
         </Link>
-        <Link to="/contact">
-          <Button variant="secondary" size="md" shape="pill">
-            Написать мне
-          </Button>
-        </Link>
+        <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
+          Написать мне
+        </Button>
+        <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
       </div>
     </aside>
   )
