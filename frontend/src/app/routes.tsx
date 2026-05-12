@@ -7,6 +7,7 @@ import { Works } from '@/pages/Works/Works'
 import { Profile } from '@/pages/Profile/Profile'
 import { Auth } from '@/pages/Auth/Auth'
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute/ProtectedRoute'
+import { NotFound } from '@/pages/NotFound/NotFound'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
         ),
       },
       { path: 'auth', element: <Auth /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ])
