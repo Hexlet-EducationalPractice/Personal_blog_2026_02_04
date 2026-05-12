@@ -1,0 +1,28 @@
+.content {
+  width: 100%;
+  max-width: 500px;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+}
+
+.title {
+  margin-bottom: var(--space-5);
+
+  color: var(--color-text-primary);
+
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
