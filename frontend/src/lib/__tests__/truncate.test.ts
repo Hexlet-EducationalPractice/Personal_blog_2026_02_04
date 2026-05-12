@@ -18,17 +18,17 @@ describe('truncate', () => {
         const text = '123456'
         expect(truncate(text, 6)).toBe('123456')
     })
-    
+
     it('должно вернуть пустую строку если на вход пришла пустая строка', () => {
         expect(truncate('', 6)).toBe('')
     })
-    
+
     it('должно корректно работать с maxLength 0', () => {
         expect(truncate('NotHello world', 0)).toBe('...')
     })
 
     it('должно вернуть всю строку если maxLength в отрицательном росте', () => {
         const text = 'Отрицательный рост'
-        expect(truncate(text, -1)).toBe('Отрицательный рос...')
+        expect(truncate(text, -1)).toBe('Отрицательный рост...')
     })
 })
