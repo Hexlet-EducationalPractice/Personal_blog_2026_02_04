@@ -1,5 +1,5 @@
 import { buildCommentTree } from "../build-comment-tree";
-import type { CommentWithAuthor } from '@/features/comments/types'
+import type { CommentWithAuthor } from '@/features/comments/types';
 
 const makeComment = (overrides: Partial<CommentWithAuthor>): CommentWithAuthor => {
   return {
