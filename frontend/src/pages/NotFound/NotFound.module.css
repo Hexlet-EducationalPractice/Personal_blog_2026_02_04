@@ -1,0 +1,60 @@
+/* frontend/src/pages/NotFound/NotFound.module.css */
+.container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+}
+
+.content {
+  max-width: 600px;
+  width: 100%;
+}
+
+.title {
+  font-size: 6rem;
+  font-weight: bold;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4) 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-5) 0;
+}
+
+.description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-8) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 4rem;
+  }
+  
+  .subtitle {
+    font-size: var(--font-size-xl);
+  }
+  
+  .description {
+    font-size: var(--font-size-sm);
+  }
+  
+  .container {
+    min-height: 50vh;
+    padding: var(--space-6) var(--space-4);
+  }
+}
