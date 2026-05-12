@@ -63,7 +63,7 @@ export async function createPost(input: CreatePostInput): Promise<PostWithAuthor
     .from('posts')
     .insert({
       ...input,
-      user_id: user.id,
+      user_id: input.user_id ?? user.id,
     })
     .select(POST_WITH_AUTHOR_QUERY)
     .single()
