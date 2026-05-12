@@ -29,6 +29,6 @@ describe('truncate', () => {
 
     it('должно вернуть всю строку если maxLength в отрицательном росте', () => {
         const text = 'Отрицательный рост'
-        expect(truncate(text, -1)).toBe('Отрицательный рост...')
+        expect(truncate(text, -1)).toBe('Отрицательный рост')
     })
 })
