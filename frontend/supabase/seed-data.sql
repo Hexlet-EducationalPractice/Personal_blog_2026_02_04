@@ -24,12 +24,12 @@ insert into posts (user_id, title, body, image_url, tag) values
   ('<OWNER_UUID>', 'Мой стек 2026', 'Чем пользуюсь.', 'https://picsum.photos/seed/post12/800/400',
  'размышления');
 
-insert into stories (media_url) values
-  ('https://picsum.photos/seed/story1/600/900'),
-  ('https://picsum.photos/seed/story2/600/900'),
-  ('https://picsum.photos/seed/story3/600/900'),
-  ('https://picsum.photos/seed/story4/600/900'),
-  ('https://picsum.photos/seed/story5/600/900');
+insert into stories (media_url, title) values
+  ('https://videocdn.cdnpk.net/videos/4fd1b1f4-5a80-5346-b4ee-1675a8409047/vertical/previews/magnific_watermarked/large.mp4', 'Вечерняя река'),
+  ('https://videocdn.cdnpk.net/videos/fd3021c5-a984-479b-9478-3ff679b7a9fb/vertical/previews/magnific_watermarked/large.mp4', 'Лес'),
+  ('https://videocdn.cdnpk.net/videos/b7527c17-b8bf-589d-abe2-5c6f3ccba4c4/vertical/previews/magnific_watermarked/large.mp4', 'Космос'),
+  ('https://videocdn.cdnpk.net/videos/fe7af2a6-3486-4c59-9a7b-49114a75a949/vertical/previews/magnific_watermarked/large.mp4', 'Лес 2'),
+  ('https://videocdn.cdnpk.net/videos/db922dae-64ff-5e6d-9e1d-bb043ca1202c/vertical/previews/magnific_watermarked/large.mp4', 'Река');
 
 insert into works (title, description, image_url, tags, url) values
   ('Лендинг кофейни', 'Адаптив с анимацией', 'https://picsum.photos/seed/w1/600/400',
