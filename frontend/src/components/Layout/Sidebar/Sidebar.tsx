@@ -8,18 +8,15 @@ import { ContactModal } from '@/components/ContactModal'
 
 import styles from './Sidebar.module.css'
 
-
 import InstagramIcon from '@/assets/icons/instagram.svg?react'
 import VkIcon from '@/assets/icons/vk.svg?react'
 import PinterestIcon from '@/assets/icons/pinterest.svg?react'
-
 
 interface SidebarProps {
   variant?: 'static' | 'drawer'
 }
 
 export function Sidebar({ variant = 'static' }: SidebarProps) {
-
   const { profile } = useAuth()
   const [isContactOpen, setIsContactOpen] = useState(false)
 
@@ -27,10 +24,13 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
     console.log(`Открыть ${social} - заглушка`)
   }
 
+  const sidebarClasses = [
+    styles.sidebar,
+    variant === 'drawer' ? styles.drawerSidebar : ''
+  ].filter(Boolean).join(' ')
+
   return (
-    <aside
-      className={`${styles.sidebar} ${variant === 'drawer' ? styles.drawerSidebar : ''}`}
-    >
+    <aside className={sidebarClasses}>
       <div className={styles.cover}>
         <img 
           src="/src/assets/images/sidebar-background.jpg" 
