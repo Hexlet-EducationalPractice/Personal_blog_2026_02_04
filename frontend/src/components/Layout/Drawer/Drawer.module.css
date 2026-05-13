@@ -1,0 +1,17 @@
+.overlay {
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.content {
+  width: var(--drawer-width);
+  max-width: var(--drawer-width);
+  min-height: 100vh;
+  padding: 0;
+  border-radius: 0;
+  transform: translateX(calc(var(--drawer-width) * -1));
+}
+
+.content[data-open='true'] {
+  transform: translateX(0);
+}

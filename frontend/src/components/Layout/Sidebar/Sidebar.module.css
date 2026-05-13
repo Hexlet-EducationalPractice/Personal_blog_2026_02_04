@@ -10,6 +10,10 @@
   overflow-y: auto;
 }
 
+.drawerSidebar {
+  width: 100%;
+}
+
 .cover {
   width: 100%;
   height: 130px;
@@ -111,4 +115,16 @@
   margin-bottom: var(--space-6);
   flex-wrap: wrap;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+
+  .sidebar {
+    display: none;
+  }
+
+  .drawerSidebar {
+    display: flex;
+  }
+
 }

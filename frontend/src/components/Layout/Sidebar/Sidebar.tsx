@@ -1,16 +1,25 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+
 import { useAuth } from '@/features/auth/AuthContext'
 import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { ContactModal } from '@/components/ContactModal'
+
 import styles from './Sidebar.module.css'
-import { useState } from 'react'
+
 
 import InstagramIcon from '@/assets/icons/instagram.svg?react'
 import VkIcon from '@/assets/icons/vk.svg?react'
 import PinterestIcon from '@/assets/icons/pinterest.svg?react'
 
-export function Sidebar() {
+
+interface SidebarProps {
+  variant?: 'static' | 'drawer'
+}
+
+export function Sidebar({ variant = 'static' }: SidebarProps) {
+
   const { profile } = useAuth()
   const [isContactOpen, setIsContactOpen] = useState(false)
 
@@ -19,7 +28,9 @@ export function Sidebar() {
   }
 
   return (
-    <aside className={styles.sidebar}>
+    <aside
+      className={`${styles.sidebar} ${variant === 'drawer' ? styles.drawerSidebar : ''}`}
+    >
       <div className={styles.cover}>
         <img 
           src="/src/assets/images/sidebar-background.jpg" 
