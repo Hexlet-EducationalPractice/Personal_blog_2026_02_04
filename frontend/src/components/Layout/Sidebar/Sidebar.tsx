@@ -6,14 +6,26 @@ import { ContactModal } from '@/components/ContactModal'
 import styles from './Sidebar.module.css'
 import { useState } from 'react'
 
+import InstagramIcon from '@/assets/icons/instagram.svg?react'
+import VkIcon from '@/assets/icons/vk.svg?react'
+import PinterestIcon from '@/assets/icons/pinterest.svg?react'
+
 export function Sidebar() {
   const { profile } = useAuth()
   const [isContactOpen, setIsContactOpen] = useState(false)
 
+  const handleSocialClick = (social: string) => {
+    console.log(`Открыть ${social} - заглушка`)
+  }
+
   return (
     <aside className={styles.sidebar}>
       <div className={styles.cover}>
-        <div style={{ width: '100%', height: '100%', background: 'var(--color-surface-dark)' }} />
+        <img 
+          src="/src/assets/images/sidebar-background.webp" 
+          alt="sidebar background"
+          className={styles.coverImage}
+        />
       </div>
       <div className={styles.avatarWrap}>
         <Avatar
@@ -24,17 +36,43 @@ export function Sidebar() {
       </div>
       <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
       <p className={styles.role}>Разработчик</p>
+      
       <div className={styles.socials}>
-        <a href="#" className={`${styles.social} ${styles.instagram}`}>
-          IG
+        <a 
+          href="#" 
+          className={styles.social}
+          onClick={(e) => {
+            e.preventDefault()
+            handleSocialClick('Instagram')
+          }}
+          aria-label="Instagram"
+        >
+          <InstagramIcon className={styles.socialIcon} />
         </a>
-        <a href="#" className={`${styles.social} ${styles.vk}`}>
-          VK
+        <a 
+          href="#" 
+          className={styles.social}
+          onClick={(e) => {
+            e.preventDefault()
+            handleSocialClick('VK')
+          }}
+          aria-label="VK"
+        >
+          <VkIcon className={styles.socialIcon} />
         </a>
-        <a href="#" className={`${styles.social} ${styles.pinterest}`}>
-          P
+        <a 
+          href="#" 
+          className={styles.social}
+          onClick={(e) => {
+            e.preventDefault()
+            handleSocialClick('Pinterest')
+          }}
+          aria-label="Pinterest"
+        >
+          <PinterestIcon className={styles.socialIcon} />
         </a>
       </div>
+      
       <div className={styles.divider}></div>
       <p className={styles.bio}>
         Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов.
