@@ -6,7 +6,6 @@ import { CreatePostForm } from '@/features/posts/components/CreatePostForm'
 import { Pagination } from '@/components/Pagination'
 import { Spinner } from '@/components/ui/Spinner'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
-import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
 import { useAuth } from '@/features/auth/AuthContext'
 import { env } from '@/lib/env'
@@ -36,9 +35,13 @@ export function Home() {
   const ownerToolbar = isBlogOwner ? (
     <>
       <div className={styles.ownerToolbar}>
-        <Button type="button" onClick={() => setIsCreatePostOpen(true)}>
-          Создать пост
-        </Button>
+        <button
+          type="button"
+          className={styles.createPostField}
+          onClick={() => setIsCreatePostOpen(true)}
+        >
+          Напишите что-нибудь
+        </button>
       </div>
       <Modal
         isOpen={isCreatePostOpen}
