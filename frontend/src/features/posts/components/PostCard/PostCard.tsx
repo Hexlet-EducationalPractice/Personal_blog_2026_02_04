@@ -16,22 +16,22 @@ export function PostCard({ post }: PostCardProps) {
   const preview = truncate(post.body, 200)
 
   return (
-    <Link className={styles.link} to={postUrl}>
-      <article className={styles.card}>
-        <div className={styles.imageContainer}>
-          {post.image_url ? (
+    <article className={styles.card}>
+      {post.image_url && (
+        <Link to={postUrl}>
+          <div className={styles.imageContainer}>
             <img className={styles.image} src={post.image_url} alt={post.title} />
-          ) : (
-            <div className={styles.placeholder}>Нет изображения</div>
-          )}
-        </div>
+          </div>
+        </Link>
+      )}
 
-        <div className={styles.content}>
-          <h2 className={styles.title}>{post.title}</h2>
+      <div className={styles.content}>
+        <h2 className={styles.title}>{post.title}</h2>
 
-          <p className={styles.preview}>{preview}</p>
+        <p className={styles.preview}>{preview}</p>
 
-          <div className={styles.meta}>
+        <div className={styles.meta}>
+          <div className={styles.metaData}>
             <time className={styles.date} dateTime={post.created_at ?? undefined}>
               {formattedDate}
             </time>
@@ -39,9 +39,11 @@ export function PostCard({ post }: PostCardProps) {
             {post.tag && <span className={styles.tag}>{post.tag}</span>}
           </div>
 
-          <span className={styles.readMore}>читать</span>
+          <Link className={styles.link} to={postUrl}>
+            читать
+          </Link>
         </div>
-      </article>
-    </Link>
+      </div>
+    </article>
   )
 }
