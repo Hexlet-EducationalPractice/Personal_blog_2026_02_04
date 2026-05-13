@@ -11,6 +11,25 @@
   z-index: 100;
 }
 
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-1);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.burgerLine {
+  width: 24px;
+  height: 2px;
+  background: var(--color-text-primary);
+}
+
 .nav {
   display: flex;
   gap: var(--space-4);
@@ -60,4 +79,20 @@
 
 .search::placeholder {
   color: var(--color-text-subtle);
+}
+
+@media (max-width: 768px) {
+
+  .burger {
+    display: flex;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .searchWrap {
+    width: 160px;
+  }
+
 }
