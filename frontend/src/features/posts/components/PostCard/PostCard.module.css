@@ -1,5 +1,4 @@
 .link {
-  color: inherit;
   text-decoration: none;
   color: var(--color-link);
   font-size: var(--font-size-sm);
@@ -92,7 +91,7 @@
   white-space: nowrap;
 }
 
-.link:hover .readMore {
+.link:hover {
   color: var(--color-link-hover);
 }
 
