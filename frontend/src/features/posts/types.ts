@@ -13,5 +13,5 @@ export type CreatePostInput = {
   body: string
   image_url: string | null
   tag: string | null
-  user_id?: string
+  user_id: string
 }
