@@ -5,7 +5,6 @@
   padding: var(--space-6);
   background: var(--color-surface);
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-card);
 }
 
 .actions {

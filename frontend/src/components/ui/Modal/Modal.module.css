@@ -44,8 +44,9 @@
 
 .title {
   margin-bottom: var(--space-4);
-  font-size: var(--font-size-x1);
+  font-size: var(--font-size-xl);
   font-weight: 600;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
