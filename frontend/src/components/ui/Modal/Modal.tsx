@@ -1,5 +1,5 @@
-import {createPortal} from 'react-dom'
-import {useEffect} from 'react'
+import { createPortal } from 'react-dom'
+import { useEffect } from 'react'
 import styles from './Modal.module.css'
 
 export interface ModalProps {
@@ -7,20 +7,11 @@ export interface ModalProps {
   onClose: () => void
   title?: string
   children: React.ReactNode
-  overlayClassName?: string
-  contentClassName?: string
 }
 
 const modalRoot = document.getElementById('modal-root')
 
-export function Modal({
-  isOpen,
-  onClose,
-  title,
-  children,
-  overlayClassName = '',
-  contentClassName = '',
-}: ModalProps) {
+export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   if (!modalRoot) throw new Error('Modal root not found')
 
   useEffect(() => {
@@ -52,13 +43,11 @@ export function Modal({
 
   return createPortal(
     <div
-      className={`${styles.overlay} ${isOpen ? styles.overlayOpen : ''} ${overlayClassName}`}
-      data-open={isOpen}
+      className={`${styles.overlay} ${isOpen ? styles.overlayOpen : ''}`}
       onClick={handleOverlayClick}
     >
       <div
-        className={`${styles.content} ${isOpen ? styles.contentOpen : ''} ${contentClassName}`}
-        data-open={isOpen}
+        className={`${styles.content} ${isOpen ? styles.contentOpen : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
         {title ? <h2 className={styles.title}>{title}</h2> : null}

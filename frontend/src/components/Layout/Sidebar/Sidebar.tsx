@@ -1,25 +1,17 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-
 import { useAuth } from '@/features/auth/AuthContext'
 import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { ContactModal } from '@/components/ContactModal'
-
 import styles from './Sidebar.module.css'
+import { useState } from 'react'
 
-interface SidebarProps {
-  variant?: 'static' | 'drawer'
-}
-
-export function Sidebar({ variant = 'static' }: SidebarProps) {
+export function Sidebar() {
   const { profile } = useAuth()
   const [isContactOpen, setIsContactOpen] = useState(false)
 
   return (
-    <aside
-      className={`${styles.sidebar} ${variant === 'drawer' ? styles.drawerSidebar : ''}`}
-    >
+    <aside className={styles.sidebar}>
       <div className={styles.cover}>
         <div style={{ width: '100%', height: '100%', background: 'var(--color-surface-dark)' }} />
       </div>
