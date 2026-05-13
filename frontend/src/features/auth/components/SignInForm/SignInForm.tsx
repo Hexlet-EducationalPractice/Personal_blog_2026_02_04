@@ -14,7 +14,7 @@ import styles from './SignInForm.module.css'
 
 const schema = z.object({
   email: z.string().email('Введите корректный email'),
-  password: z.string().min(6, 'Пароль минимум 6 символов'),
+  password: z.string().min(1, 'Введите пароль'),
 })
 
 type FormValues = z.infer<typeof schema>
