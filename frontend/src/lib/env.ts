@@ -6,7 +6,7 @@ const required = (key: string): string => {
         `Скопируйте frontend/.env.example в frontend/.env и заполните значения.`,
     )
   }
-  return value
+  return value.trim()
 }
 
 export const env = {
