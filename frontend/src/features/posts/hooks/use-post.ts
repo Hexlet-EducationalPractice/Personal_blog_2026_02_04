@@ -22,9 +22,12 @@ export function usePost(id: string): UsePostReturn {
     async function fetchPost() {
       try {
         const post = await getPostById(id)
+        if (!isMountedRef.current) return
+
         setPost(post)
       } catch (e) {
         if (!isMountedRef.current) return
+
         setError(getErrorMessage(e))
       } finally {
         if (isMountedRef.current) setIsLoading(false)
