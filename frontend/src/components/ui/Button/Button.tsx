@@ -10,7 +10,7 @@ type ButtonVariant =
 
 type ButtonSize = 'sm' | 'md' | 'lg'
 
-type ButtonShape = 'pill' | 'square'
+type ButtonShape = 'pill' | 'rounded'
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
