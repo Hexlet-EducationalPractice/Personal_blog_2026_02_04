@@ -22,7 +22,7 @@ export function Sidebar() {
     <aside className={styles.sidebar}>
       <div className={styles.cover}>
         <img 
-          src="/src/assets/images/sidebar-background.webp" 
+          src="/src/assets/images/sidebar-background.jpg" 
           alt="sidebar background"
           className={styles.coverImage}
         />
@@ -30,12 +30,12 @@ export function Sidebar() {
       <div className={styles.avatarWrap}>
         <Avatar
           src={profile?.avatar_url || undefined}
-          name={profile?.name || 'Пользователь'}
+          name={profile?.name || 'Дмитрий Валак'}
           size="xl"
         />
       </div>
-      <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
-      <p className={styles.role}>Разработчик</p>
+      <h2 className={styles.name}>{profile?.name || 'Дмитрий Валак'}</h2>
+      <p className={styles.role}>блог front-end разработчика</p>
       
       <div className={styles.socials}>
         <a 
@@ -75,11 +75,12 @@ export function Sidebar() {
       
       <div className={styles.divider}></div>
       <p className={styles.bio}>
-        Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов.
+        Front-end разработчик. Практик верстки сайтов. Созданием сайтов занимаюсь с 2012 года. 
+        Работал в нескольких ИТ компаниях и наработал более 10 000 часов в создании сайтов различной сложности.
       </p>
       <div className={styles.actions}>
         <Link to="/works">
-          <Button variant="secondary" size="md" shape="pill">
+          <Button variant="primary" size="md" shape="pill">
             Мои работы
           </Button>
         </Link>

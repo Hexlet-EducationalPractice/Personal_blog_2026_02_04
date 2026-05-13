@@ -49,12 +49,14 @@
   font-size: var(--font-size-md);
   font-weight: 700;
   margin-top: var(--space-2-5);
+  text-align: center;
 }
 
 .role {
   color: var(--color-text-muted);
   font-size: var(--font-size-xs);
   margin-top: var(--space-0);
+  text-align: center;
 }
 
 .socials {
@@ -85,9 +87,7 @@
   width: 20px;
   height: 20px;
   fill: currentColor;
-  transition: fill 0.2s ease;
 }
-
 
 .divider {
   width: 260px;
@@ -109,4 +109,6 @@
   display: flex;
   gap: var(--space-2-5);
   margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  justify-content: center;
 }
