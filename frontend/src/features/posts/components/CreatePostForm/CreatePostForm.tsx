@@ -86,8 +86,13 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
         <Button type="submit" loading={isSubmitting}>
           Опубликовать
         </Button>
-        {serverError ? <ErrorMessage>{serverError}</ErrorMessage> : null}
       </div>
+
+      {serverError ? (
+        <div className={styles.serverError}>
+          <ErrorMessage>{serverError}</ErrorMessage>
+        </div>
+      ) : null}
     </form>
   )
 }
