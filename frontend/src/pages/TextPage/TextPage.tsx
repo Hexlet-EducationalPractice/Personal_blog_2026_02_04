@@ -13,7 +13,7 @@ import { formatDate } from '@/lib/format-date'
 import styles from './TextPage.module.css'
 
 function handleShareStub() {
-  /* заглушка «Поделиться» */
+  /* заглушка Поделиться */
 }
 
 function ShareIcon({ className }: { className?: string }) {
@@ -42,18 +42,19 @@ export function TextPage() {
 
   useEffect(() => {
     if (!post) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- очистка блока «Интересно почитать» при смене поста
       setRelatedPosts([])
       return
     }
 
+    const currentPost = post
+
     let cancelled = false
 
     async function loadRelated() {
-      const seen = new Set<string>([post.id])
+      const seen = new Set<string>([currentPost.id])
       const collected: PostWithAuthor[] = []
 
-      const tagQuery = post.tag?.trim()
+      const tagQuery = currentPost.tag?.trim()
       if (tagQuery) {
         const { posts } = await getPosts({ page: 1, perPage: 50, q: tagQuery })
         for (const p of posts) {
