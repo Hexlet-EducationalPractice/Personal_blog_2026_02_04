@@ -1,31 +1,37 @@
 import { supabase } from '@/lib/supabase'
 import { getComments } from '../api'
 import type { CommentWithAuthor } from '../types'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { getErrorMessage } from '@/lib/get-error-message'
 
 export function useComments(postId: string) {
   const [comments, setComments] = useState<CommentWithAuthor[]>([])
   const [isLoading, setIsLoading] = useState(!!postId)
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const isMountedRef = useRef(false)
+
+  const fetchComments = async () => {
+    isMountedRef.current = true
+    try {
+      const data = await getComments(postId)
+      if (isMountedRef.current) setComments(data)
+    } catch (err) {
+      if (isMountedRef.current) setError(getErrorMessage(err))
+    }
+  }
 
   const refetch = useCallback(async () => {
     if (!postId) return
-    try {
-      setIsLoading(true)
-      setError(null)
-
-      const data = await getComments(postId)
-      setComments(data)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Unknown error'))
-    } finally {
-      setIsLoading(false)
-    }
+    fetchComments().then(() => {
+      if (isMountedRef.current) setIsLoading(false)
+    })
   }, [postId])
 
   useEffect(() => {
+    isMountedRef.current = true
+
     const channel = supabase
-      .channel('comment-channel')
+      .channel(`comments:post:${postId}`)
       .on(
         'postgres_changes',
         {
@@ -34,7 +40,7 @@ export function useComments(postId: string) {
           table: 'comments',
           filter: `post_id=eq.${postId}`,
         },
-        refetch,
+        fetchComments,
       )
       .on(
         'postgres_changes',
@@ -43,13 +49,14 @@ export function useComments(postId: string) {
           schema: 'public',
           table: 'comments',
         },
-        refetch,
+        fetchComments,
       )
       .subscribe()
     return () => {
       channel.unsubscribe()
+      isMountedRef.current = false
     }
-  }, [postId])
+  }, [postId, refetch])
 
   useEffect(() => {
     if (!postId) return
@@ -62,7 +69,7 @@ export function useComments(postId: string) {
 
         if (isMounted) setComments(data)
       } catch (err) {
-        if (isMounted) setError(err instanceof Error ? err : new Error('Unknown error'))
+        if (isMounted) setError(getErrorMessage(err))
       } finally {
         if (isMounted) setIsLoading(false)
       }
