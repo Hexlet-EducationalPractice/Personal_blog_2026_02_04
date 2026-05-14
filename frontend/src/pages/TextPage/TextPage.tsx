@@ -46,15 +46,16 @@ export function TextPage() {
       return
     }
 
-    const currentPost = post
+    const relatedSourceId = post.id
+    const relatedSourceTag = post.tag
 
     let cancelled = false
 
     async function loadRelated() {
-      const seen = new Set<string>([currentPost.id])
+      const seen = new Set<string>([relatedSourceId])
       const collected: PostWithAuthor[] = []
 
-      const tagQuery = currentPost.tag?.trim()
+      const tagQuery = relatedSourceTag?.trim()
       if (tagQuery) {
         const { posts } = await getPosts({ page: 1, perPage: 50, q: tagQuery })
         for (const p of posts) {
