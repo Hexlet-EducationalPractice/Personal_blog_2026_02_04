@@ -29,12 +29,11 @@ export function usePost(id: string): UsePostReturn {
     isMountedRef.current = true
 
     if (!id.trim()) {
-      /* eslint-disable react-hooks/set-state-in-effect -- пустой id: только сброс, без запроса */
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- пустой id: сброс без запроса
       setPost(null)
       setError(null)
       setNotFound(true)
       setIsLoading(false)
-      /* eslint-enable react-hooks/set-state-in-effect */
       return () => {
         isMountedRef.current = false
       }
