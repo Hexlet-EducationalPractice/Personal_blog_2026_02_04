@@ -127,9 +127,7 @@ export function Home() {
       {ownerToolbar}
       {tagBlock}
 
-      {isLoading ? (
-        <Spinner />
-      ) : posts.length === 0 ? (
+      {posts.length === 0 ? (
         emptyState
       ) : (
         <div className={styles.list}>
