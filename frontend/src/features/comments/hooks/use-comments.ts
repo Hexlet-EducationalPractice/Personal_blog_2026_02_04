@@ -10,25 +10,26 @@ export function useComments(postId: string) {
   const [error, setError] = useState<string | null>(null)
   const isMountedRef = useRef(false)
 
-  const fetchComments = async () => {
-    isMountedRef.current = true
+  const fetchComments = useCallback(async () => {
     try {
       const data = await getComments(postId)
       if (isMountedRef.current) setComments(data)
     } catch (err) {
       if (isMountedRef.current) setError(getErrorMessage(err))
     }
-  }
+  }, [postId])
 
   const refetch = useCallback(async () => {
     if (!postId) return
-    fetchComments().then(() => {
-      if (isMountedRef.current) setIsLoading(false)
-    })
+    if (isMountedRef.current) setIsLoading(false)
+    await fetchComments()
+    if (isMountedRef.current) setIsLoading(false)
   }, [postId])
 
   useEffect(() => {
     isMountedRef.current = true
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    refetch()
 
     const channel = supabase
       .channel(`comments:post:${postId}`)
@@ -57,30 +58,6 @@ export function useComments(postId: string) {
       isMountedRef.current = false
     }
   }, [postId, refetch])
-
-  useEffect(() => {
-    if (!postId) return
-
-    let isMounted = true
-
-    const loadInitialComments = async () => {
-      try {
-        const data = await getComments(postId)
-
-        if (isMounted) setComments(data)
-      } catch (err) {
-        if (isMounted) setError(getErrorMessage(err))
-      } finally {
-        if (isMounted) setIsLoading(false)
-      }
-    }
-
-    loadInitialComments()
-
-    return () => {
-      isMounted = false
-    }
-  }, [postId])
 
   return {
     comments,
