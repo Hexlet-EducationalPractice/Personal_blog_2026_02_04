@@ -46,3 +46,20 @@
   gap: var(--space-3);
   margin-top: var(--space-4);
 }
+
+.submit {
+  border-radius: var(--radius-md);
+  padding-inline: var(--space-7);
+  min-height: 40px;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  background-color: var(--color-primary) !important;
+  color: var(--color-text-inverse) !important;
+  box-shadow: var(--shadow-button-primary);
+}
+
+.submit:hover:not(:disabled) {
+  background-color: var(--color-primary-hover) !important;
+  color: var(--color-text-inverse) !important;
+}
