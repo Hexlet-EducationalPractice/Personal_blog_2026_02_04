@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useAuth } from '@/features/auth/AuthContext'
 import { Avatar } from '@/components/ui/Avatar'
@@ -9,7 +9,13 @@ import { DEBOUNCE_MS, MIN_SEARCH_LENGTH, ROUTES } from '@/lib/constants'
 
 import styles from './Header.module.css'
 
-export function Header() {
+interface HeaderProps {
+  isMenuOpen: boolean
+  onMenuToggle: () => void
+  onMenuClose: () => void
+}
+
+export function Header({ isMenuOpen, onMenuToggle, onMenuClose }: HeaderProps) {
   const { user, profile, isLoading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -29,8 +35,9 @@ export function Header() {
       lastPathRef.current = location.pathname
       userInteractedRef.current = false
       setSearchValue(isOnSearchPage ? (searchParams.get('q') ?? '') : '')
+      onMenuClose()
     }
-  }, [location.pathname, isOnSearchPage, searchParams])
+  }, [location.pathname, isOnSearchPage, onMenuClose, searchParams])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     userInteractedRef.current = true
@@ -61,6 +68,17 @@ export function Header() {
 
   return (
     <header className={styles.header}>
+      <button
+        type="button"
+        className={styles.burger}
+        onClick={onMenuToggle}
+        aria-label={isMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
+        aria-expanded={isMenuOpen}
+      >
+        <span className={styles.burgerLine}></span>
+        <span className={styles.burgerLine}></span>
+        <span className={styles.burgerLine}></span>
+      </button>
       <nav className={styles.nav}>
         <NavLink to="/" className={styles.navLink}>
           Главная
