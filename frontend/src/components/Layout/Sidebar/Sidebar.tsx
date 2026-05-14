@@ -8,9 +8,9 @@ import { ContactModal } from '@/components/ContactModal'
 
 import styles from './Sidebar.module.css'
 
-import instagramIcon from '@/assets/icons/instagram.svg'
-import vkIcon from '@/assets/icons/vk.svg'
-import pinterestIcon from '@/assets/icons/pinterest.svg'
+import instagramIcon from '@/assets/icons/instagramsmall.svg'
+import vkIcon from '@/assets/icons/vksmall.svg'
+import pinterestIcon from '@/assets/icons/pinterestsmall.svg'
 
 interface SidebarProps {
   variant?: 'static' | 'drawer'
