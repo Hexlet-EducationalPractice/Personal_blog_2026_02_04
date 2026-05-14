@@ -107,15 +107,6 @@ export function Home() {
     )
   }
 
-  if (!posts || posts.length === 0) {
-    return (
-      <div className={styles.pageWithToolbar}>
-        {ownerToolbar}
-        <div className={styles.center}>Постов пока нет</div>
-      </div>
-    )
-  }
-
   const tagBlock = tag ? (
     <div className={styles.tagContainer}>
       <p>Фильтр по тегу: {tag}</p>
@@ -123,23 +114,23 @@ export function Home() {
     </div>
   ) : null
 
+  const emptyState = tag ? (
+    <div className={styles.tagContainer}>
+      <p>Нет постов с тегом «{tag}»</p>
+    </div>
+  ) : (
+    <p>Пока нет ни одного поста.</p>
+  )
+
   return (
     <div className={styles.container}>
       {ownerToolbar}
       {tagBlock}
+
       {isLoading ? (
         <Spinner />
       ) : posts.length === 0 ? (
-        <div>
-          {tag ? (
-            <div className={styles.tagContainer}>
-              <p>Нет постов с тегом «{tag}»</p>
-              <button onClick={handleClearTag}>✖</button>
-            </div>
-          ) : (
-            <p>Пока нет ни одного поста.</p>
-          )}
-        </div>
+        emptyState
       ) : (
         <div className={styles.list}>
           {posts.map((post) => (
@@ -147,12 +138,15 @@ export function Home() {
           ))}
         </div>
       )}
-      <Pagination
-        currentPage={uiPage}
-        totalCount={total ?? 0}
-        perPage={POSTS_PER_PAGE}
-        onPageChange={handlePageChange}
-      />
+
+      {posts.length > 0 && (
+        <Pagination
+          currentPage={uiPage}
+          totalCount={total ?? 0}
+          perPage={POSTS_PER_PAGE}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   )
 }
