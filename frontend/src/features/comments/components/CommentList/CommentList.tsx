@@ -25,7 +25,7 @@ export function CommentList({ postId }: { postId: string }) {
   return (
     <section className={styles.container}>
       {user ? (
-        <CommentForm postId={postId} parentId={null} onSuccess={refetch} showTitle={true} />
+        <CommentForm postId={postId} parentId={null} onSuccess={refetch} showTitle={false} />
       ) : (
         <p className={styles.loginPrompt}>
           Войдите чтобы оставить комментарий{' '}
