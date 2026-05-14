@@ -45,13 +45,11 @@ export function Sidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.cover}>
-        <div className={styles.coverBackground} />
-      </div>
+      <div className={styles.cover} />
       <div className={styles.avatarWrap}>
         <Avatar
-          src={profile?.avatar_url || undefined}
-          name={profile?.name || 'Пользователь'}
+          src={isLoading ? undefined : profile?.avatar_url || undefined}
+          name={isLoading ? '?' : profile?.name || 'Пользователь'}
           size="xl"
         />
       </div>
@@ -60,15 +58,25 @@ export function Sidebar() {
       <p className={styles.role}>Разработчик</p>
 
       <div className={styles.socials}>
-        <a href="#" className={`${styles.social} ${styles.instagram}`}>
-          IG
-        </a>
-        <a href="#" className={`${styles.social} ${styles.vk}`}>
-          VK
-        </a>
-        <a href="#" className={`${styles.social} ${styles.pinterest}`}>
-          P
-        </a>
+        {isLoading ? (
+          <>
+            <span className={styles.socialPlaceholder}>.</span>
+            <span className={styles.socialPlaceholder}>.</span>
+            <span className={styles.socialPlaceholder}>.</span>
+          </>
+        ) : (
+          <>
+            <a href="#" className={`${styles.social} ${styles.instagram}`}>
+              IG
+            </a>
+            <a href="#" className={`${styles.social} ${styles.vk}`}>
+              VK
+            </a>
+            <a href="#" className={`${styles.social} ${styles.pinterest}`}>
+              P
+            </a>
+          </>
+        )}
       </div>
 
       <div className={styles.divider}></div>
@@ -78,8 +86,8 @@ export function Sidebar() {
       </p>
 
       <div className={styles.actions}>
-        <Link to="/works">
-          <Button variant="secondary" size="md" shape="pill">
+        <Link to={isLoading ? '#' : '/works'} className={isLoading ? styles.disabledLink : ''}>
+          <Button variant="secondary" size="md" shape="pill" disabled={isLoading}>
             Мои работы
           </Button>
         </Link>
