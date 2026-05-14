@@ -82,9 +82,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (error) throw error
   }
+
+  async function refetchProfile() {
+    if (!user) {
+      setProfile(null)
+      return
+    }
+
+    const { data, error } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+
+    if (error) throw error
+
+    setProfile(data)
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user, profile, isLoading, signIn, signUp, signOut, resetPassword }}
+      value={{ user, profile, isLoading, signIn, signUp, signOut, resetPassword, refetchProfile }}
     >
       {children}
     </AuthContext.Provider>

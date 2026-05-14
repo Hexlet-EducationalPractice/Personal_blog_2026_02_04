@@ -1,4 +1,4 @@
-import { formatDate } from '../format-date'
+import { formatDate } from '../format-date';
 
 describe('formatDate это база', () => {
   it('должна возвращать пустую строку при передаче пустой строки', () => {

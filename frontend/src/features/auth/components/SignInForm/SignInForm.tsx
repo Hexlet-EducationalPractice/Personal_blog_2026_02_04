@@ -14,7 +14,7 @@ import styles from './SignInForm.module.css'
 
 const schema = z.object({
   email: z.string().email('Введите корректный email'),
-  password: z.string().min(6, 'Пароль минимум 6 символов'),
+  password: z.string().min(1, 'Введите пароль'),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -44,11 +44,11 @@ export function SignInForm() {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
       <Input
         type="email"
         placeholder="Email"
-        autoComplete="off"
+        autoComplete="username"
         className={styles.input}
         error={errors.email?.message}
         {...register('email')}
@@ -57,7 +57,7 @@ export function SignInForm() {
       <Input
         type="password"
         placeholder="Пароль"
-        autoComplete="new-password"
+        autoComplete="current-password"
         className={styles.input}
         error={errors.password?.message}
         {...register('password')}

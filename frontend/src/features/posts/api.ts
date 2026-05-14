@@ -50,21 +50,9 @@ export async function getPostById(id: string): Promise<PostWithAuthor> {
 }
 
 export async function createPost(input: CreatePostInput): Promise<PostWithAuthor> {
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser()
-
-  if (authError || !user) {
-    throw new Error('Unauthorized: You must be logged in to create a post')
-  }
-
   const { data, error } = await supabase
     .from('posts')
-    .insert({
-      ...input,
-      user_id: user.id,
-    })
+    .insert(input)
     .select(POST_WITH_AUTHOR_QUERY)
     .single()
 

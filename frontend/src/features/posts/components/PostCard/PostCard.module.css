@@ -1,7 +1,8 @@
 .link {
-  display: block;
-  color: inherit;
   text-decoration: none;
+  color: var(--color-link);
+  font-size: var(--font-size-sm);
+  line-height: var(--space-4);
 }
 
 .card {
@@ -58,6 +59,11 @@
 
 .meta {
   display: flex;
+  justify-content: space-between;
+}
+
+.metaData {
+  display: flex;
   align-items: center;
   gap: var(--space-4);
   color: var(--color-text-muted);
@@ -85,14 +91,7 @@
   white-space: nowrap;
 }
 
-.readMore {
-  margin-top: var(--space-4);
-  color: var(--color-link);
-  font-size: var(--font-size-sm);
-  line-height: var(--space-4);
-}
-
-.link:hover .readMore {
+.link:hover {
   color: var(--color-link-hover);
 }
 

@@ -1,3 +1,33 @@
+.ownerToolbar {
+  display: flex;
+}
+
+.createPostField {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border: none;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+  text-align: left;
+  cursor: pointer;
+}
+
+.createPostField:hover {
+  color: var(--color-text-secondary);
+}
+
+.createPostField:focus,
+.createPostField:focus-visible {
+  outline: none;
+}
+
+.pageWithToolbar {
+  padding: var(--space-6);
+}
+
 .container {
   display: flex;
   flex-direction: column;

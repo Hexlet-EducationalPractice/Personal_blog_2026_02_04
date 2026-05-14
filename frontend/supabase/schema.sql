@@ -28,6 +28,7 @@ create table if not exists comments (
 );
 create table if not exists stories (
   id uuid primary key default gen_random_uuid(),
+  title text,
   media_url text not null,
   created_at timestamptz default now()
 );
