@@ -28,7 +28,7 @@ function CopyButton({ icon }: { icon: string; alt: string }) {
   const [isCopied, setIsCopied] = useState(false)
   const handleCopy = async () => {
     try {
-      navigator.clipboard.writeText(window.location.href)
+      await navigator.clipboard.writeText(window.location.href)
       setIsCopied(true)
       setTimeout(() => setIsCopied(false), 2000)
     } catch (error) {
@@ -38,7 +38,7 @@ function CopyButton({ icon }: { icon: string; alt: string }) {
 
   return (
     <>
-      <button className={styles.CopyButton} onClick={handleCopy}>
+      <button className={styles.copyButton} onClick={handleCopy}>
         <img src={icon} alt="" />
         <span className={`${styles.tooltip} ${isCopied ? styles.tooltipVisible : ''}`}>
           Скопировано
@@ -67,15 +67,9 @@ function ShareIcons({ iconArray }: IconsProps) {
   return (
     <ul className={styles.shareIcons}>
       {iconArray.map((item) => (
-        <li key={item.link} className="share-icons__item">
-          <a
-            href={item.link}
-            target="_blank"
-            rel="noreferrer noopener"
-            aria-label={item.alt}
-            className="share-icons__link"
-          >
-            <img src={item.icon} alt="" className="share-icons__icon" />
+        <li key={item.link}>
+          <a href={item.link} target="_blank" rel="noreferrer noopener" aria-label={item.alt}>
+            <img src={item.icon} alt="" />
           </a>
         </li>
       ))}
