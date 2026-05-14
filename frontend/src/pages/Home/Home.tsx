@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { usePosts } from '@/features/posts/hooks/use-posts'
 import { PostCard } from '@/features/posts/components/PostCard'
@@ -18,11 +18,28 @@ export function Home() {
 
   const rawPage = Number(searchParams.get('page'))
   const uiPage = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage
+  const tag = searchParams.get('tag') ?? undefined
+
+  const prevTagRef = useRef(tag)
+
+  useEffect(() => {
+    if (prevTagRef.current !== tag) {
+      prevTagRef.current = tag
+      setSearchParams(
+        (prev) => {
+          prev.delete('page')
+          return prev
+        },
+        { replace: true },
+      )
+    }
+  }, [tag, setSearchParams])
 
   const { user } = useAuth()
   const { posts, total, isLoading, error, refetch } = usePosts({
     page: uiPage,
     perPage: POSTS_PER_PAGE,
+    tag: tag ?? undefined,
   })
 
   const isBlogOwner = user != null && user.id === env.blogOwnerId
@@ -30,6 +47,14 @@ export function Home() {
   const handleCreatePostSuccess = () => {
     void refetch()
     setIsCreatePostOpen(false)
+  }
+
+  const handleClearTag = () => {
+    setSearchParams((prev) => {
+      prev.delete('tag')
+      prev.delete('page')
+      return prev
+    })
   }
 
   const ownerToolbar = isBlogOwner ? (
@@ -54,7 +79,10 @@ export function Home() {
   ) : null
 
   const handlePageChange = (page: number) => {
-    setSearchParams({ page: String(page) })
+    setSearchParams((prev) => {
+      prev.set('page', String(page))
+      return prev
+    })
   }
 
   if (isLoading) {
@@ -88,15 +116,37 @@ export function Home() {
     )
   }
 
+  const tagBlock = tag ? (
+    <div className={styles.tagContainer}>
+      <p>Фильтр по тегу: {tag}</p>
+      <button onClick={handleClearTag}>✖</button>
+    </div>
+  ) : null
+
   return (
     <div className={styles.container}>
       {ownerToolbar}
-      <div className={styles.list}>
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
-      </div>
-
+      {tagBlock}
+      {isLoading ? (
+        <Spinner />
+      ) : posts.length === 0 ? (
+        <div>
+          {tag ? (
+            <div className={styles.tagContainer}>
+              <p>Нет постов с тегом «{tag}»</p>
+              <button onClick={handleClearTag}>✖</button>
+            </div>
+          ) : (
+            <p>Пока нет ни одного поста.</p>
+          )}
+        </div>
+      ) : (
+        <div className={styles.list}>
+          {posts.map((post) => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </div>
+      )}
       <Pagination
         currentPage={uiPage}
         totalCount={total ?? 0}
