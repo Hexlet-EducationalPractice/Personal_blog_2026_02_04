@@ -27,6 +27,7 @@ export const router = createBrowserRouter([
         ),
       },
       { path: 'auth', element: <Auth /> },
+      { path: '404', element: <NotFound /> },
       { path: '*', element: <NotFound /> },
     ],
   },
