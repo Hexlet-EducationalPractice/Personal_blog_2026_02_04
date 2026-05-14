@@ -73,7 +73,7 @@ export function TextPage() {
 
   useEffect(() => {
     if (post === null) {
-      // сброс
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- сброс «Интересно почитать» при отсутствии поста
       setRelatedPosts([])
       return
     }
