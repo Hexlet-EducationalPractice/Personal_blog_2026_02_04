@@ -7,6 +7,7 @@ interface UsePostsParams {
   page: number
   perPage: number
   q?: string
+  tag?: string
 }
 
 interface UsePostsReturn {
@@ -17,7 +18,7 @@ interface UsePostsReturn {
   refetch: () => void
 }
 
-export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn => {
+export const usePosts = ({ page, perPage, q, tag }: UsePostsParams): UsePostsReturn => {
   const [posts, setPosts] = useState<PostWithAuthor[]>([])
   const [total, setTotal] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +31,7 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
     setError(null)
 
     try {
-      const response = await getPosts({ page, perPage, q })
+      const response = await getPosts({ page, perPage, q, tag })
 
       if (!isMountedRef.current) return
 
@@ -44,7 +45,7 @@ export const usePosts = ({ page, perPage, q }: UsePostsParams): UsePostsReturn =
         setIsLoading(false)
       }
     }
-  }, [page, perPage, q])
+  }, [page, perPage, q, tag])
 
   useEffect(() => {
     isMountedRef.current = true

@@ -5,6 +5,7 @@ type GetPostsParams = {
   page: number
   perPage: number
   q?: string
+  tag?: string
 }
 
 const POST_WITH_AUTHOR_QUERY = `
@@ -16,6 +17,7 @@ export async function getPosts({
   page,
   perPage,
   q,
+  tag,
 }: GetPostsParams): Promise<{ posts: PostWithAuthor[]; total: number }> {
   const from = (page - 1) * perPage
   const to = from + perPage - 1
@@ -24,6 +26,10 @@ export async function getPosts({
 
   if (q) {
     query = query.or(`title.ilike.%${q}%,body.ilike.%${q}%`)
+  }
+
+  if (tag) {
+    query = query.eq('tag', tag)
   }
 
   const { data, count, error } = await query
