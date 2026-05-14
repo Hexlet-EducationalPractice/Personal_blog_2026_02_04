@@ -8,13 +8,41 @@ import { ContactModal } from '@/components/ContactModal'
 
 import styles from './Sidebar.module.css'
 
-import InstagramIcon from '@/assets/icons/instagram.svg?react'
-import VkIcon from '@/assets/icons/vk.svg?react'
-import PinterestIcon from '@/assets/icons/pinterest.svg?react'
+import instagramIcon from '@/assets/icons/instagram.svg'
+import vkIcon from '@/assets/icons/vk.svg'
+import pinterestIcon from '@/assets/icons/pinterest.svg'
 
 interface SidebarProps {
   variant?: 'static' | 'drawer'
 }
+
+interface SocialIcon {
+  link: string
+  icon: string
+  alt: string
+  name: string
+}
+
+const socialIcons: SocialIcon[] = [
+  {
+    link: '#',
+    icon: instagramIcon,
+    alt: 'Instagram',
+    name: 'Instagram',
+  },
+  {
+    link: '#',
+    icon: vkIcon,
+    alt: 'VK',
+    name: 'VK',
+  },
+  {
+    link: '#',
+    icon: pinterestIcon,
+    alt: 'Pinterest',
+    name: 'Pinterest',
+  },
+]
 
 export function Sidebar({ variant = 'static' }: SidebarProps) {
   const { profile } = useAuth()
@@ -41,54 +69,33 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
       <div className={styles.avatarWrap}>
         <Avatar
           src={profile?.avatar_url || undefined}
-          name={profile?.name || 'Александр Викторович'}
+          name={profile?.name || 'Пользователь'}
           size="xl"
         />
       </div>
-      <h2 className={styles.name}>{profile?.name || 'Александр Викторович'}</h2>
+      <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
       <p className={styles.role}>Разработчик</p>
       
       <div className={styles.socials}>
-        <a 
-          href="#" 
-          className={styles.social}
-          onClick={(e) => {
-            e.preventDefault()
-            handleSocialClick('Instagram')
-          }}
-          aria-label="Instagram"
-        >
-          <InstagramIcon className={styles.socialIcon} />
-        </a>
-        <a 
-          href="#" 
-          className={styles.social}
-          onClick={(e) => {
-            e.preventDefault()
-            handleSocialClick('VK')
-          }}
-          aria-label="VK"
-        >
-          <VkIcon className={styles.socialIcon} />
-        </a>
-        <a 
-          href="#" 
-          className={styles.social}
-          onClick={(e) => {
-            e.preventDefault()
-            handleSocialClick('Pinterest')
-          }}
-          aria-label="Pinterest"
-        >
-          <PinterestIcon className={styles.socialIcon} />
-        </a>
+        {socialIcons.map((item) => (
+          <a
+            key={item.name}
+            href={item.link}
+            className={styles.social}
+            onClick={(e) => {
+              e.preventDefault()
+              handleSocialClick(item.name)
+            }}
+            aria-label={item.alt}
+          >
+            <img src={item.icon} alt="" className={styles.socialIcon} />
+          </a>
+        ))}
       </div>
       
       <div className={styles.divider}></div>
       <p className={styles.bio}>
-        Занимаюсь разработкой веб-
-        приложений и созданием
-        пользовательский интерфейсов
+        Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов
       </p>
       <div className={styles.actions}>
         <Link to="/works">
