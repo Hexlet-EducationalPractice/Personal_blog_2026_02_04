@@ -41,12 +41,12 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
       <div className={styles.avatarWrap}>
         <Avatar
           src={profile?.avatar_url || undefined}
-          name={profile?.name || 'Дмитрий Валак'}
+          name={profile?.name || 'Александр Викторович'}
           size="xl"
         />
       </div>
-      <h2 className={styles.name}>{profile?.name || 'Дмитрий Валак'}</h2>
-      <p className={styles.role}>блог front-end разработчика</p>
+      <h2 className={styles.name}>{profile?.name || 'Александр Викторович'}</h2>
+      <p className={styles.role}>Разработчик</p>
       
       <div className={styles.socials}>
         <a 
@@ -86,8 +86,9 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
       
       <div className={styles.divider}></div>
       <p className={styles.bio}>
-        Front-end разработчик. Практик верстки сайтов. Созданием сайтов занимаюсь с 2012 года. 
-        Работал в нескольких ИТ компаниях и наработал более 10 000 часов в создании сайтов различной сложности.
+        Занимаюсь разработкой веб-
+        приложений и созданием
+        пользовательский интерфейсов
       </p>
       <div className={styles.actions}>
         <Link to="/works">
