@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useEffect } from 'react'
 import styles from './Modal.module.css'
+import cancel from '@/assets/icons/cancel.svg'
 
 export interface ModalProps {
   isOpen: boolean
@@ -41,6 +42,11 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     }
   }
 
+  const handleCloseButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    onClose()
+  }
+
   return createPortal(
     <div
       className={`${styles.overlay} ${isOpen ? styles.overlayOpen : ''}`}
@@ -50,6 +56,14 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         className={`${styles.content} ${isOpen ? styles.contentOpen : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
+        <button
+          type="button"
+          className={styles.closeButton}
+          onClick={handleCloseButtonClick}
+          aria-label="Закрыть"
+        >
+          <img src={cancel} alt="Закрыть" />
+        </button>
         {title ? <h2 className={styles.title}>{title}</h2> : null}
         {children}
       </div>
