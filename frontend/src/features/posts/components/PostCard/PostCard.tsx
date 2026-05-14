@@ -35,8 +35,14 @@ export function PostCard({ post }: PostCardProps) {
             <time className={styles.date} dateTime={post.created_at ?? undefined}>
               {formattedDate}
             </time>
-
-            {post.tag && <span className={styles.tag}>{post.tag}</span>}
+            {post.tag ? (
+              <Link
+                to={`/?tag=${encodeURIComponent(post.tag ?? '')}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {<span className={styles.tag}>{post.tag}</span>}
+              </Link>
+            ) : null}
           </div>
 
           <Link className={styles.link} to={postUrl}>
