@@ -1,0 +1,93 @@
+import { Modal } from '@/components/ui/Modal'
+import facebook from '@/assets/icons/facebook.svg'
+import twitter from '@/assets/icons/twitter.svg'
+import vk from '@/assets/icons/vk.svg'
+import copy from '@/assets/icons/copy.svg'
+import styles from './ShareModal.module.css'
+import { useState } from 'react'
+
+const icons: ShareModalItem[] = [
+  {
+    link: '1',
+    icon: facebook,
+    alt: 'Facebook',
+  },
+  {
+    link: '2',
+    icon: twitter,
+    alt: 'Twitter',
+  },
+  {
+    link: '3',
+    icon: vk,
+    alt: 'VK',
+  },
+]
+
+function CopyButton({ icon }: { icon: string; alt: string }) {
+  const [isCopied, setIsCopied] = useState(false)
+  const handleCopy = async () => {
+    try {
+      navigator.clipboard.writeText(window.location.href)
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), 2000)
+    } catch (error) {
+      console.error('Copy failed', error)
+    }
+  }
+
+  return (
+    <>
+      <button className={styles.CopyButton} onClick={handleCopy}>
+        <img src={icon} alt="" />
+        <span className={`${styles.tooltip} ${isCopied ? styles.tooltipVisible : ''}`}>
+          Скопировано
+        </span>
+      </button>
+    </>
+  )
+}
+
+interface ShareModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+interface ShareModalItem {
+  link: string
+  icon: string
+  alt: string
+}
+
+interface IconsProps {
+  iconArray: ShareModalItem[]
+}
+
+function ShareIcons({ iconArray }: IconsProps) {
+  return (
+    <ul className={styles.shareIcons}>
+      {iconArray.map((item) => (
+        <li key={item.link} className="share-icons__item">
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label={item.alt}
+            className="share-icons__link"
+          >
+            <img src={item.icon} alt="" className="share-icons__icon" />
+          </a>
+        </li>
+      ))}
+      <CopyButton icon={copy} alt="Скопировать ссылку" />
+    </ul>
+  )
+}
+
+export function ShareModal({ isOpen, onClose }: ShareModalProps) {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ShareIcons iconArray={icons} />
+    </Modal>
+  )
+}
