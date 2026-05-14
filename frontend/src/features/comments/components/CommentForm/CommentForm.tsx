@@ -79,7 +79,13 @@ export function CommentForm({
       {errors.body && <p className={styles.error}>{errors.body.message}</p>}
 
       <div className={styles.actions}>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          variant="primary"
+          shape="rounded"
+          className={styles.submit}
+          disabled={isSubmitting}
+        >
           {mode === 'edit' ? 'Сохранить' : 'Отправить'}
         </Button>
         {onCancel && (
