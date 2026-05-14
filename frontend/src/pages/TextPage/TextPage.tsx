@@ -33,6 +33,37 @@ function ShareIcon({ className }: { className?: string }) {
   )
 }
 
+async function fetchRelatedPostsForTextPage(
+  excludePostId: string,
+  maybeTag: string | null,
+): Promise<PostWithAuthor[]> {
+  const seen = new Set<string>([excludePostId])
+  const collected: PostWithAuthor[] = []
+
+  const tagQuery = maybeTag?.trim()
+  if (tagQuery) {
+    const { posts } = await getPosts({ page: 1, perPage: 50, q: tagQuery })
+    for (const p of posts) {
+      if (seen.has(p.id)) continue
+      seen.add(p.id)
+      collected.push(p)
+      if (collected.length >= RELATED_POSTS_COUNT) break
+    }
+  }
+
+  if (collected.length < RELATED_POSTS_COUNT) {
+    const { posts } = await getPosts({ page: 1, perPage: 50 })
+    for (const p of posts) {
+      if (seen.has(p.id)) continue
+      seen.add(p.id)
+      collected.push(p)
+      if (collected.length >= RELATED_POSTS_COUNT) break
+    }
+  }
+
+  return collected
+}
+
 export function TextPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
@@ -41,45 +72,17 @@ export function TextPage() {
   const [relatedPosts, setRelatedPosts] = useState<PostWithAuthor[]>([])
 
   useEffect(() => {
-    if (!post) {
+    if (post === null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- сброс при отсутствии поста
       setRelatedPosts([])
       return
     }
 
-    const relatedSourceId = post.id
-    const relatedSourceTag = post.tag
-
     let cancelled = false
 
-    async function loadRelated() {
-      const seen = new Set<string>([relatedSourceId])
-      const collected: PostWithAuthor[] = []
-
-      const tagQuery = relatedSourceTag?.trim()
-      if (tagQuery) {
-        const { posts } = await getPosts({ page: 1, perPage: 50, q: tagQuery })
-        for (const p of posts) {
-          if (seen.has(p.id)) continue
-          seen.add(p.id)
-          collected.push(p)
-          if (collected.length >= RELATED_POSTS_COUNT) break
-        }
-      }
-
-      if (collected.length < RELATED_POSTS_COUNT) {
-        const { posts } = await getPosts({ page: 1, perPage: 50 })
-        for (const p of posts) {
-          if (seen.has(p.id)) continue
-          seen.add(p.id)
-          collected.push(p)
-          if (collected.length >= RELATED_POSTS_COUNT) break
-        }
-      }
-
+    void fetchRelatedPostsForTextPage(post.id, post.tag).then((collected) => {
       if (!cancelled) setRelatedPosts(collected)
-    }
-
-    void loadRelated()
+    })
 
     return () => {
       cancelled = true
