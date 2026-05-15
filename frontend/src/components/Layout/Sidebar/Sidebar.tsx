@@ -1,14 +1,67 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+
 import { useAuth } from '@/features/auth/AuthContext'
 import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { ContactModal } from '@/components/ContactModal'
-import styles from './Sidebar.module.css'
-import { useState } from 'react'
 
-export function Sidebar() {
+import styles from './Sidebar.module.css'
+
+interface SidebarProps {
+  variant?: 'static' | 'drawer'
+}
+
+export function Sidebar({ variant = 'static' }: SidebarProps) {
   const { profile } = useAuth()
   const [isContactOpen, setIsContactOpen] = useState(false)
+
+  if (variant === 'drawer') {
+    return (
+      <aside className={`${styles.sidebar} ${styles.drawerSidebar}`}>
+        <div className={styles.drawerCover} />
+
+        <div className={styles.drawerProfile}>
+          <Avatar
+            src={profile?.avatar_url || undefined}
+            name={profile?.name || 'Пользователь'}
+            size="lg"
+          />
+          <div className={styles.drawerProfileText}>
+            <h2 className={styles.drawerName}>{profile?.name || 'Пользователь'}</h2>
+            <p className={styles.drawerSubtitle}>блог front-end разработчика</p>
+          </div>
+        </div>
+
+        <div className={styles.drawerDivider} />
+
+        <nav className={styles.drawerNav}>
+          <Link to="/articles" className={styles.drawerNavLink}>
+            Статьи
+          </Link>
+          <Link to="/about" className={styles.drawerNavLink}>
+            Обо мне
+          </Link>
+          <Link to="/profile" className={styles.drawerNavLink}>
+            Профиль
+          </Link>
+        </nav>
+
+        <div className={styles.drawerActions}>
+          <Link to="/works">
+            <Button variant="secondary" size="md" shape="pill">
+              Мои работы
+            </Button>
+          </Link>
+          <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
+            Написать мне
+          </Button>
+        </div>
+
+        <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      </aside>
+    )
+  }
 
   return (
     <aside className={styles.sidebar}>
