@@ -8,9 +8,46 @@ import { useBlogOwner } from '@/features/profile'
 import styles from './Sidebar.module.css'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 
+import instagramIcon from '@/assets/icons/instagramsmall.svg'
+import vkIcon from '@/assets/icons/vksmall.svg'
+import pinterestIcon from '@/assets/icons/pinterestsmall.svg'
+
+
+interface SocialIcon {
+  link: string
+  icon: string
+  alt: string
+  name: string
+}
+
+const socialIcons: SocialIcon[] = [
+  {
+    link: '#',
+    icon: instagramIcon,
+    alt: 'Instagram',
+    name: 'Instagram',
+  },
+  {
+    link: '#',
+    icon: vkIcon,
+    alt: 'VK',
+    name: 'VK',
+  },
+  {
+    link: '#',
+    icon: pinterestIcon,
+    alt: 'Pinterest',
+    name: 'Pinterest',
+  },
+]
+
 export function Sidebar() {
   const { profile, isLoading, error } = useBlogOwner()
   const [isContactOpen, setIsContactOpen] = useState(false)
+
+  const handleSocialClick = (social: string) => {
+    console.log(`Открыть ${social} - заглушка`)
+  }
 
   if (isLoading) {
     return (
@@ -38,7 +75,13 @@ export function Sidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.cover} />
+      <div className={styles.cover}>
+        <img 
+          src="/src/assets/images/sidebar-background.jpg" 
+          alt="sidebar background"
+          className={styles.coverImage}
+        />
+      </div>
       <div className={styles.avatarWrap}>
         <Avatar
           src={profile?.avatar_url || undefined}
@@ -65,17 +108,22 @@ export function Sidebar() {
             <span className={styles.socialPlaceholder}>.</span>
           </>
         ) : (
-          <>
-            <a href="#" className={`${styles.social} ${styles.instagram}`}>
-              IG
-            </a>
-            <a href="#" className={`${styles.social} ${styles.vk}`}>
-              VK
-            </a>
-            <a href="#" className={`${styles.social} ${styles.pinterest}`}>
-              P
-            </a>
-          </>
+          <div className={styles.socials}>
+        {socialIcons.map((item) => (
+          <a
+            key={item.name}
+            href={item.link}
+            className={styles.social}
+            onClick={(e) => {
+              e.preventDefault()
+              handleSocialClick(item.name)
+            }}
+            aria-label={item.alt}
+          >
+            <img src={item.icon} alt="" className={styles.socialIcon} />
+          </a>
+        ))}
+      </div>
         )}
       </div>
 
