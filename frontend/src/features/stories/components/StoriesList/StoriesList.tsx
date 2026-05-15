@@ -6,7 +6,6 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import type { Story } from '@/features/stories/types'
 import styles from './StoriesList.module.css'
 
-<<<<<<< HEAD
 interface StoriesListProps {
   onStoryClick?: (story: Story) => void
 }
@@ -15,22 +14,8 @@ export function StoriesList({ onStoryClick }: StoriesListProps) {
   const [stories, setStories] = useState<Story[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const loadStories = async () => {
-      try {
-        const data = await getStories()
-        setStories(data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Ошибка загрузки')
-      } finally {
-        setIsLoading(false)
-=======
-export function StoriesList() {
-  const [stories, setStories] = useState<Story[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const isMountedRef = useRef(true)
 
   useEffect(() => {
@@ -43,18 +28,21 @@ export function StoriesList() {
         setStories(data)
       } catch (err) {
         if (!isMountedRef.current) return
-        const message = err instanceof Error ? err.message : 'Ошибка загрузки сторис'
+        const message =
+          err instanceof Error ? err.message : 'Ошибка загрузки сторис'
         setError(message)
       } finally {
         if (isMountedRef.current) {
           setIsLoading(false)
         }
->>>>>>> origin/dev
       }
     }
 
     loadStories()
-<<<<<<< HEAD
+
+    return () => {
+      isMountedRef.current = false
+    }
   }, [])
 
   const scrollLeft = () => {
@@ -65,20 +53,11 @@ export function StoriesList() {
     containerRef.current?.scrollBy({ left: 160, behavior: 'smooth' })
   }
 
-=======
-
-    return () => {
-      isMountedRef.current = false
-    }
-  }, [])
-
->>>>>>> origin/dev
   if (isLoading) return <Spinner />
   if (error) return <ErrorMessage>{error}</ErrorMessage>
   if (stories.length === 0) return null
 
   return (
-<<<<<<< HEAD
     <div className={styles.wrapper}>
       <button className={styles.arrowLeft} onClick={scrollLeft}>
         ‹
@@ -102,12 +81,3 @@ export function StoriesList() {
     </div>
   )
 }
-=======
-    <div className={styles.container}>
-      {stories.map((story) => (
-        <StoryCard key={story.id} story={story} />
-      ))}
-    </div>
-  )
-}
->>>>>>> origin/dev
