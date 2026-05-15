@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  overflow-x: auto;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+}
