@@ -30,6 +30,7 @@
 }
 
 .content {
+  position: relative;
   transform: scale(0.95);
   transition:
     transform 200ms ease,
