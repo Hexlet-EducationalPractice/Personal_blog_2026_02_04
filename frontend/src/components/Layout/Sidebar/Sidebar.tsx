@@ -6,9 +6,11 @@ import { ContactModal } from '@/components/ContactModal'
 import { Spinner } from '@/components/ui/Spinner'
 import { useBlogOwner } from '@/features/profile'
 import styles from './Sidebar.module.css'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+// import { getErrorMessage } from '@/lib/get-error-message'
 
 export function Sidebar() {
-  const { profile, isLoading } = useBlogOwner()
+  const { profile, isLoading, error } = useBlogOwner()
   const [isContactOpen, setIsContactOpen] = useState(false)
 
   if (isLoading) {
@@ -54,7 +56,14 @@ export function Sidebar() {
         />
       </div>
 
-      <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
+      {error ? (
+        <div className={styles.name}>
+          <ErrorMessage>Failed to fetch</ErrorMessage>
+        </div>
+      ) : (
+        <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
+      )}
+
       <p className={styles.role}>Разработчик</p>
 
       <div className={styles.socials}>
