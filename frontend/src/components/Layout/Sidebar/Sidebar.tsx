@@ -25,10 +25,10 @@ export function Sidebar() {
         <div className={styles.divider}></div>
         <p className={styles.bio}></p>
         <div className={styles.actions}>
-          <Button variant="secondary" size="md" shape="pill">
+          <Button variant="secondary" size="md" shape="pill" disabled>
             Мои работы
           </Button>
-          <Button variant="primary" size="md" shape="pill">
+          <Button variant="primary" size="md" shape="pill" disabled>
             Написать мне
           </Button>
         </div>
@@ -91,13 +91,7 @@ export function Sidebar() {
             Мои работы
           </Button>
         </Link>
-        <Button
-          variant="primary"
-          size="md"
-          shape="pill"
-          disabled
-          onClick={() => setIsContactOpen(true)}
-        >
+        <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
           Написать мне
         </Button>
 
