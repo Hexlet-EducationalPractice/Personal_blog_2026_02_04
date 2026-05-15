@@ -1,17 +1,22 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { ContactModal } from '@/components/ContactModal'
 import { Spinner } from '@/components/ui/Spinner'
-import { useBlogOwner } from '@/features/profile'
-import styles from './Sidebar.module.css'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { useBlogOwner } from '@/features/profile'
 
 import instagramIcon from '@/assets/icons/instagramsmall.svg'
 import vkIcon from '@/assets/icons/vksmall.svg'
 import pinterestIcon from '@/assets/icons/pinterestsmall.svg'
 
+import styles from './Sidebar.module.css'
+
+interface SidebarProps {
+  variant?: 'static' | 'drawer'
+}
 
 interface SocialIcon {
   link: string
@@ -21,32 +26,69 @@ interface SocialIcon {
 }
 
 const socialIcons: SocialIcon[] = [
-  {
-    link: '#',
-    icon: instagramIcon,
-    alt: 'Instagram',
-    name: 'Instagram',
-  },
-  {
-    link: '#',
-    icon: vkIcon,
-    alt: 'VK',
-    name: 'VK',
-  },
-  {
-    link: '#',
-    icon: pinterestIcon,
-    alt: 'Pinterest',
-    name: 'Pinterest',
-  },
+  { link: '#', icon: instagramIcon, alt: 'Instagram', name: 'Instagram' },
+  { link: '#', icon: vkIcon, alt: 'VK', name: 'VK' },
+  { link: '#', icon: pinterestIcon, alt: 'Pinterest', name: 'Pinterest' },
 ]
 
-export function Sidebar() {
+export function Sidebar({ variant = 'static' }: SidebarProps) {
   const { profile, isLoading, error } = useBlogOwner()
   const [isContactOpen, setIsContactOpen] = useState(false)
 
   const handleSocialClick = (social: string) => {
     console.log(`Открыть ${social} - заглушка`)
+  }
+
+  if (variant === 'drawer') {
+    return (
+      <aside className={`${styles.sidebar} ${styles.drawerSidebar}`}>
+        <div className={styles.drawerCover} />
+
+        <div className={styles.drawerProfile}>
+          <Avatar
+            src={profile?.avatar_url || undefined}
+            name={profile?.name || 'Пользователь'}
+            size="lg"
+          />
+          <div className={styles.drawerProfileText}>
+            <h2 className={styles.drawerName}>{profile?.name || 'Пользователь'}</h2>
+            <p className={styles.drawerSubtitle}>блог front-end разработчика</p>
+          </div>
+        </div>
+
+        <div className={styles.drawerDivider} />
+
+        <nav className={styles.drawerNav}>
+          <Link to="/articles" className={styles.drawerNavLink}>
+            Статьи
+          </Link>
+          <Link to="/about" className={styles.drawerNavLink}>
+            Обо мне
+          </Link>
+          <Link to="/profile" className={styles.drawerNavLink}>
+            Профиль
+          </Link>
+        </nav>
+
+        <div className={styles.drawerActions}>
+          <Link to="/works">
+            <Button variant="secondary" size="md" shape="pill">
+              Мои работы
+            </Button>
+          </Link>
+          <Button
+            variant="primary"
+            size="md"
+            shape="pill"
+            onClick={() => setIsContactOpen(true)}
+          >
+            Написать мне
+          </Button>
+        </div>
+
+        <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      </aside>
+    )
   }
 
   if (isLoading) {
@@ -76,8 +118,8 @@ export function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.cover}>
-        <img 
-          src="/src/assets/images/sidebar-background.jpg" 
+        <img
+          src="/src/assets/images/sidebar-background.jpg"
           alt="sidebar background"
           className={styles.coverImage}
         />
@@ -101,14 +143,6 @@ export function Sidebar() {
       <p className={styles.role}>Разработчик</p>
 
       <div className={styles.socials}>
-        {isLoading ? (
-          <>
-            <span className={styles.socialPlaceholder}>.</span>
-            <span className={styles.socialPlaceholder}>.</span>
-            <span className={styles.socialPlaceholder}>.</span>
-          </>
-        ) : (
-          <div className={styles.socials}>
         {socialIcons.map((item) => (
           <a
             key={item.name}
@@ -124,8 +158,6 @@ export function Sidebar() {
           </a>
         ))}
       </div>
-        )}
-      </div>
 
       <div className={styles.divider}></div>
 
@@ -139,7 +171,12 @@ export function Sidebar() {
             Мои работы
           </Button>
         </Link>
-        <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
+        <Button
+          variant="primary"
+          size="md"
+          shape="pill"
+          onClick={() => setIsContactOpen(true)}
+        >
           Написать мне
         </Button>
 

@@ -22,3 +22,61 @@
 .content {
   flex: 1;
 }
+
+.drawerOverlay {
+  display: none;
+}
+
+.drawer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .main {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .drawerOverlay {
+    display: block;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 90;
+  }
+
+  .drawerOverlayOpen {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .drawer {
+    display: block;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    height: calc(100vh - var(--header-height));
+    width: 100%;
+    max-width: 360px;
+    background: var(--color-surface);
+    z-index: 91;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+  }
+
+  .drawerOpen {
+    transform: translateX(0);
+  }
+}
