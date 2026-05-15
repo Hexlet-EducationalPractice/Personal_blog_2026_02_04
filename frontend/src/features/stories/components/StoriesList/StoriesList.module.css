@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .wrapper {
   position: relative;
   display: flex;
@@ -13,12 +14,21 @@
   scrollbar-width: none;
   width: 100%;
   scroll-behavior: smooth;
+=======
+.container {
+  display: flex;
+  overflow-x: auto;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  scrollbar-width: none;
+>>>>>>> origin/dev
 }
 
 .container::-webkit-scrollbar {
   display: none;
 }
 
+<<<<<<< HEAD
 .storyButton {
   flex: 0 0 140px;
   height: 195px;
@@ -65,3 +75,11 @@
     padding-right: var(--space-4);
   }
 }
+=======
+@media (max-width: 768px) {
+  .container {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+}
+>>>>>>> origin/dev

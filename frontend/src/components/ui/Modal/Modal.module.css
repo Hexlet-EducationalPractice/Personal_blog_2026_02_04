@@ -40,9 +40,6 @@
   border-radius: var(--radius-sm);
   max-width: 500px;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   box-shadow: var(--shadow-modal);
 }
 
