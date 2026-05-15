@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { ContactModal } from '@/components/ContactModal'
@@ -85,11 +86,18 @@ export function Sidebar() {
       </p>
 
       <div className={styles.actions}>
-        <Button variant="secondary" size="md" shape="pill">
-          Мои работы
-        </Button>
-
-        <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
+        <Link to="/works">
+          <Button variant="secondary" size="md" shape="pill">
+            Мои работы
+          </Button>
+        </Link>
+        <Button
+          variant="primary"
+          size="md"
+          shape="pill"
+          disabled
+          onClick={() => setIsContactOpen(true)}
+        >
           Написать мне
         </Button>
 
