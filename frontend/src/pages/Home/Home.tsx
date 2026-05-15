@@ -7,7 +7,10 @@ import { Pagination } from '@/components/Pagination'
 import { Spinner } from '@/components/ui/Spinner'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Modal } from '@/components/ui/Modal'
+import { StoriesList } from '@/features/stories'
+import { StoryViewer } from '@/features/stories'
 import { useAuth } from '@/features/auth/AuthContext'
+import type { Story } from '@/features/stories/types'
 import { env } from '@/lib/env'
 import { POSTS_PER_PAGE } from '@/lib/constants'
 import styles from './Home.module.css'
@@ -15,6 +18,7 @@ import styles from './Home.module.css'
 export function Home() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
+  const [activeStory, setActiveStory] = useState<Story | null>(null)
 
   const rawPage = Number(searchParams.get('page'))
   const uiPage = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage
@@ -124,6 +128,8 @@ export function Home() {
 
   return (
     <div className={styles.container}>
+      <StoriesList onStoryClick={setActiveStory} />
+
       {ownerToolbar}
       {tagBlock}
 
@@ -145,6 +151,8 @@ export function Home() {
           onPageChange={handlePageChange}
         />
       )}
+
+      <StoryViewer story={activeStory} onClose={() => setActiveStory(null)} />
     </div>
   )
 }

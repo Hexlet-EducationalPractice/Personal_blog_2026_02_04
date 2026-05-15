@@ -3,7 +3,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: var(--radius-md, 8px);
+  border-radius: 5px;
   background: var(--color-surface-secondary, #202020);
 }
 
@@ -50,6 +50,7 @@
     rgba(0, 0, 0, 0) 100%
   );
   display: flex;
+  justify-content: flex-end;
   align-items: flex-end;
 }
 
