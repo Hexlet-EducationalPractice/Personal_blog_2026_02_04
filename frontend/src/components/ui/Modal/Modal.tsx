@@ -64,8 +64,10 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         >
           <img src={cancel} alt="Закрыть" />
         </button>
-        {title ? <h2 className={styles.title}>{title}</h2> : null}
-        {children}
+        <div>
+          {title ? <h2 className={styles.title}>{title}</h2> : null}
+          {children}
+        </div>
       </div>
     </div>,
     modalRoot,
