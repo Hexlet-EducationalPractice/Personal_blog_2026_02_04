@@ -1,50 +1,63 @@
+import { supabase } from '@/lib/supabase'
 import { getComments } from '../api'
 import type { CommentWithAuthor } from '../types'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { getErrorMessage } from '@/lib/get-error-message'
 
 export function useComments(postId: string) {
   const [comments, setComments] = useState<CommentWithAuthor[]>([])
   const [isLoading, setIsLoading] = useState(!!postId)
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const isMountedRef = useRef(false)
+
+  const fetchComments = useCallback(async () => {
+    try {
+      const data = await getComments(postId)
+      if (isMountedRef.current) setComments(data)
+    } catch (err) {
+      if (isMountedRef.current) setError(getErrorMessage(err))
+    }
+  }, [postId])
 
   const refetch = useCallback(async () => {
     if (!postId) return
-    try {
-      setIsLoading(true)
-      setError(null)
-
-      const data = await getComments(postId)
-      setComments(data)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Unknown error'))
-    } finally {
-      setIsLoading(false)
-    }
+    if (isMountedRef.current) setIsLoading(false)
+    await fetchComments()
+    if (isMountedRef.current) setIsLoading(false)
   }, [postId])
 
   useEffect(() => {
-    if (!postId) return
+    isMountedRef.current = true
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    refetch()
 
-    let isMounted = true
-
-    const loadInitialComments = async () => {
-      try {
-        const data = await getComments(postId)
-
-        if (isMounted) setComments(data)
-      } catch (err) {
-        if (isMounted) setError(err instanceof Error ? err : new Error('Unknown error'))
-      } finally {
-        if (isMounted) setIsLoading(false)
-      }
-    }
-
-    loadInitialComments()
-
+    const channel = supabase
+      .channel(`comments:post:${postId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'comments',
+          filter: `post_id=eq.${postId}`,
+        },
+        fetchComments,
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'comments',
+        },
+        fetchComments,
+      )
+      .subscribe()
     return () => {
-      isMounted = false
+      channel.unsubscribe()
+      isMountedRef.current = false
     }
-  }, [postId])
+  }, [postId, refetch])
 
   return {
     comments,

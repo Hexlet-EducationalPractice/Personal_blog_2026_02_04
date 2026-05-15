@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
@@ -59,6 +60,75 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
         </div>
 
         <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+import { Avatar } from '@/components/ui/Avatar'
+import { Button } from '@/components/ui/Button'
+import { ContactModal } from '@/components/ContactModal'
+import { Spinner } from '@/components/ui/Spinner'
+import { useBlogOwner } from '@/features/profile'
+import styles from './Sidebar.module.css'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+
+import instagramIcon from '@/assets/icons/instagramsmall.svg'
+import vkIcon from '@/assets/icons/vksmall.svg'
+import pinterestIcon from '@/assets/icons/pinterestsmall.svg'
+
+
+interface SocialIcon {
+  link: string
+  icon: string
+  alt: string
+  name: string
+}
+
+const socialIcons: SocialIcon[] = [
+  {
+    link: '#',
+    icon: instagramIcon,
+    alt: 'Instagram',
+    name: 'Instagram',
+  },
+  {
+    link: '#',
+    icon: vkIcon,
+    alt: 'VK',
+    name: 'VK',
+  },
+  {
+    link: '#',
+    icon: pinterestIcon,
+    alt: 'Pinterest',
+    name: 'Pinterest',
+  },
+]
+
+export function Sidebar() {
+  const { profile, isLoading, error } = useBlogOwner()
+  const [isContactOpen, setIsContactOpen] = useState(false)
+
+  const handleSocialClick = (social: string) => {
+    console.log(`Открыть ${social} - заглушка`)
+  }
+
+  if (isLoading) {
+    return (
+      <aside className={styles.sidebar}>
+        <div className={styles.cover}></div>
+        <div className={styles.avatarWrap}>
+          <Avatar name="?" size="xl" />
+        </div>
+        <div className={styles.role}>
+          <Spinner size="sm" />
+        </div>
+        <div className={styles.divider}></div>
+        <p className={styles.bio}></p>
+        <div className={styles.actions}>
+          <Button variant="secondary" size="md" shape="pill" disabled>
+            Мои работы
+          </Button>
+          <Button variant="primary" size="md" shape="pill" disabled>
+            Написать мне
+          </Button>
+        </div>
       </aside>
     )
   }
@@ -66,7 +136,11 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.cover}>
-        <div style={{ width: '100%', height: '100%', background: 'var(--color-surface-dark)' }} />
+        <img 
+          src="/src/assets/images/sidebar-background.jpg" 
+          alt="sidebar background"
+          className={styles.coverImage}
+        />
       </div>
       <div className={styles.avatarWrap}>
         <Avatar
@@ -75,23 +149,50 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
           size="xl"
         />
       </div>
-      <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
+
+      {error ? (
+        <div className={styles.name}>
+          <ErrorMessage>Failed to fetch</ErrorMessage>
+        </div>
+      ) : (
+        <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>
+      )}
+
       <p className={styles.role}>Разработчик</p>
+
       <div className={styles.socials}>
-        <a href="#" className={`${styles.social} ${styles.instagram}`}>
-          IG
-        </a>
-        <a href="#" className={`${styles.social} ${styles.vk}`}>
-          VK
-        </a>
-        <a href="#" className={`${styles.social} ${styles.pinterest}`}>
-          P
-        </a>
+        {isLoading ? (
+          <>
+            <span className={styles.socialPlaceholder}>.</span>
+            <span className={styles.socialPlaceholder}>.</span>
+            <span className={styles.socialPlaceholder}>.</span>
+          </>
+        ) : (
+          <div className={styles.socials}>
+        {socialIcons.map((item) => (
+          <a
+            key={item.name}
+            href={item.link}
+            className={styles.social}
+            onClick={(e) => {
+              e.preventDefault()
+              handleSocialClick(item.name)
+            }}
+            aria-label={item.alt}
+          >
+            <img src={item.icon} alt="" className={styles.socialIcon} />
+          </a>
+        ))}
       </div>
+        )}
+      </div>
+
       <div className={styles.divider}></div>
+
       <p className={styles.bio}>
         Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов.
       </p>
+
       <div className={styles.actions}>
         <Link to="/works">
           <Button variant="secondary" size="md" shape="pill">
@@ -101,6 +202,7 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
         <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
           Написать мне
         </Button>
+
         <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
       </div>
     </aside>
