@@ -124,7 +124,7 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
 
           <Textarea
             placeholder="Текст сообщения"
-            rows={3}
+            rows={1}
             aria-invalid={Boolean(errors.message)}
             error={errors.message?.message}
             className={styles.textarea}
