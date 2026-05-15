@@ -1,11 +1,16 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
 
-import { useAuth } from '@/features/auth/AuthContext'
 import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { ContactModal } from '@/components/ContactModal'
+import { Spinner } from '@/components/ui/Spinner'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { useBlogOwner } from '@/features/profile'
+
+import instagramIcon from '@/assets/icons/instagramsmall.svg'
+import vkIcon from '@/assets/icons/vksmall.svg'
+import pinterestIcon from '@/assets/icons/pinterestsmall.svg'
 
 import styles from './Sidebar.module.css'
 
@@ -13,9 +18,26 @@ interface SidebarProps {
   variant?: 'static' | 'drawer'
 }
 
+interface SocialIcon {
+  link: string
+  icon: string
+  alt: string
+  name: string
+}
+
+const socialIcons: SocialIcon[] = [
+  { link: '#', icon: instagramIcon, alt: 'Instagram', name: 'Instagram' },
+  { link: '#', icon: vkIcon, alt: 'VK', name: 'VK' },
+  { link: '#', icon: pinterestIcon, alt: 'Pinterest', name: 'Pinterest' },
+]
+
 export function Sidebar({ variant = 'static' }: SidebarProps) {
-  const { profile } = useAuth()
+  const { profile, isLoading, error } = useBlogOwner()
   const [isContactOpen, setIsContactOpen] = useState(false)
+
+  const handleSocialClick = (social: string) => {
+    console.log(`Открыть ${social} - заглушка`)
+  }
 
   if (variant === 'drawer') {
     return (
@@ -54,59 +76,19 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
               Мои работы
             </Button>
           </Link>
-          <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
+          <Button
+            variant="primary"
+            size="md"
+            shape="pill"
+            onClick={() => setIsContactOpen(true)}
+          >
             Написать мне
           </Button>
         </div>
 
         <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-import { Avatar } from '@/components/ui/Avatar'
-import { Button } from '@/components/ui/Button'
-import { ContactModal } from '@/components/ContactModal'
-import { Spinner } from '@/components/ui/Spinner'
-import { useBlogOwner } from '@/features/profile'
-import styles from './Sidebar.module.css'
-import { ErrorMessage } from '@/components/ui/ErrorMessage'
-
-import instagramIcon from '@/assets/icons/instagramsmall.svg'
-import vkIcon from '@/assets/icons/vksmall.svg'
-import pinterestIcon from '@/assets/icons/pinterestsmall.svg'
-
-
-interface SocialIcon {
-  link: string
-  icon: string
-  alt: string
-  name: string
-}
-
-const socialIcons: SocialIcon[] = [
-  {
-    link: '#',
-    icon: instagramIcon,
-    alt: 'Instagram',
-    name: 'Instagram',
-  },
-  {
-    link: '#',
-    icon: vkIcon,
-    alt: 'VK',
-    name: 'VK',
-  },
-  {
-    link: '#',
-    icon: pinterestIcon,
-    alt: 'Pinterest',
-    name: 'Pinterest',
-  },
-]
-
-export function Sidebar() {
-  const { profile, isLoading, error } = useBlogOwner()
-  const [isContactOpen, setIsContactOpen] = useState(false)
-
-  const handleSocialClick = (social: string) => {
-    console.log(`Открыть ${social} - заглушка`)
+      </aside>
+    )
   }
 
   if (isLoading) {
@@ -136,8 +118,8 @@ export function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.cover}>
-        <img 
-          src="/src/assets/images/sidebar-background.jpg" 
+        <img
+          src="/src/assets/images/sidebar-background.jpg"
           alt="sidebar background"
           className={styles.coverImage}
         />
@@ -161,14 +143,6 @@ export function Sidebar() {
       <p className={styles.role}>Разработчик</p>
 
       <div className={styles.socials}>
-        {isLoading ? (
-          <>
-            <span className={styles.socialPlaceholder}>.</span>
-            <span className={styles.socialPlaceholder}>.</span>
-            <span className={styles.socialPlaceholder}>.</span>
-          </>
-        ) : (
-          <div className={styles.socials}>
         {socialIcons.map((item) => (
           <a
             key={item.name}
@@ -184,8 +158,6 @@ export function Sidebar() {
           </a>
         ))}
       </div>
-        )}
-      </div>
 
       <div className={styles.divider}></div>
 
@@ -199,7 +171,12 @@ export function Sidebar() {
             Мои работы
           </Button>
         </Link>
-        <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
+        <Button
+          variant="primary"
+          size="md"
+          shape="pill"
+          onClick={() => setIsContactOpen(true)}
+        >
           Написать мне
         </Button>
 
