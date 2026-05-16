@@ -98,9 +98,9 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
           Пользователь
         </h2>
 
-        <p className={styles.role}>
+        <div className={`${styles.spinnerWrapper}`}>
           <Spinner size="sm" />
-        </p>
+        </div>
 
         <div className={styles.socials} aria-hidden="true">
           {socialIcons.map((item) => (

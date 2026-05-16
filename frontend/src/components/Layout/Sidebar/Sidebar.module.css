@@ -53,6 +53,13 @@
   margin-top: var(--space-0);
 }
 
+.spinnerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--line-height-normal);
+}
+
 .socials {
   display: flex;
   gap: var(--space-2-5);
