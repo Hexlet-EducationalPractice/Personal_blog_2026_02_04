@@ -1,14 +1,8 @@
-type FlatComment = {
-  id: string
-  parent_id: string | null
-  [key: string]: unknown
-}
+import type { CommentNode, CommentWithAuthor } from '@/features/comments/types'
 
-type CommentTree = FlatComment & { replies: CommentTree[] }
-
-function buildCommentTree(flat: FlatComment[]): CommentTree[] {
-  const roots: CommentTree[] = []
-  const map = new Map<string, CommentTree>()
+function buildCommentTree(flat: CommentWithAuthor[]): CommentNode[] {
+  const roots: CommentNode[] = []
+  const map = new Map<string, CommentNode>()
 
   for (const comment of flat) {
     map.set(comment.id, { ...comment, replies: [] })
@@ -29,5 +23,4 @@ function buildCommentTree(flat: FlatComment[]): CommentTree[] {
   return roots
 }
 
-export type { FlatComment, CommentTree }
 export { buildCommentTree }
