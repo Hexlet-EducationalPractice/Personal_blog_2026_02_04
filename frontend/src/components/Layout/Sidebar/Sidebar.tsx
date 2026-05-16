@@ -76,12 +76,7 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
               Мои работы
             </Button>
           </Link>
-          <Button
-            variant="primary"
-            size="md"
-            shape="pill"
-            onClick={() => setIsContactOpen(true)}
-          >
+          <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
             Написать мне
           </Button>
         </div>
@@ -98,11 +93,29 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
         <div className={styles.avatarWrap}>
           <Avatar name="?" size="xl" />
         </div>
-        <div className={styles.role}>
+
+        <h2 className={`${styles.name} ${styles.placeholderText}`} aria-hidden="true">
+          Пользователь
+        </h2>
+
+        <div className={`${styles.spinnerWrapper}`}>
           <Spinner size="sm" />
         </div>
+
+        <div className={styles.socials} aria-hidden="true">
+          {socialIcons.map((item) => (
+            <span key={item.name} className={`${styles.social} ${styles.socialPlaceholder}`} />
+          ))}
+        </div>
+
         <div className={styles.divider}></div>
-        <p className={styles.bio}></p>
+
+        <p className={`${styles.bio} ${styles.placeholderText}`} aria-hidden="true">
+          Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов.
+        </p>
+
+        <div className={styles.divider}></div>
+
         <div className={styles.actions}>
           <Button variant="secondary" size="md" shape="pill" disabled>
             Мои работы
@@ -165,18 +178,15 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
         Занимаюсь разработкой веб-приложений и созданием пользовательских интерфейсов.
       </p>
 
+      <div className={styles.divider}></div>
+
       <div className={styles.actions}>
         <Link to="/works">
           <Button variant="secondary" size="md" shape="pill">
             Мои работы
           </Button>
         </Link>
-        <Button
-          variant="primary"
-          size="md"
-          shape="pill"
-          onClick={() => setIsContactOpen(true)}
-        >
+        <Button variant="primary" size="md" shape="pill" onClick={() => setIsContactOpen(true)}>
           Написать мне
         </Button>
 
