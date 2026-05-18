@@ -7,20 +7,14 @@
   align-items: center;
   padding: 16px;
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
   transition: opacity 200ms ease;
-  z-index: 1000;
+  z-index: calc(1000 - 7);
 }
 
 .overlayOpen {
   opacity: 1;
-  visibility: visible;
   pointer-events: auto;
-}
-
-:global(body.modal-open) {
-  overflow: hidden;
 }
 
 .closeButton {
@@ -42,6 +36,15 @@
   max-width: 500px;
   width: 100%;
   box-shadow: var(--shadow-modal);
+}
+
+.videoContent {
+  margin: auto;
+  padding: 0;
+  background-color: transparent;
+  overflow: hidden;
+  box-shadow: none;
+  width: auto;
 }
 
 .contentOpen {
