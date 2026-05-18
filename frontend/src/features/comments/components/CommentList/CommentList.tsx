@@ -8,7 +8,7 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import styles from './CommentList.module.css'
 
 export function CommentList({ postId }: { postId: string }) {
-  const { comments, isLoading, error, refetch } = useComments(postId)
+  const { comments, isLoading, error, fetchComments } = useComments(postId)
   const { user } = useAuth()
 
   if (isLoading) return <Spinner />
@@ -17,7 +17,7 @@ export function CommentList({ postId }: { postId: string }) {
   return (
     <section className={styles.container}>
       {user ? (
-        <CommentForm postId={postId} parentId={null} onSuccess={refetch} showTitle={false} />
+        <CommentForm postId={postId} parentId={null} onSuccess={fetchComments} showTitle={false} />
       ) : (
         <p className={styles.loginPrompt}>
           Войдите чтобы оставить комментарий{' '}
@@ -31,7 +31,7 @@ export function CommentList({ postId }: { postId: string }) {
         comments={comments}
         postId={postId}
         currentUserId={user?.id}
-        onUpdated={refetch}
+        onUpdated={fetchComments}
       />
     </section>
   )
