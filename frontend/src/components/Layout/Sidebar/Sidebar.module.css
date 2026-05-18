@@ -215,13 +215,6 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 240px;
-    min-width: 240px;
-  }
-}
-
 @media (max-width: 768px) {
   .sidebar {
     display: none;
