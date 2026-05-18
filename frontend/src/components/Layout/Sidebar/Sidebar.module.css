@@ -4,9 +4,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   position: sticky;
   top: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .drawerSidebar {
@@ -38,6 +45,7 @@
   border: 2px solid var(--color-text-primary);
   background: var(--color-surface-dark);
   object-fit: cover;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
 }
 
 .name {
@@ -76,6 +84,11 @@
   color: var(--color-text-primary);
   font-size: var(--font-size-xs);
   text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.social:hover {
+  opacity: 0.85;
 }
 
 .socialPlaceholder {
@@ -127,6 +140,12 @@
   flex-shrink: 0;
 }
 
+.drawerCover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .drawerProfile {
   display: flex;
   flex-direction: row;
@@ -174,7 +193,6 @@
   gap: var(--space-5);
   padding: 0 var(--space-4);
   width: 100%;
-  flex: 1;
 }
 
 .drawerNavLink {
@@ -191,10 +209,17 @@
   display: flex;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-4) var(--space-6);
-  margin-top: auto;
+  margin-top: var(--space-6);
   width: 100%;
   justify-content: center;
   flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -210,5 +235,6 @@
     height: 100%;
     width: 100%;
     min-height: 100%;
+    overflow-y: auto;
   }
 }

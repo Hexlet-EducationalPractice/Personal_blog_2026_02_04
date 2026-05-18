@@ -26,3 +26,31 @@
   padding: var(--space-8);
   color: var(--color-text-secondary);
 }
+
+@media (max-width: 1024px) {
+  .container {
+    padding: var(--space-6) var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-4) var(--space-3);
+    gap: var(--space-4);
+  }
+
+  .grid {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    padding: var(--space-3) var(--space-2);
+    gap: var(--space-3);
+  }
+
+  .pageTitle {
+    font-size: var(--font-size-lg);
+  }
+}

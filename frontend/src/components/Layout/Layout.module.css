@@ -31,6 +31,18 @@
   display: none;
 }
 
+@media (max-width: 1024px) {
+  .wrapper {
+    width: 100%;
+  }
+
+  .main {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .wrapper {
     width: 100%;
