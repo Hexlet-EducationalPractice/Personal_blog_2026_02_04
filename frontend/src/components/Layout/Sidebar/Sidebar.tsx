@@ -108,12 +108,6 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
           ))}
         </div>
 
-        <div className={styles.socials} aria-hidden="true">
-          {socialIcons.map((item) => (
-            <span key={item.name} className={`${styles.social} ${styles.socialPlaceholder}`} />
-          ))}
-        </div>
-
         <div className={styles.divider}></div>
 
         <p className={`${styles.bio} ${styles.placeholderText}`} aria-hidden="true">
