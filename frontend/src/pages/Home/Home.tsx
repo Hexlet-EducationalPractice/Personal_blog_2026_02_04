@@ -96,8 +96,10 @@ export function Home() {
   }
 
   const handleStoryClose = () => {
-    setActiveStory(null)
     setIsStoryViewerOpen(false)
+    setTimeout(() => {
+      setActiveStory(null)
+    }, 200)
   }
 
   if (isLoading) {
