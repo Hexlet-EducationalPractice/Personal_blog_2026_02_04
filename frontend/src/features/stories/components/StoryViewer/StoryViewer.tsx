@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Story } from '@/features/stories/types'
 import styles from './StoryViewer.module.css'
+import { Modal } from '@/components/ui/Modal'
 
 interface Props {
   story: Story | null
   onClose: () => void
+  isOpen: boolean
 }
 
-export function StoryViewer({ story, onClose }: Props) {
+export function StoryViewer({ story, onClose, isOpen }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
 
@@ -25,24 +27,6 @@ export function StoryViewer({ story, onClose }: Props) {
   }
 
   useEffect(() => {
-    if (!story) return
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      }
-
-      if (e.code === 'Space') {
-        e.preventDefault()
-        togglePlay()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [story, onClose])
-
-  useEffect(() => {
     if (!story || !videoRef.current) return
 
     const video = videoRef.current
@@ -57,11 +41,8 @@ export function StoryViewer({ story, onClose }: Props) {
       .then(() => {
         setIsPlaying(true)
       })
-      .catch(() => {
-      })
+      .catch(() => {})
   }, [story?.id])
-
-  if (!story) return null
 
   const handleTimeUpdate = () => {
     if (!videoRef.current) return
@@ -83,15 +64,12 @@ export function StoryViewer({ story, onClose }: Props) {
   }
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.close} onClick={onClose}>
-          ✕
-        </button>
-
+    <Modal onClose={onClose} isOpen={isOpen} type="video">
+      <div className={`${styles.viewer} ${isOpen ? styles.viewerOpen : ''}`}>
         <video
           ref={videoRef}
-          src={story.media_url}
+          src={story?.media_url}
+          muted
           className={styles.image}
           onClick={togglePlay}
           onPlay={() => setIsPlaying(true)}
@@ -109,18 +87,11 @@ export function StoryViewer({ story, onClose }: Props) {
             {isPlaying ? '❚❚' : '▶'}
           </button>
 
-          <div
-            ref={progressRef}
-            className={styles.progress}
-            onClick={handleSeek}
-          >
-            <div
-              className={styles.progressBar}
-              style={{ width: `${progress}%` }}
-            />
+          <div ref={progressRef} className={styles.progress} onClick={handleSeek}>
+            <div className={styles.progressBar} style={{ width: `${progress}%` }} />
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
