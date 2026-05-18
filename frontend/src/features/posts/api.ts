@@ -74,11 +74,13 @@ export async function updatePost(
   partial: Partial<CreatePostInput>,
 ): Promise<PostWithAuthor> {
   const { media, ...updateData } = partial
-  const image_url = media ? await uploadPostMedia(media) : null
+  const updatePayload = media
+    ? { ...updateData, image_url: await uploadPostMedia(media) }
+    : updateData
 
   const { data, error } = await supabase
     .from('posts')
-    .update({ ...updateData, image_url })
+    .update(updatePayload)
     .eq('id', id)
     .select(POST_WITH_AUTHOR_QUERY)
     .single()
