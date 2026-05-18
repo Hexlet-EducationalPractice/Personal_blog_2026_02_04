@@ -43,7 +43,6 @@ function CopyButton({ icon }: { icon: string; alt: string }) {
   }
 
   return (
-    <>
       <button
         className={styles.copyButton}
         onClick={handleCopy}
@@ -55,7 +54,6 @@ function CopyButton({ icon }: { icon: string; alt: string }) {
           Скопировано
         </span>
       </button>
-    </>
   )
 }
 
