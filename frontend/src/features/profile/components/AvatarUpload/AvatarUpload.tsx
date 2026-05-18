@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import z, { ZodError } from 'zod'
-import styles from './AvatarUpload.module.css'
+
 import { getErrorMessage } from '@/lib/get-error-message'
 import { uploadAvatar } from '@/features/profile'
 import { Spinner } from '@/components/ui/Spinner'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
+
+import styles from './AvatarUpload.module.css'
+import { AVATAR_FILE_TYPES, GET_MAX_FILE_SIZE } from '@/lib/constants'
 
 interface AvatarUploadProps {
   userId: string
@@ -12,14 +15,14 @@ interface AvatarUploadProps {
   onChange: (url: string) => void
 }
 
-const MAX_FILE_SIZE = 2 * Math.pow(2, 20)
-
 const schema = z
   .file()
-  .mime(['image/jpeg', 'image/png', 'image/webp', 'image/gif'], {
+  .mime(AVATAR_FILE_TYPES, {
     message: 'Тип файла должен быть: jpeg/png/webp/gif',
   })
-  .refine((file) => file.size <= MAX_FILE_SIZE, { message: `Размер файла не должен превышать 2Мб` })
+  .refine((file) => file.size <= GET_MAX_FILE_SIZE(2), {
+    message: `Размер файла не должен превышать 2Мб`,
+  })
 
 export function AvatarUpload({ userId, currentUrl, onChange }: AvatarUploadProps) {
   const [isLoading, setIsLoading] = useState(false)
