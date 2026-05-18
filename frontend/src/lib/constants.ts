@@ -13,3 +13,7 @@ export const ROUTES = {
   authUpdatePassword: '/auth/update-password',
   profile: '/profile',
 } as const
+export const VISIBLE_PAGE_COUNT = 3
+export const CONTACT_EMAIL = 'grazhdantsev@yandex.ru'
+export const CONTACT_PHONE = '+8-800-555-35-35'
+export const CONTACT_PHONE_HREF = '88005553535'

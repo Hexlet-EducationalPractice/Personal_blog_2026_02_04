@@ -12,9 +12,7 @@ import { useAuth } from '@/features/auth/AuthContext'
 
 import styles from './ContactModal.module.css'
 
-const CONTACT_EMAIL = 'grazhdantsev@yandex.ru'
-const CONTACT_PHONE = '+8-800-555-35-35'
-const CONTACT_PHONE_HREF = '88005553535'
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF } from '@/lib/constants'
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, 'Введите имя'),
