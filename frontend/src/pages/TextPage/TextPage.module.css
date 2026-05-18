@@ -198,6 +198,12 @@
   color: var(--color-text-muted);
 }
 
+@media (max-width: 1024px) {
+  .page {
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
 @media (max-width: 768px) {
   .page {
     padding: var(--space-5) var(--space-4);
@@ -213,5 +219,11 @@
 
   .relatedGrid {
     grid-template-columns: 1fr;
+  }
+
+  .body {
+    font-size: var(--font-size-sm);
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }

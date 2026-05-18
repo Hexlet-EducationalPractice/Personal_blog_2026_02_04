@@ -37,6 +37,7 @@
   max-width: 500px;
   width: 100%;
   box-shadow: var(--shadow-modal);
+  overflow-x: hidden;
 }
 
 .videoContent {
