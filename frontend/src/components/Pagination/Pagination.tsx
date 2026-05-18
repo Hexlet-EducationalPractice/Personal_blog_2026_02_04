@@ -1,6 +1,6 @@
 import styles from './Pagination.module.css'
 
-const VISIBLE_PAGE_COUNT = 3
+import { VISIBLE_PAGE_COUNT } from '@/lib/constants'
 
 type PaginationProps = {
   currentPage: number
