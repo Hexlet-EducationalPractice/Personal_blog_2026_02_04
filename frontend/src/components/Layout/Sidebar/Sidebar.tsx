@@ -35,10 +35,6 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
   const { profile, isLoading, error } = useBlogOwner()
   const [isContactOpen, setIsContactOpen] = useState(false)
 
-  const handleSocialClick = (social: string) => {
-    console.log(`Открыть ${social} - заглушка`)
-  }
-
   if (variant === 'drawer') {
     return (
       <aside className={`${styles.sidebar} ${styles.drawerSidebar}`}>
@@ -161,10 +157,7 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
             key={item.name}
             href={item.link}
             className={styles.social}
-            onClick={(e) => {
-              e.preventDefault()
-              handleSocialClick(item.name)
-            }}
+            onClick={(e) => e.preventDefault()}
             aria-label={item.alt}
           >
             <img src={item.icon} alt="" className={styles.socialIcon} />
