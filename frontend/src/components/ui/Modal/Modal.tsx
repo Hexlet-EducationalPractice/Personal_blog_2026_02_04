@@ -8,11 +8,12 @@ export interface ModalProps {
   onClose: () => void
   title?: string
   children: React.ReactNode
+  type?: 'default' | 'video'
 }
 
 const modalRoot = document.getElementById('modal-root')
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, type }: ModalProps) {
   if (!modalRoot) throw new Error('Modal root not found')
 
   useEffect(() => {
@@ -23,18 +24,10 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
       }
     }
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, onClose])
-
-  useEffect(() => {
-    if (!isOpen) return
-
-    document.body.classList.add('modal-open')
-
     return () => {
-      document.body.classList.remove('modal-open')
+      window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen])
+  }, [isOpen, onClose])
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -53,7 +46,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
       onClick={handleOverlayClick}
     >
       <div
-        className={`${styles.content} ${isOpen ? styles.contentOpen : ''}`}
+        className={`${styles.content} ${type === 'video' ? styles.videoContent : ''} ${isOpen ? styles.contentOpen : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button

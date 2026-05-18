@@ -19,6 +19,7 @@ export function Home() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
   const [activeStory, setActiveStory] = useState<Story | null>(null)
+  const [isStoryViewerOpen, setIsStoryViewerOpen] = useState(false)
 
   const rawPage = Number(searchParams.get('page'))
   const uiPage = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage
@@ -51,6 +52,11 @@ export function Home() {
   const handleCreatePostSuccess = () => {
     void refetch()
     setIsCreatePostOpen(false)
+  }
+
+  const handleOpenStory = (story: Story) => {
+    setActiveStory(story)
+    setIsStoryViewerOpen(true)
   }
 
   const handleClearTag = () => {
@@ -87,6 +93,13 @@ export function Home() {
       prev.set('page', String(page))
       return prev
     })
+  }
+
+  const handleStoryClose = () => {
+    setIsStoryViewerOpen(false)
+    setTimeout(() => {
+      setActiveStory(null)
+    }, 200)
   }
 
   if (isLoading) {
@@ -128,7 +141,7 @@ export function Home() {
 
   return (
     <div className={styles.container}>
-      <StoriesList onStoryClick={setActiveStory} />
+      <StoriesList onStoryClick={handleOpenStory} />
 
       {ownerToolbar}
       {tagBlock}
@@ -152,7 +165,7 @@ export function Home() {
         />
       )}
 
-      <StoryViewer story={activeStory} onClose={() => setActiveStory(null)} />
+      <StoryViewer story={activeStory} onClose={handleStoryClose} isOpen={isStoryViewerOpen} />
     </div>
   )
 }
