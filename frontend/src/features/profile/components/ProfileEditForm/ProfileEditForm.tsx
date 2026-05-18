@@ -41,7 +41,7 @@ type FormValues = z.infer<typeof schema>
 export function ProfileEditForm() {
   const { user, profile, refetchProfile, signOut } = useAuth()
   const [serverError, setServerError] = useState<string | null>(null)
-  const [avatarUrl, setAvatarUrl] = useState('')
+  const [avatarUrl, setAvatarUrl] = useState<string | null | undefined>(null)
   const [success, setSuccess] = useState(false)
 
   const {
@@ -75,19 +75,22 @@ export function ProfileEditForm() {
     setSuccess(false)
 
     try {
-      const profileChanged =
-        data.name !== (profile?.name ?? '') || avatarUrl !== (profile?.avatar_url ?? '')
+      const nameChanged = data.name !== (profile?.name ?? '')
+      const avatarChanged = Boolean(avatarUrl)
+      const newPassword = data.new_password
 
-      if (profileChanged) {
-        if (profile?.avatar_url)
+      if (nameChanged || avatarChanged) {
+        if (avatarChanged && profile?.avatar_url) {
           deleteAvatar(profile.avatar_url).catch((err) => {
             setServerError(getErrorMessage(err))
           })
+        }
+        const currentUrl = avatarChanged ? avatarUrl : profile?.avatar_url
         const { error } = await supabase
           .from('profiles')
           .update({
             name: data.name,
-            avatar_url: avatarUrl || null,
+            avatar_url: currentUrl || null,
             updated_at: new Date().toISOString(),
           })
           .eq('id', user.id)
@@ -95,9 +98,9 @@ export function ProfileEditForm() {
         if (error) throw error
       }
 
-      if (data.new_password) {
+      if (newPassword) {
         const { error } = await supabase.auth.updateUser({
-          password: data.new_password,
+          password: newPassword,
         })
 
         if (error) throw error
