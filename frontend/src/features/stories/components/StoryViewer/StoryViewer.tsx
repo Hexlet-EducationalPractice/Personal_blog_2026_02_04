@@ -20,14 +20,14 @@ export function StoryViewer({ story, onClose, isOpen }: Props) {
     if (!videoRef.current) return
 
     if (videoRef.current.paused) {
-      videoRef.current.play()
+      videoRef.current.play().catch(() => {})
     } else {
       videoRef.current.pause()
     }
   }
 
   useEffect(() => {
-    if (!story || !videoRef.current) return
+    if (!story?.media_url || !videoRef.current) return
 
     const video = videoRef.current
 
@@ -42,14 +42,24 @@ export function StoryViewer({ story, onClose, isOpen }: Props) {
         setIsPlaying(true)
       })
       .catch(() => {})
-  }, [story?.id])
+  }, [story?.media_url])
+
+  useEffect(() => {
+    if (!isOpen && videoRef.current) {
+      videoRef.current.pause()
+      videoRef.current.currentTime = 0
+      setIsPlaying(false)
+      setProgress(0)
+    }
+  }, [isOpen])
 
   const handleTimeUpdate = () => {
     if (!videoRef.current) return
 
     const { currentTime, duration } = videoRef.current
+    if (!duration || isNaN(duration)) return
     const value = (currentTime / duration) * 100
-    setProgress(isNaN(value) ? 0 : value)
+    setProgress(value)
   }
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -57,31 +67,32 @@ export function StoryViewer({ story, onClose, isOpen }: Props) {
 
     const rect = progressRef.current.getBoundingClientRect()
     const clickX = e.clientX - rect.left
-    const percent = clickX / rect.width
+    const rawPercent = clickX / rect.width
+    const percent = Math.min(1, Math.max(rawPercent, 0), 1)
     const newTime = videoRef.current.duration * percent
-
     videoRef.current.currentTime = newTime
   }
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} type="video">
       <div className={`${styles.viewer} ${isOpen ? styles.viewerOpen : ''}`}>
-        <video
-          ref={videoRef}
-          src={story?.media_url}
-          muted
-          className={styles.image}
-          onClick={togglePlay}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onEnded={() => setIsPlaying(false)}
-          onTimeUpdate={handleTimeUpdate}
-          playsInline
-          controls={false}
-          disablePictureInPicture
-          controlsList="nodownload nofullscreen noremoteplayback"
-        />
-
+        {story?.media_url && (
+          <video
+            ref={videoRef}
+            src={story?.media_url}
+            muted
+            className={styles.image}
+            onClick={togglePlay}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={() => setIsPlaying(false)}
+            onTimeUpdate={handleTimeUpdate}
+            playsInline
+            controls={false}
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback"
+          />
+        )}
         <div className={styles.controls}>
           <button className={styles.play} onClick={togglePlay}>
             {isPlaying ? '❚❚' : '▶'}
