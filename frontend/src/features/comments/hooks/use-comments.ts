@@ -63,6 +63,6 @@ export function useComments(postId: string) {
     comments,
     isLoading,
     error,
-    refetch,
+    fetchComments,
   }
 }
