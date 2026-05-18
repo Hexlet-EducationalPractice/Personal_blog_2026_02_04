@@ -5,6 +5,7 @@
   overflow: hidden;
   border-radius: 5px;
   background: var(--color-surface-secondary, #202020);
+  pointer-events: none;
 }
 
 .video {

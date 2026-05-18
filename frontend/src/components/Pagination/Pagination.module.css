@@ -30,12 +30,12 @@
 }
 .navButton:hover,
 .pageButton:hover {
-  background-color: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
+  background-color: var(--color-link-hover);
+  border-color: var(--color-link-hover);
 }
 .activePage {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
+  background-color: var(--color-link-hover);
+  border-color: var(--color-link-hover);
   color: var(--color-text-inverse);
   box-shadow: var(--shadow-pagination);
 }

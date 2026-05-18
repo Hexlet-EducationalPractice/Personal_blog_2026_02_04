@@ -18,9 +18,3 @@
 .loginLink:hover {
   text-decoration: underline;
 }
-
-.emptyState {
-  color: var(--color-text-muted);
-  font-family: var(--font-family-base);
-  margin-top: var(--space-4);
-}

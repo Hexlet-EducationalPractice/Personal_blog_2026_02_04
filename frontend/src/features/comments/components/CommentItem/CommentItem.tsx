@@ -4,8 +4,8 @@ import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
 import { CommentForm } from '@/features/comments/components/CommentForm/CommentForm'
 import { deleteComment } from '@/features/comments/api'
-import { formatDate } from '@/lib/format-date'
-import type { CommentNode } from '@/features/comments/components/CommentList/CommentList'
+import { formatRelative } from '@/lib/format-date'
+import type { CommentNode } from '@/features/comments/types'
 import { getErrorMessage } from '@/lib/get-error-message'
 import styles from './CommentItem.module.css'
 
@@ -59,7 +59,7 @@ export function CommentItem({
           <span className={styles.author}>{authorName}</span>
           {comment.created_at && (
             <time className={styles.time} dateTime={comment.created_at ?? ''}>
-              {formatDate(comment.created_at)}
+              {formatRelative(comment.created_at)}
             </time>
           )}
         </header>
