@@ -100,8 +100,5 @@
   width: var(--space-7);
   height: var(--space-7);
   cursor: pointer;
-  /* border: 3px dotted white;
-  padding: 3px; */
-  /* background-color: var(--color-primary); */
   border-radius: 50%;
 }
