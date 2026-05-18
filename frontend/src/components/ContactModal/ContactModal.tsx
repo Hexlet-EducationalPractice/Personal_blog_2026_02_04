@@ -34,6 +34,9 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
   const [submitError, setSubmitError] = useState('')
   const [copiedContact, setCopiedContact] = useState<'email' | 'phone' | null>(null)
 
+  const isClipboardAvailable =
+    typeof navigator !== 'undefined' && Boolean(navigator.clipboard?.writeText)
+
   const {
     register,
     handleSubmit,
@@ -58,13 +61,11 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     })
   }, [isOpen, profile?.name, reset, user?.email])
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async () => {
     try {
       setSubmitError('')
 
       await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      console.log({ data })
 
       alert('Спасибо, ваше сообщение отправлено!')
 
@@ -90,14 +91,16 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     value: string,
     contact: 'email' | 'phone',
   ) => {
+    if (!isClipboardAvailable) return
+
     event.preventDefault()
 
     try {
       await navigator.clipboard.writeText(value)
       setCopiedContact(contact)
       setTimeout(() => setCopiedContact(null), 2000)
-    } catch (error) {
-      console.error('Copy failed', error)
+    } catch {
+      setCopiedContact(null)
     }
   }
 
@@ -132,7 +135,6 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
           />
 
           {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
-
           <Button
             type="submit"
             loading={isSubmitting}

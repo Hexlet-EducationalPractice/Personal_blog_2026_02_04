@@ -37,9 +37,7 @@ export const useBlogOwner = (): UseBlogOwnerReturn => {
         }
 
         if (!data) {
-          const message = 'Профиль владельца блога не найден'
-          console.error(message)
-          setError(message)
+          setError('Профиль владельца блога не найден')
           return
         }
 

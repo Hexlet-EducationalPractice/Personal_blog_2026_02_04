@@ -26,19 +26,30 @@ const icons: ShareModalItem[] = [
 
 function CopyButton({ icon }: { icon: string; alt: string }) {
   const [isCopied, setIsCopied] = useState(false)
+
+  const isClipboardAvailable =
+    typeof navigator !== 'undefined' && Boolean(navigator.clipboard?.writeText)
+
   const handleCopy = async () => {
+    if (!isClipboardAvailable) return
+
     try {
       await navigator.clipboard.writeText(window.location.href)
       setIsCopied(true)
       setTimeout(() => setIsCopied(false), 2000)
-    } catch (error) {
-      console.error('Copy failed', error)
+    } catch {
+      setIsCopied(false)
     }
   }
 
   return (
     <>
-      <button className={styles.copyButton} onClick={handleCopy}>
+      <button
+        className={styles.copyButton}
+        onClick={handleCopy}
+        disabled={!isClipboardAvailable}
+        aria-label="Скопировать ссылку"
+      >
         <img src={icon} alt="" />
         <span className={`${styles.tooltip} ${isCopied ? styles.tooltipVisible : ''}`}>
           Скопировано
