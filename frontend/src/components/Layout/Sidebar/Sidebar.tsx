@@ -143,7 +143,7 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
 
       {error ? (
         <div className={styles.name}>
-          <ErrorMessage>Failed to fetch</ErrorMessage>
+          <ErrorMessage>{error}</ErrorMessage>
         </div>
       ) : (
         <h2 className={styles.name}>{profile?.name || 'Пользователь'}</h2>

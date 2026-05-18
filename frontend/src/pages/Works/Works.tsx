@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getWorks } from '@/features/works/api'
 import type { Work } from '@/features/works/types'
 import { WorkCard } from '@/features/works/components/WorkCard/WorkCard'
-// import { useBlogOwner } from '@/features/profile'
+import { useBlogOwner } from '@/features/profile'
 import { getErrorMessage } from '@/lib/get-error-message'
 import { Spinner } from '@/components/ui/Spinner'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
@@ -13,8 +13,7 @@ export function Works() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const isMountedRef = useRef(false)
-
-  // const { profile: owner } = useBlogOwner()
+  const { profile: owner } = useBlogOwner()
 
   useEffect(() => {
     isMountedRef.current = true
@@ -43,9 +42,7 @@ export function Works() {
 
   return (
     <div className={styles.container}>
-      {/* <h1 className={styles.pageTitle}>
-        {owner ? `Мои работы — ${owner.name}` : 'Мои работы'}
-      </h1> */}
+      <h1 className={styles.pageTitle}>{owner ? `Мои работы — ${owner.name}` : 'Мои работы'}</h1>
 
       {isLoading && (
         <div className={styles.center}>

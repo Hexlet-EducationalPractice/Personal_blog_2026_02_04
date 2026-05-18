@@ -11,7 +11,7 @@ export type PostWithAuthor = Post & {
 export type CreatePostInput = {
   title: string
   body: string
-  image_url: string | null
+  media: File | null
   tag: string | null
   user_id: string
 }

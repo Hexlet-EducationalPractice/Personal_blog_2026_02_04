@@ -9,17 +9,14 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Input } from '@/components/ui/Input'
 import { getErrorMessage } from '@/lib/get-error-message'
 import { supabase } from '@/lib/supabase'
-import { isValidUrl } from '@/lib/validation'
+import { AvatarUpload } from '../AvatarUpload/AvatarUpload'
 
 import styles from './ProfileEditForm.module.css'
+import { deleteAvatar } from '@/features/profile'
 
 const schema = z
   .object({
     name: z.string().trim().min(2, 'Имя должно быть минимум 2 символа'),
-    avatar_url: z
-      .string()
-      .trim()
-      .refine((value) => value === '' || isValidUrl(value), 'Введите корректный URL аватара'),
     new_password: z.string(),
     confirm_password: z.string(),
   })
@@ -44,6 +41,7 @@ type FormValues = z.infer<typeof schema>
 export function ProfileEditForm() {
   const { user, profile, refetchProfile, signOut } = useAuth()
   const [serverError, setServerError] = useState<string | null>(null)
+  const [avatarUrl, setAvatarUrl] = useState<string | null | undefined>(null)
   const [success, setSuccess] = useState(false)
 
   const {
@@ -55,7 +53,6 @@ export function ProfileEditForm() {
     resolver: zodResolver(schema),
     defaultValues: {
       name: profile?.name ?? '',
-      avatar_url: profile?.avatar_url ?? '',
       new_password: '',
       confirm_password: '',
     },
@@ -66,7 +63,6 @@ export function ProfileEditForm() {
 
     reset({
       name: profile.name ?? '',
-      avatar_url: profile.avatar_url ?? '',
       new_password: '',
       confirm_password: '',
     })
@@ -79,15 +75,22 @@ export function ProfileEditForm() {
     setSuccess(false)
 
     try {
-      const profileChanged =
-        data.name !== (profile?.name ?? '') || data.avatar_url !== (profile?.avatar_url ?? '')
+      const nameChanged = data.name !== (profile?.name ?? '')
+      const avatarChanged = Boolean(avatarUrl)
+      const newPassword = data.new_password
 
-      if (profileChanged) {
+      if (nameChanged || avatarChanged) {
+        if (avatarChanged && profile?.avatar_url) {
+          deleteAvatar(profile.avatar_url).catch((err) => {
+            setServerError(getErrorMessage(err))
+          })
+        }
+        const currentUrl = avatarChanged ? avatarUrl : profile?.avatar_url
         const { error } = await supabase
           .from('profiles')
           .update({
             name: data.name,
-            avatar_url: data.avatar_url || null,
+            avatar_url: currentUrl || null,
             updated_at: new Date().toISOString(),
           })
           .eq('id', user.id)
@@ -95,9 +98,9 @@ export function ProfileEditForm() {
         if (error) throw error
       }
 
-      if (data.new_password) {
+      if (newPassword) {
         const { error } = await supabase.auth.updateUser({
-          password: data.new_password,
+          password: newPassword,
         })
 
         if (error) throw error
@@ -107,7 +110,6 @@ export function ProfileEditForm() {
 
       reset({
         name: data.name,
-        avatar_url: data.avatar_url,
         new_password: '',
         confirm_password: '',
       })
@@ -161,16 +163,6 @@ export function ProfileEditForm() {
           />
 
           <Input
-            placeholder="URL аватара"
-            type="url"
-            autoComplete="url"
-            aria-invalid={Boolean(errors.avatar_url)}
-            error={errors.avatar_url?.message}
-            className={styles.input}
-            {...register('avatar_url')}
-          />
-
-          <Input
             placeholder="Новый пароль"
             type="password"
             autoComplete="new-password"
@@ -207,10 +199,14 @@ export function ProfileEditForm() {
         </form>
 
         <div className={styles.avatarBlock}>
-          {profile?.avatar_url ? (
-            <img className={styles.avatarImage} src={profile.avatar_url} alt="Аватар" />
-          ) : (
-            <div className={styles.avatarPlaceholder}>Аватар</div>
+          {profile && (
+            <AvatarUpload
+              userId={profile.id}
+              onChange={(url) => {
+                setAvatarUrl(url)
+              }}
+              currentUrl={profile.avatar_url}
+            />
           )}
           <Button
             type="button"
