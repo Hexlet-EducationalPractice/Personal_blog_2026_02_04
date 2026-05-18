@@ -8,17 +8,17 @@ import { useState } from 'react'
 
 const icons: ShareModalItem[] = [
   {
-    link: '1',
+    link: '#',
     icon: facebook,
     alt: 'Facebook',
   },
   {
-    link: '2',
+    link: '#',
     icon: twitter,
     alt: 'Twitter',
   },
   {
-    link: '3',
+    link: '#',
     icon: vk,
     alt: 'VK',
   },
@@ -79,7 +79,13 @@ function ShareIcons({ iconArray }: IconsProps) {
     <ul className={styles.shareIcons}>
       {iconArray.map((item) => (
         <li key={item.link}>
-          <a href={item.link} target="_blank" rel="noreferrer noopener" aria-label={item.alt}>
+          <a
+            onClick={(e) => e.preventDefault()}
+            href={item.link}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label={item.alt}
+          >
             <img src={item.icon} alt="" />
           </a>
         </li>
