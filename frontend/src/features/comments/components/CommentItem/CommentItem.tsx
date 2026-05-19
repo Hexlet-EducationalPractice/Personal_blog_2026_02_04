@@ -8,6 +8,7 @@ import { formatRelative } from '@/lib/format-date'
 import type { CommentNode } from '@/features/comments/types'
 import { getErrorMessage } from '@/lib/get-error-message'
 import styles from './CommentItem.module.css'
+import { COMMENT_MAX_DEPTH } from '@/lib/constants.ts'
 
 type CommentItemProps = {
   comment: CommentNode
@@ -18,8 +19,6 @@ type CommentItemProps = {
   setReplyingTo: (id: string | null) => void
   depth: number
 }
-
-const MAX_DEPTH = 3 // переместить в Consts?
 
 export function CommentItem({
   comment,
@@ -83,7 +82,7 @@ export function CommentItem({
         )}
 
         <footer className={styles.footer}>
-          {depth < MAX_DEPTH && (
+          {depth < COMMENT_MAX_DEPTH && (
             <button
               type="button"
               className={`${styles.actionBtn} ${styles.replyBtn}`}
