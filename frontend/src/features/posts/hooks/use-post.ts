@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useReducer, useEffect, useCallback, useRef } from 'react'
 import { getPostById } from '@/features/posts/api'
 import { getErrorMessage } from '@/lib/get-error-message'
 import type { PostWithAuthor } from '@/features/posts/types'
@@ -15,63 +15,126 @@ export interface UsePostReturn {
   isLoading: boolean
   error: string | null
   notFound: boolean
+  refetch: () => Promise<void>
+}
+
+interface State {
+  post: PostWithAuthor | null
+  isLoading: boolean
+  error: string | null
+  notFound: boolean
+}
+
+type Action =
+  | { type: 'LOADING' }
+  | { type: 'SUCCESS'; payload: PostWithAuthor }
+  | { type: 'NOT_FOUND' }
+  | { type: 'ERROR'; payload: string }
+  | { type: 'RESET' }
+
+const initialState: State = {
+  post: null,
+  isLoading: true,
+  error: null,
+  notFound: false,
+}
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'LOADING':
+      return { ...state, isLoading: true, error: null, notFound: false }
+    case 'SUCCESS':
+      return { post: action.payload, isLoading: false, error: null, notFound: false }
+    case 'NOT_FOUND':
+      return { post: null, isLoading: false, error: null, notFound: true }
+    case 'ERROR':
+      return { ...state, error: action.payload, isLoading: false }
+    case 'RESET':
+      return { post: null, isLoading: false, error: null, notFound: true }
+    default:
+      return state
+  }
 }
 
 export function usePost(id: string): UsePostReturn {
-  const [post, setPost] = useState<PostWithAuthor | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [notFound, setNotFound] = useState(false)
-
-  const isMountedRef = useRef(false)
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const abortControllerRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
-    isMountedRef.current = true
+    const trimmedId = id.trim()
 
-    if (!id.trim()) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- пустой id: сброс без запроса
-      setPost(null)
-      setError(null)
-      setNotFound(true)
-      setIsLoading(false)
-      return () => {
-        isMountedRef.current = false
-      }
+    if (!trimmedId) {
+      dispatch({ type: 'RESET' })
+      return
     }
 
-    setIsLoading(true)
-    setError(null)
-    setNotFound(false)
-    setPost(null)
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
 
-    async function fetchPost() {
+    const abortController = new AbortController()
+    abortControllerRef.current = abortController
+
+    dispatch({ type: 'LOADING' })
+
+    const fetchPost = async () => {
       try {
-        const fetched = await getPostById(id)
-        if (!isMountedRef.current) return
-        setPost(fetched)
-      } catch (e) {
-        if (!isMountedRef.current) return
-        if (isNotFoundRowError(e)) {
-          setPost(null)
-          setNotFound(true)
-        } else {
-          setError(getErrorMessage(e))
+        const fetched = await getPostById(trimmedId)
+        if (!abortController.signal.aborted) {
+          dispatch({ type: 'SUCCESS', payload: fetched })
         }
-      } finally {
-        if (isMountedRef.current) setIsLoading(false)
+      } catch (e) {
+        if (!abortController.signal.aborted) {
+          if (isNotFoundRowError(e)) {
+            dispatch({ type: 'NOT_FOUND' })
+          } else {
+            dispatch({ type: 'ERROR', payload: getErrorMessage(e) })
+          }
+        }
       }
     }
+
     void fetchPost()
 
     return () => {
-      isMountedRef.current = false
+      abortController.abort()
+    }
+  }, [id])
+
+  const refetch = useCallback(async () => {
+    const trimmedId = id.trim()
+    if (!trimmedId) return
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    const abortController = new AbortController()
+    abortControllerRef.current = abortController
+
+    dispatch({ type: 'LOADING' })
+
+    try {
+      const fetched = await getPostById(trimmedId)
+      if (!abortController.signal.aborted) {
+        dispatch({ type: 'SUCCESS', payload: fetched })
+      }
+    } catch (e) {
+      if (!abortController.signal.aborted) {
+        if (isNotFoundRowError(e)) {
+          dispatch({ type: 'NOT_FOUND' })
+        } else {
+          dispatch({ type: 'ERROR', payload: getErrorMessage(e) })
+        }
+      }
     }
   }, [id])
 
   return {
-    post,
-    isLoading,
-    error,
-    notFound,
+    post: state.post,
+    isLoading: state.isLoading,
+    error: state.error,
+    notFound: state.notFound,
+    refetch,
   }
 }

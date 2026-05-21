@@ -1,8 +1,15 @@
+.adminBtn,
 .link {
   text-decoration: none;
   color: var(--color-link);
   font-size: var(--font-size-sm);
   line-height: var(--space-4);
+  transition: color 0.2s ease;
+}
+
+.adminBtn:hover,
+.link:hover {
+  color: var(--color-link-hover);
 }
 
 .card {
@@ -10,7 +17,9 @@
   background: var(--color-surface);
   border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .placeholder {
@@ -47,6 +56,8 @@
 .meta {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
 }
 
 .metaData {
@@ -57,6 +68,17 @@
   font-family: var(--font-family-accent);
   font-size: var(--font-size-xs);
   line-height: var(--font-size-sm);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.date,
+.tag {
+  white-space: nowrap;
 }
 
 .tag {
@@ -73,13 +95,28 @@
   border-radius: var(--radius-full);
 }
 
+.bottomActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deleteConfirm {
+  padding: var(--space-4) 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
 .date,
 .tag {
   white-space: nowrap;
-}
-
-.link:hover {
-  color: var(--color-link-hover);
 }
 
 @media (max-width: 768px) {

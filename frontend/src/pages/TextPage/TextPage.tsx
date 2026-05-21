@@ -13,23 +13,26 @@ import { PostMedia } from '@/features/posts/components/PostMedia'
 
 import styles from './TextPage.module.css'
 import { ShareModal } from '@/components/ShareModal/ShareModal'
+import { useIsBlogOwner } from '@/features/posts/hooks/use-is-blog-owner'
+import { DeletePostModal } from '@/components/DeleteModal/DeletePostModal'
+import { EditPostModal } from '@/components/EditModal/EditPostModal'
 
 function ShareButton() {
   const [isOpen, setIsOpen] = useState(false)
-  const handleOpen = () => setIsOpen(true)
-  const handleClose = () => setIsOpen(false)
+
   return (
     <div>
       <button
         type="button"
         className={styles.shareTrigger}
-        onClick={handleOpen}
+        onClick={() => setIsOpen(true)}
         aria-label="Поделиться"
       >
         <span className={styles.shareLabel}>поделиться</span>
         <ShareIcon className={styles.shareIcon} />
       </button>
-      <ShareModal isOpen={isOpen} onClose={handleClose} />
+
+      <ShareModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </div>
   )
 }
@@ -80,8 +83,12 @@ export function TextPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const postId = (id ?? '').trim()
-  const { post, isLoading, error, notFound } = usePost(postId)
+  const { post, isLoading, error, notFound, refetch } = usePost(postId)
+  const isBlogOwner = useIsBlogOwner()
   const [relatedPosts, setRelatedPosts] = useState<PostWithAuthor[]>([])
+
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
   useEffect(() => {
     if (post === null) {
@@ -128,74 +135,113 @@ export function TextPage() {
   const formattedDate = post.created_at ? formatDate(post.created_at) : ''
 
   return (
-    <article className={styles.page}>
-      <div className={styles.toolbar}>
-        <button type="button" className={styles.shareTrigger} onClick={() => navigate(-1)}>
-          Вернуться назад
-        </button>
-      </div>
+    <div>
+      <EditPostModal
+        post={post}
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        onSuccess={() => void refetch()}
+      />
 
-      <header className={styles.header}>
-        <div className={styles.titleRow}>
-          <h1 className={styles.title}>{post.title}</h1>
-          <ShareButton />
+      <DeletePostModal
+        post={post}
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onDeleted={() => {
+          navigate('/')
+          void refetch()
+        }}
+      />
+      <article className={styles.page}>
+        <div className={styles.toolbar}>
+          <button type="button" className={styles.shareTrigger} onClick={() => navigate(-1)}>
+            Вернуться назад
+          </button>
         </div>
 
-        {(formattedDate || post.tag) && (
-          <div className={styles.metaRow}>
-            <div className={styles.dateTag}>
-              {formattedDate ? (
-                <time className={styles.date} dateTime={post.created_at ?? undefined}>
-                  {formattedDate}
-                </time>
-              ) : null}
-              {formattedDate && post.tag ? (
-                <span className={styles.metaSep} aria-hidden>
-                  ·
-                </span>
-              ) : null}
-              {post.tag ? <span className={styles.tagPlain}>{post.tag}</span> : null}
+        <header className={styles.header}>
+          <div className={styles.titleRow}>
+            <h1 className={styles.title}>{post.title}</h1>
+            <ShareButton />
+          </div>
+
+          {(formattedDate || post.tag) && (
+            <div className={styles.metaRow}>
+              <div className={styles.dateTag}>
+                {formattedDate ? (
+                  <time className={styles.date} dateTime={post.created_at ?? undefined}>
+                    {formattedDate}
+                  </time>
+                ) : null}
+                {formattedDate && post.tag ? (
+                  <span className={styles.metaSep} aria-hidden>
+                    ·
+                  </span>
+                ) : null}
+                {post.tag ? <span className={styles.tagPlain}>{post.tag}</span> : null}
+              </div>
+              <div className={styles.titleActions}>
+                {isBlogOwner && (
+                  <>
+                    <button
+                      type="button"
+                      className={styles.adminBtn}
+                      onClick={() => setIsEditOpen(true)}
+                    >
+                      Редактировать
+                    </button>
+
+                    <button
+                      type="button"
+                      className={styles.adminBtn}
+                      onClick={() => setIsDeleteOpen(true)}
+                    >
+                      Удалить
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </header>
+          )}
+        </header>
 
-      {post.image_url ? <PostMedia url={post.image_url} title={post.title} type="full" /> : null}
+        {post.image_url ? <PostMedia url={post.image_url} title={post.title} type="full" /> : null}
 
-      <div className={styles.body}>{post.body}</div>
+        <div className={styles.body}>{post.body}</div>
 
-      <div className={styles.postFooter}>
-        <div className={styles.blockDivider} aria-hidden />
-        <section className={styles.section} aria-labelledby="related-heading">
-          <h2 id="related-heading" className={styles.sectionTitle}>
-            Интересно почитать
-          </h2>
-          <div className={styles.relatedGrid}>
-            {relatedPosts.map((p) => {
-              const relatedDate = p.created_at ? formatDate(p.created_at) : ''
-              return (
-                <Link key={p.id} to={ROUTES.post(p.id)} className={styles.relatedLink}>
-                  <span className={styles.relatedTitle}>{p.title}</span>
-                  {relatedDate ? (
-                    <time className={styles.relatedDate} dateTime={p.created_at ?? undefined}>
-                      {relatedDate}
-                    </time>
-                  ) : null}
-                </Link>
-              )
-            })}
-          </div>
-        </section>
+        <div className={styles.postFooter}>
+          <div className={styles.blockDivider} aria-hidden />
+          <section className={styles.section} aria-labelledby="related-heading">
+            <h2 id="related-heading" className={styles.sectionTitle}>
+              Интересно почитать
+            </h2>
+            <div className={styles.relatedGrid}>
+              {relatedPosts.map((p) => {
+                const relatedDate = p.created_at ? formatDate(p.created_at) : ''
+                return (
+                  <Link key={p.id} to={ROUTES.post(p.id)} className={styles.relatedLink}>
+                    <span className={styles.relatedTitle}>{p.title}</span>
+                    {relatedDate ? (
+                      <time className={styles.relatedDate} dateTime={p.created_at ?? undefined}>
+                        {relatedDate}
+                      </time>
+                    ) : null}
+                  </Link>
+                )
+              })}
+            </div>
+          </section>
 
-        <div className={styles.blockDivider} aria-hidden />
+          <div className={styles.blockDivider} aria-hidden />
 
-        <section className={styles.section} aria-labelledby="discussion-heading">
-          <h2 id="discussion-heading" className={styles.sectionTitle}>
-            Обсуждение
-          </h2>
-          <CommentList postId={post.id} />
-        </section>
-      </div>
-    </article>
+          <section className={styles.section} aria-labelledby="discussion-heading">
+            <h2 id="discussion-heading" className={styles.sectionTitle}>
+              Обсуждение
+            </h2>
+            <CommentList postId={post.id} />
+          </section>
+        </div>
+      </article>
+    </div>
   )
 }

@@ -9,11 +9,10 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Modal } from '@/components/ui/Modal'
 import { StoriesList } from '@/features/stories'
 import { StoryViewer } from '@/features/stories'
-import { useAuth } from '@/features/auth/AuthContext'
 import type { Story } from '@/features/stories/types'
-import { env } from '@/lib/env'
 import { POSTS_PER_PAGE } from '@/lib/constants'
 import styles from './Home.module.css'
+import { useIsBlogOwner } from '@/features/posts/hooks/use-is-blog-owner'
 
 export function Home() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -21,6 +20,7 @@ export function Home() {
   const [activeStory, setActiveStory] = useState<Story | null>(null)
   const [isStoryViewerOpen, setIsStoryViewerOpen] = useState(false)
 
+  const isBlogOwner = useIsBlogOwner()
   const rawPage = Number(searchParams.get('page'))
   const uiPage = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage
   const tag = searchParams.get('tag') ?? undefined
@@ -40,14 +40,11 @@ export function Home() {
     }
   }, [tag, setSearchParams])
 
-  const { user } = useAuth()
   const { posts, total, isLoading, error, refetch } = usePosts({
     page: uiPage,
     perPage: POSTS_PER_PAGE,
     tag: tag ?? undefined,
   })
-
-  const isBlogOwner = user != null && user.id === env.blogOwnerId
 
   const handleCreatePostSuccess = () => {
     void refetch()
@@ -151,7 +148,7 @@ export function Home() {
       ) : (
         <div className={styles.list}>
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
+            <PostCard key={post.id} post={post} onChange={refetch} />
           ))}
         </div>
       )}
