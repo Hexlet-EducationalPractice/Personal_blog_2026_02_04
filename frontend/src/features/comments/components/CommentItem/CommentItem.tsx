@@ -8,7 +8,7 @@ import { formatRelative } from '@/lib/format-date'
 import type { CommentNode } from '@/features/comments/types'
 import { getErrorMessage } from '@/lib/get-error-message'
 import styles from './CommentItem.module.css'
-import { COMMENT_MAX_DEPTH } from '@/lib/constants.ts'
+import { COMMENT_MAX_DEPTH } from '@/lib/constants'
 
 type CommentItemProps = {
   comment: CommentNode
