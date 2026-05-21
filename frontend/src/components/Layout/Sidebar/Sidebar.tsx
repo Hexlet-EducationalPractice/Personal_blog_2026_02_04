@@ -11,6 +11,7 @@ import { useBlogOwner } from '@/features/profile'
 import instagramIcon from '@/assets/icons/instagramsmall.svg'
 import vkIcon from '@/assets/icons/vksmall.svg'
 import pinterestIcon from '@/assets/icons/pinterestsmall.svg'
+import sidebarBackground from '@/assets/images/sidebar-background.jpg'
 
 import styles from './Sidebar.module.css'
 
@@ -127,11 +128,7 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.cover}>
-        <img
-          src="/src/assets/images/sidebar-background.jpg"
-          alt="sidebar background"
-          className={styles.coverImage}
-        />
+        <img src={sidebarBackground} alt="sidebar background" className={styles.coverImage} />
       </div>
       <div className={styles.avatarWrap}>
         <Avatar
