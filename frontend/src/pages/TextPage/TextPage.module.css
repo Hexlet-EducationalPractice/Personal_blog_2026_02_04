@@ -110,21 +110,6 @@
   color: var(--color-text-muted);
 }
 
-.hero {
-  width: 100%;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  background-color: var(--color-surface-muted);
-  box-shadow: var(--shadow-story);
-}
-
-.heroImage {
-  display: block;
-  width: 100%;
-  max-height: 420px;
-  object-fit: cover;
-}
-
 .body {
   margin: 0;
   color: var(--color-text-secondary);
@@ -211,10 +196,6 @@
 
   .title {
     font-size: var(--font-size-xl);
-  }
-
-  .heroImage {
-    max-height: 240px;
   }
 
   .relatedGrid {

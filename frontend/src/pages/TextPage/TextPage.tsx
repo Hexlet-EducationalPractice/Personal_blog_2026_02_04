@@ -9,6 +9,7 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Spinner } from '@/components/ui/Spinner'
 import { RELATED_POSTS_COUNT, ROUTES } from '@/lib/constants'
 import { formatDate } from '@/lib/format-date'
+import { PostMedia } from '@/features/posts/components/PostMedia'
 
 import styles from './TextPage.module.css'
 import { ShareModal } from '@/components/ShareModal/ShareModal'
@@ -100,11 +101,7 @@ export function TextPage() {
     }
   }, [post])
 
-  if (!postId) {
-    return <Navigate to="/404" replace />
-  }
-
-  if (notFound) {
+  if (!postId || notFound) {
     return <Navigate to="/404" replace />
   }
 
@@ -163,11 +160,7 @@ export function TextPage() {
         )}
       </header>
 
-      {post.image_url ? (
-        <div className={styles.hero}>
-          <img className={styles.heroImage} src={post.image_url} alt={post.title} />
-        </div>
-      ) : null}
+      {post.image_url ? <PostMedia url={post.image_url} title={post.title} type="full" /> : null}
 
       <div className={styles.body}>{post.body}</div>
 
