@@ -17,15 +17,9 @@
   background: var(--color-surface);
   border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: var(--shadow-card);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover);
 }
 
 .placeholder {
