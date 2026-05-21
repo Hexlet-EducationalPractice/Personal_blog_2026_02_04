@@ -15,11 +15,15 @@ export function DeletePostModal({ post, isOpen, onClose, onDeleted }: Props) {
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
+    if (!post) return
     try {
       setIsDeleting(true)
-      if (!post) return
-      if (!post.image_url) return
-      await deletePost(post.id, post.image_url ?? undefined)
+      if (post.image_url) {
+        await deletePost(post.id, post.image_url ?? undefined)
+      } else {
+        await deletePost(post.id, '')
+      }
+
       onClose()
       onDeleted?.()
     } catch (e) {
