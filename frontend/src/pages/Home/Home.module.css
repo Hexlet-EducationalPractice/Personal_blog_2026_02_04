@@ -66,3 +66,48 @@
   cursor: pointer;
   color: var(--color-text-muted);
 }
+
+@media (max-width: 1024px) {
+  .container {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .pageWithToolbar {
+    padding: var(--space-4);
+  }
+
+  .list {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+
+  .pageWithToolbar {
+    padding: var(--space-3);
+  }
+
+  .list {
+    gap: var(--space-3);
+  }
+
+  .tagContainer {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    padding: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .pageWithToolbar {
+    padding: var(--space-2);
+  }
+}

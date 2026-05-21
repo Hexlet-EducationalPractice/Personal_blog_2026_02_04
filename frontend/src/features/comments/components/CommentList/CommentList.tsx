@@ -1,31 +1,23 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { buildCommentTree } from '@/lib/build-comment-tree'
 import { useComments } from '@/features/comments/hooks/use-comments'
-import { CommentItem } from '@/features/comments/components/CommentItem/CommentItem'
 import { CommentForm } from '@/features/comments/components/CommentForm/CommentForm'
+import { CommentThread } from '@/features/comments/components/CommentThread'
 import { useAuth } from '@/features/auth/AuthContext'
-import type { CommentWithAuthor } from '@/features/comments/types'
+import { Spinner } from '@/components/ui/Spinner'
+import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import styles from './CommentList.module.css'
 
-export type CommentNode = CommentWithAuthor & {
-  replies: CommentNode[]
-}
-
 export function CommentList({ postId }: { postId: string }) {
-  const { comments, isLoading, error, refetch } = useComments(postId)
+  const { comments, isLoading, error, fetchComments } = useComments(postId)
   const { user } = useAuth()
-  const [replyingTo, setReplyingTo] = useState<string | null>(null)
 
-  if (isLoading) return <div>Загрузка...</div>
-  if (error) return <div>Ошибка</div>
-
-  const tree = buildCommentTree(comments) as unknown as CommentNode[]
+  if (isLoading) return <Spinner />
+  if (error) return <ErrorMessage>{error}</ErrorMessage>
 
   return (
     <section className={styles.container}>
       {user ? (
-        <CommentForm postId={postId} parentId={null} onSuccess={refetch} showTitle={false} />
+        <CommentForm postId={postId} parentId={null} onSuccess={fetchComments} showTitle={false} />
       ) : (
         <p className={styles.loginPrompt}>
           Войдите чтобы оставить комментарий{' '}
@@ -35,20 +27,12 @@ export function CommentList({ postId }: { postId: string }) {
         </p>
       )}
 
-      {tree.length === 0 && <div className={styles.emptyState}>Комментариев пока нет</div>}
-
-      {tree.map((node) => (
-        <CommentItem
-          key={node.id}
-          comment={node}
-          postId={postId}
-          currentUserId={user?.id}
-          onUpdated={refetch}
-          replyingTo={replyingTo}
-          setReplyingTo={setReplyingTo}
-          depth={0}
-        />
-      ))}
+      <CommentThread
+        comments={comments}
+        postId={postId}
+        currentUserId={user?.id}
+        onUpdated={fetchComments}
+      />
     </section>
   )
 }

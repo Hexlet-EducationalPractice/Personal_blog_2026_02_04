@@ -1,39 +1,34 @@
 import styles from './Pagination.module.css'
-type PaginationItem = number | 'ellipsis-left' | 'ellipsis-right'
+
+import { VISIBLE_PAGE_COUNT } from '@/lib/constants'
+
 type PaginationProps = {
   currentPage: number
   totalCount: number
   perPage: number
   onPageChange: (page: number) => void
 }
-function buildPaginationItems(currentPage: number, totalPages: number): PaginationItem[] {
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, index) => index + 1)
-  }
-  const items: PaginationItem[] = [1]
-  const start = Math.max(2, currentPage - 1)
-  const end = Math.min(totalPages - 1, currentPage + 1)
-  if (start > 2) {
-    items.push('ellipsis-left')
-  } else {
-    for (let page = 2; page < start; page += 1) {
-      items.push(page)
-    }
-  }
-  for (let page = start; page <= end; page += 1) {
-    items.push(page)
+
+function buildPaginationItems(currentPage: number, totalPages: number): number[] {
+  const visibleCount = Math.min(VISIBLE_PAGE_COUNT, totalPages)
+  const halfVisibleCount = Math.floor(visibleCount / 2)
+
+  let start = currentPage - halfVisibleCount
+  let end = start + visibleCount - 1
+
+  if (start < 1) {
+    start = 1
+    end = visibleCount
   }
 
-  if (end < totalPages - 1) {
-    items.push('ellipsis-right')
-  } else {
-    for (let page = end + 1; page < totalPages; page += 1) {
-      items.push(page)
-    }
+  if (end > totalPages) {
+    end = totalPages
+    start = totalPages - visibleCount + 1
   }
-  items.push(totalPages)
-  return items
+
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index)
 }
+
 export function Pagination({ currentPage, totalCount, perPage, onPageChange }: PaginationProps) {
   const totalPages = Math.ceil(totalCount / perPage)
 
@@ -66,13 +61,6 @@ export function Pagination({ currentPage, totalCount, perPage, onPageChange }: P
       </button>
       <ul className={styles.pageList}>
         {items.map((item) => {
-          if (typeof item !== 'number') {
-            return (
-              <li key={item} className={styles.ellipsis} aria-hidden="true">
-                ...
-              </li>
-            )
-          }
           const isActive = item === normalizedCurrentPage
 
           return (

@@ -21,7 +21,7 @@ export function useComments(postId: string) {
 
   const refetch = useCallback(async () => {
     if (!postId) return
-    if (isMountedRef.current) setIsLoading(false)
+    if (isMountedRef.current) setIsLoading(true)
     await fetchComments()
     if (isMountedRef.current) setIsLoading(false)
   }, [postId])
@@ -63,6 +63,6 @@ export function useComments(postId: string) {
     comments,
     isLoading,
     error,
-    refetch,
+    fetchComments,
   }
 }

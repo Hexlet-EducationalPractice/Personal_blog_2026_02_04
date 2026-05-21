@@ -72,3 +72,37 @@
   text-decoration: none;
   align-self: flex-end;
 }
+
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .imageWrapper {
+    width: 100%;
+    height: 250px;
+  }
+
+  .content {
+    padding: var(--space-4);
+  }
+
+  .buttonContainer {
+    align-self: stretch;
+  }
+}
+
+@media (max-width: 430px) {
+  .imageWrapper {
+    height: 200px;
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+  }
+
+  .description {
+    font-size: var(--font-size-sm);
+  }
+}

@@ -9,22 +9,34 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage'
 import { Spinner } from '@/components/ui/Spinner'
 import { RELATED_POSTS_COUNT, ROUTES } from '@/lib/constants'
 import { formatDate } from '@/lib/format-date'
+import { PostMedia } from '@/features/posts/components/PostMedia'
 
 import styles from './TextPage.module.css'
+import { ShareModal } from '@/components/ShareModal/ShareModal'
 
-function handleShareStub() {
-  /* заглушка Поделиться */
+function ShareButton() {
+  const [isOpen, setIsOpen] = useState(false)
+  const handleOpen = () => setIsOpen(true)
+  const handleClose = () => setIsOpen(false)
+  return (
+    <div>
+      <button
+        type="button"
+        className={styles.shareTrigger}
+        onClick={handleOpen}
+        aria-label="Поделиться"
+      >
+        <span className={styles.shareLabel}>поделиться</span>
+        <ShareIcon className={styles.shareIcon} />
+      </button>
+      <ShareModal isOpen={isOpen} onClose={handleClose} />
+    </div>
+  )
 }
 
 function ShareIcon({ className }: { className?: string }) {
   return (
-    <svg
-      className={className}
-      width={18}
-      height={18}
-      viewBox="0 0 24 24"
-      aria-hidden
-    >
+    <svg className={className} width={18} height={18} viewBox="0 0 24 24" aria-hidden>
       <path
         fill="currentColor"
         d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"
@@ -89,11 +101,7 @@ export function TextPage() {
     }
   }, [post])
 
-  if (!postId) {
-    return <Navigate to="/404" replace />
-  }
-
-  if (notFound) {
+  if (!postId || notFound) {
     return <Navigate to="/404" replace />
   }
 
@@ -130,15 +138,7 @@ export function TextPage() {
       <header className={styles.header}>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{post.title}</h1>
-          <button
-            type="button"
-            className={styles.shareTrigger}
-            onClick={handleShareStub}
-            aria-label="Поделиться"
-          >
-            <span className={styles.shareLabel}>поделиться</span>
-            <ShareIcon className={styles.shareIcon} />
-          </button>
+          <ShareButton />
         </div>
 
         {(formattedDate || post.tag) && (
@@ -160,11 +160,7 @@ export function TextPage() {
         )}
       </header>
 
-      {post.image_url ? (
-        <div className={styles.hero}>
-          <img className={styles.heroImage} src={post.image_url} alt={post.title} />
-        </div>
-      ) : null}
+      {post.image_url ? <PostMedia url={post.image_url} title={post.title} type="full" /> : null}
 
       <div className={styles.body}>{post.body}</div>
 

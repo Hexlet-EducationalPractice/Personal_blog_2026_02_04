@@ -10,13 +10,25 @@ import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
 import { ErrorMessage } from '@/components/ui/ErrorMessage'
+import { truncate } from '@/lib/truncate'
 
+import { GET_MAX_FILE_SIZE, POST_FILE_TYPES } from '@/lib/constants'
+import paperclip from '@/assets/icons/paperclip.svg'
 import styles from './CreatePostForm.module.css'
 
 const schema = z.object({
   title: z.string().trim().min(3, 'Минимум 3 символа'),
   body: z.string().trim().min(10, 'Минимум 10 символов'),
-  image_url: z.string().trim().url('Некорректный URL'),
+  media: z
+    .instanceof(FileList)
+    .refine(
+      (files) => (files ? [...files].every((file) => POST_FILE_TYPES.includes(file.type)) : true),
+      'Вложение должно быть медиа',
+    )
+    .refine(
+      (files) => (files ? [...files].every((file) => file.size <= GET_MAX_FILE_SIZE(50)) : true),
+      'Максимальный размер 50Мб',
+    ),
   tag: z.string().optional(),
 })
 
@@ -28,6 +40,7 @@ type CreatePostFormProps = {
 
 export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
   const { user } = useAuth()
+  const [fileName, setFileName] = useState<string | null>(null)
   const [serverError, setServerError] = useState<string | null>(null)
 
   const {
@@ -40,7 +53,6 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
     defaultValues: {
       title: '',
       body: '',
-      image_url: '',
       tag: '',
     },
   })
@@ -56,7 +68,7 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
       await createPost({
         title: data.title,
         body: data.body,
-        image_url: data.image_url,
+        media: data.media[0] ?? null,
         tag: tagTrimmed && tagTrimmed.length > 0 ? tagTrimmed : null,
         user_id: user.id,
       })
@@ -66,26 +78,56 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
       setServerError(getErrorMessage(e))
     }
   }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    setFileName(file ? file.name : null)
+  }
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <Input label="Заголовок" {...register('title')} error={errors.title?.message} />
-
-      <Textarea label="Текст" rows={6} {...register('body')} error={errors.body?.message} />
-
       <Input
-        label="URL изображения"
-        type="url"
-        {...register('image_url')}
-        error={errors.image_url?.message}
+        placeholder="Заголовок"
+        className={styles.input}
+        {...register('title')}
+        aria-invalid={Boolean(errors.title)}
+        error={errors.title?.message}
       />
 
-      <Input label="Тег (необязательно)" {...register('tag')} error={errors.tag?.message} />
+      <Textarea
+        placeholder="Текст"
+        rows={7}
+        className={styles.textarea}
+        {...register('body')}
+        aria-invalid={Boolean(errors.body)}
+        error={errors.body?.message}
+      />
+
+      <Input
+        placeholder="Тег (необязательно)"
+        className={styles.input}
+        {...register('tag')}
+        aria-invalid={Boolean(errors.tag)}
+        error={errors.tag?.message}
+      />
 
       <div className={styles.actions}>
         <Button type="submit" loading={isSubmitting}>
           Опубликовать
         </Button>
+        <label className={styles.filePlace}>
+          <img src={paperclip} alt="Приложить файл" className={styles.paperclip} />
+          <input
+            className={styles.inputFile}
+            type="file"
+            accept={POST_FILE_TYPES.join()}
+            aria-hidden="true"
+            {...register('media', { onChange: handleFileChange })}
+          />
+          <div className={styles.fileInfo}>
+            {fileName && <span>{truncate(fileName, 20)}</span>}
+            {errors.media && <span className={styles.error}>{errors.media?.message}</span>}
+          </div>
+        </label>
       </div>
 
       {serverError ? (
