@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 
+import { PostMedia } from '../PostMedia'
 import { formatDate } from '@/lib/format-date'
 import { truncate } from '@/lib/truncate'
 import type { PostWithAuthor } from '@/features/posts/types'
@@ -42,9 +43,7 @@ export function PostCard({ post, onChange }: PostCardProps) {
       <article className={styles.card}>
         {post.image_url && (
           <Link to={postUrl}>
-            <div className={styles.imageContainer}>
-              <img className={styles.image} src={post.image_url} alt={post.title} />
-            </div>
+            <PostMedia url={post.image_url} title={post.title} type="preview" />
           </Link>
         )}
 

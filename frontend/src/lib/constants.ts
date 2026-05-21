@@ -29,3 +29,5 @@ export const CONTACT_PHONE_HREF = '88005553535'
 export const GET_MAX_FILE_SIZE = (size: number) => {
   return size * Math.pow(2, 20)
 }
+
+export const COMMENT_MAX_DEPTH = 3

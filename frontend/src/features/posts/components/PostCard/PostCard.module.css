@@ -28,19 +28,6 @@
   box-shadow: var(--shadow-card-hover);
 }
 
-.imageContainer {
-  width: 100%;
-  height: 245px;
-  background: var(--color-placeholder);
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 .placeholder {
   width: 100%;
   height: 100%;
@@ -139,10 +126,6 @@
 }
 
 @media (max-width: 768px) {
-  .imageContainer {
-    height: 183px;
-  }
-
   .content {
     padding: var(--space-5) var(--space-4);
   }
