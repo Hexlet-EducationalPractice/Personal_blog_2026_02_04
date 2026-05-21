@@ -3,6 +3,8 @@ import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
 import type { PostWithAuthor } from '@/features/posts/types'
 import { deletePost } from '@/features/posts/api'
+import { getErrorMessage } from '@/lib/get-error-message'
+import { ErrorMessage } from '../ui/ErrorMessage'
 
 type Props = {
   post: PostWithAuthor
@@ -13,29 +15,36 @@ type Props = {
 
 export function DeletePostModal({ post, isOpen, onClose, onDeleted }: Props) {
   const [isDeleting, setIsDeleting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleDelete = async () => {
     if (!post) return
+    setIsDeleting(true)
+    setError(null)
     try {
-      setIsDeleting(true)
       if (post.image_url) {
         await deletePost(post.id, post.image_url ?? undefined)
       } else {
         await deletePost(post.id, '')
       }
-
       onClose()
       onDeleted?.()
-    } catch (e) {
-      console.error(e)
+    } catch (err) {
+      const message = getErrorMessage(err)
+      setError(message)
     } finally {
       setIsDeleting(false)
     }
   }
 
+  const handleClose = async () => {
+    setError(null)
+    onClose()
+  }
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Удалить пост?">
-      <p>Это действие нельзя отменить.</p>
+    <Modal isOpen={isOpen} onClose={handleClose} title="Удалить пост?">
+      {error ? <ErrorMessage>{error}</ErrorMessage> : <p>Это действие нельзя отменить.</p>}
 
       <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
         <Button variant="ghost" onClick={onClose}>
@@ -43,7 +52,7 @@ export function DeletePostModal({ post, isOpen, onClose, onDeleted }: Props) {
         </Button>
 
         <Button variant="secondary" loading={isDeleting} onClick={handleDelete}>
-          Удалить
+          {isDeleting ? 'Удаление...' : 'Удалить'}
         </Button>
       </div>
     </Modal>
