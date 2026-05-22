@@ -39,14 +39,18 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
   if (variant === 'drawer') {
     return (
       <aside className={`${styles.sidebar} ${styles.drawerSidebar}`}>
-        <div className={styles.drawerCover} />
+        <div className={styles.drawerCover}>
+          <img src={sidebarBackground} alt="" />
+        </div>
 
         <div className={styles.drawerProfile}>
-          <Avatar
-            src={profile?.avatar_url || undefined}
-            name={profile?.name || 'Пользователь'}
-            size="lg"
-          />
+          <div className={`${styles.avatarBorder} ${styles.drawerAvatar}`}>
+            <Avatar
+              src={profile?.avatar_url || undefined}
+              name={profile?.name || 'Пользователь'}
+              size="lg"
+            />
+          </div>
           <div className={styles.drawerProfileText}>
             <h2 className={styles.drawerName}>{profile?.name || 'Пользователь'}</h2>
             <p className={styles.drawerSubtitle}>блог front-end разработчика</p>
@@ -56,14 +60,14 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
         <div className={styles.drawerDivider} />
 
         <nav className={styles.drawerNav}>
+          <Link to="/" className={styles.drawerNavLink}>
+            Главная
+          </Link>
           <Link to="/articles" className={styles.drawerNavLink}>
             Статьи
           </Link>
           <Link to="/about" className={styles.drawerNavLink}>
             Обо мне
-          </Link>
-          <Link to="/profile" className={styles.drawerNavLink}>
-            Профиль
           </Link>
         </nav>
 
@@ -87,7 +91,7 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
     return (
       <aside className={styles.sidebar}>
         <div className={styles.cover}></div>
-        <div className={styles.avatarWrap}>
+        <div className={`${styles.avatarWrap} ${styles.avatarBorder}`}>
           <Avatar name="?" size="xl" />
         </div>
 
@@ -130,7 +134,7 @@ export function Sidebar({ variant = 'static' }: SidebarProps) {
       <div className={styles.cover}>
         <img src={sidebarBackground} alt="sidebar background" className={styles.coverImage} />
       </div>
-      <div className={styles.avatarWrap}>
+      <div className={`${styles.avatarWrap} ${styles.avatarBorder}`}>
         <Avatar
           src={profile?.avatar_url || undefined}
           name={profile?.name || 'Пользователь'}
