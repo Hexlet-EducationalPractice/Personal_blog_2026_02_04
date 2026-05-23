@@ -66,15 +66,13 @@ export function TextPage() {
     const seen = new Set<string>([excludePostId])
     const collected: PostWithAuthor[] = []
 
-    if (collected.length < RELATED_POSTS_COUNT) {
-      setIsPostsLoading(true)
-      const { posts } = await getPosts({ page: 1, perPage: 5 })
-      for (const p of posts) {
-        if (seen.has(p.id)) continue
-        seen.add(p.id)
-        collected.push(p)
-        if (collected.length >= RELATED_POSTS_COUNT) break
-      }
+    setIsPostsLoading(true)
+    const { posts } = await getPosts({ page: 1, perPage: RELATED_POSTS_COUNT + 1 })
+    for (const p of posts) {
+      if (seen.has(p.id)) continue
+      seen.add(p.id)
+      collected.push(p)
+      if (collected.length >= RELATED_POSTS_COUNT) break
     }
 
     return collected
@@ -84,9 +82,12 @@ export function TextPage() {
     if (post === null) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- сброс «Интересно почитать» при отсутствии поста
       setRelatedPosts([])
+      setServerError(null)
       return
     }
 
+    setRelatedPosts([])
+    setServerError(null)
     let cancelled = false
 
     void fetchLatestPosts(post.id)
