@@ -69,7 +69,7 @@ export function PostCard({ post, onChange }: PostCardProps) {
 
             <div className={styles.bottomActions}>
               {isBlogOwner && (
-                <>
+                <div className={styles.ownerActions}>
                   <button
                     type="button"
                     className={styles.adminBtn}
@@ -85,7 +85,7 @@ export function PostCard({ post, onChange }: PostCardProps) {
                   >
                     Удалить
                   </button>
-                </>
+                </div>
               )}
 
               <Link className={styles.link} to={postUrl}>
