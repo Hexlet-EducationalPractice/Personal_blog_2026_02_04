@@ -22,6 +22,12 @@
   padding: var(--space-8);
 }
 
+.serverState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .toolbar {
   display: flex;
   align-items: center;

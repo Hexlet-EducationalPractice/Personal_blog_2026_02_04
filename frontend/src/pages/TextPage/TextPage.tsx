@@ -16,6 +16,7 @@ import { ShareModal } from '@/components/ShareModal/ShareModal'
 import { useIsBlogOwner } from '@/features/posts/hooks/use-is-blog-owner'
 import { DeletePostModal } from '@/components/DeleteModal/DeletePostModal'
 import { EditPostModal } from '@/components/EditModal/EditPostModal'
+import { getErrorMessage } from '@/lib/get-error-message'
 
 function ShareButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -48,60 +49,55 @@ function ShareIcon({ className }: { className?: string }) {
   )
 }
 
-async function fetchRelatedPostsForTextPage(
-  excludePostId: string,
-  maybeTag: string | null,
-): Promise<PostWithAuthor[]> {
-  const seen = new Set<string>([excludePostId])
-  const collected: PostWithAuthor[] = []
-
-  const tagQuery = maybeTag?.trim()
-  if (tagQuery) {
-    const { posts } = await getPosts({ page: 1, perPage: 50, q: tagQuery })
-    for (const p of posts) {
-      if (seen.has(p.id)) continue
-      seen.add(p.id)
-      collected.push(p)
-      if (collected.length >= RELATED_POSTS_COUNT) break
-    }
-  }
-
-  if (collected.length < RELATED_POSTS_COUNT) {
-    const { posts } = await getPosts({ page: 1, perPage: 50 })
-    for (const p of posts) {
-      if (seen.has(p.id)) continue
-      seen.add(p.id)
-      collected.push(p)
-      if (collected.length >= RELATED_POSTS_COUNT) break
-    }
-  }
-
-  return collected
-}
-
 export function TextPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const postId = (id ?? '').trim()
   const { post, isLoading, error, notFound, refetch } = usePost(postId)
   const isBlogOwner = useIsBlogOwner()
+  const [serverError, setServerError] = useState<string | null>(null)
   const [relatedPosts, setRelatedPosts] = useState<PostWithAuthor[]>([])
+  const [isPostsLoading, setIsPostsLoading] = useState<boolean>(false)
 
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+
+  async function fetchLatestPosts(excludePostId: string): Promise<PostWithAuthor[]> {
+    const seen = new Set<string>([excludePostId])
+    const collected: PostWithAuthor[] = []
+
+    setIsPostsLoading(true)
+    const { posts } = await getPosts({ page: 1, perPage: RELATED_POSTS_COUNT + 1 })
+    for (const p of posts) {
+      if (seen.has(p.id)) continue
+      seen.add(p.id)
+      collected.push(p)
+      if (collected.length >= RELATED_POSTS_COUNT) break
+    }
+
+    return collected
+  }
 
   useEffect(() => {
     if (post === null) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- сброс «Интересно почитать» при отсутствии поста
       setRelatedPosts([])
+      setServerError(null)
       return
     }
 
+    setRelatedPosts([])
+    setServerError(null)
     let cancelled = false
 
-    void fetchRelatedPostsForTextPage(post.id, post.tag).then((collected) => {
-      if (!cancelled) setRelatedPosts(collected)
-    })
+    void fetchLatestPosts(post.id)
+      .then((collected) => {
+        if (!cancelled) setRelatedPosts(collected)
+      })
+      .catch((err) => {
+        setServerError(getErrorMessage(err))
+      })
+      .finally(() => setIsPostsLoading(false))
 
     return () => {
       cancelled = true
@@ -215,6 +211,12 @@ export function TextPage() {
             <h2 id="related-heading" className={styles.sectionTitle}>
               Интересно почитать
             </h2>
+            {(isPostsLoading || serverError) && (
+              <div className={styles.serverState}>
+                {isPostsLoading && <Spinner />}
+                {serverError && <ErrorMessage>{serverError}</ErrorMessage>}
+              </div>
+            )}
             <div className={styles.relatedGrid}>
               {relatedPosts.map((p) => {
                 const relatedDate = p.created_at ? formatDate(p.created_at) : ''
