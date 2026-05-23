@@ -123,4 +123,8 @@
   .content {
     padding: var(--space-5) var(--space-4);
   }
+
+  .ownerActions {
+    display: none;
+  }
 }

@@ -43,17 +43,17 @@ function CopyButton({ icon }: { icon: string; alt: string }) {
   }
 
   return (
-      <button
-        className={styles.copyButton}
-        onClick={handleCopy}
-        disabled={!isClipboardAvailable}
-        aria-label="Скопировать ссылку"
-      >
-        <img src={icon} alt="" />
-        <span className={`${styles.tooltip} ${isCopied ? styles.tooltipVisible : ''}`}>
-          Скопировано
-        </span>
-      </button>
+    <button
+      className={styles.copyButton}
+      onClick={handleCopy}
+      disabled={!isClipboardAvailable}
+      aria-label="Скопировать ссылку"
+    >
+      <img src={icon} alt="" />
+      <span className={`${styles.tooltip} ${isCopied ? styles.tooltipVisible : ''}`}>
+        Скопировано
+      </span>
+    </button>
   )
 }
 
@@ -76,7 +76,7 @@ function ShareIcons({ iconArray }: IconsProps) {
   return (
     <ul className={styles.shareIcons}>
       {iconArray.map((item) => (
-        <li key={item.link}>
+        <li key={item.alt}>
           <a
             onClick={(e) => e.preventDefault()}
             href={item.link}
