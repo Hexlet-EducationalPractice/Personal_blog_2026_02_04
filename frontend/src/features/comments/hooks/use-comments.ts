@@ -24,7 +24,7 @@ export function useComments(postId: string) {
     if (isMountedRef.current) setIsLoading(true)
     await fetchComments()
     if (isMountedRef.current) setIsLoading(false)
-  }, [postId])
+  }, [postId, fetchComments])
 
   useEffect(() => {
     isMountedRef.current = true
@@ -57,7 +57,7 @@ export function useComments(postId: string) {
       channel.unsubscribe()
       isMountedRef.current = false
     }
-  }, [postId, refetch])
+  }, [postId, refetch, fetchComments])
 
   return {
     comments,

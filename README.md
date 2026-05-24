@@ -1,347 +1,136 @@
-# Учебный проект: Personal Blog
+# Personal Blog
 
-## Работа с GitHub
+Персональный блог фронтенд-разработчика. SPA на React + TypeScript + Supabase.
 
-### После выполнения задачи:
+## 📦 Стек
 
-1. Создайте Pull Request в ветку `dev`
-2. Автоматически запустится CI (проверки кода)
-3. Если CI прошёл успешно — PR будет ожидать ревью
-4. Тимлид проверяет код и оставляет комментарии (если нужно)
-5. После одобрения PR можно мержить
+- **React 19** + **TypeScript** (strict mode)
+- **Vite** — сборщик и dev-сервер
+- **React Router v6** — клиентская маршрутизация
+- **React Hook Form + Zod** — формы с runtime-валидацией
+- **Supabase** — БД (PostgreSQL), Auth, Storage, Realtime
+- **CSS Modules** — изоляция стилей
+- **Vitest** — юнит-тесты
+- **ESLint + Prettier + Husky** — единый стиль кода
 
-**Важно**:
+## ✨ Возможности
 
-- Нельзя пушить напрямую в `main` и `dev`
-- Даже если CI зелёный — без ревью мержить нельзя
-- Все изменения должны проходить через Pull Request
-- Если есть замечания от ревьюера — их нужно исправить
+- Авторизация (регистрация, вход, восстановление пароля)
+- Лента постов с пагинацией
+- Создание, редактирование, удаление постов (только владелец блога)
+- Поддержка изображений и видео в постах
+- Полнотекстовый поиск
+- Комментарии с realtime-обновлением и древовидной структурой
+- Раздел «Мои работы»
+- Профиль пользователя
+- Адаптивная вёрстка (375 / 768 / 1024 / 1440 px)
+- Мобильное burger-меню
 
-### Итоговый процесс:
+## 🚀 Быстрый старт
 
-```text
-feature/* → PR → CI → Review → Merge
+### Требования
+
+- Node.js ≥ 20
+- npm ≥ 10
+
+### Установка
+
+```bash
+git clone https://github.com/Hexlet-EducationalPractice/Personal_blog_2026_02_04.git
+cd Personal_blog_2026_02_04
+
+# зависимости в корне (husky pre-commit hooks)
+npm install
+
+# зависимости фронтенда
+cd frontend
+npm install
 ```
 
-**Минимальный набор labels на задачу:**
+### Настройка окружения
 
-```text
-[frontend/backend/fullstack] + [feature/bug/refactor]
+Создать `frontend/.env` из примера и заполнить значения:
+
+```bash
+cp .env.example .env
 ```
 
-### Как работает GitHub Actions CI:
-
-```text
-- CI запускается автоматически на push и pull_request в ветки dev и main
-- Проверки frontend и backend идут в отдельных параллельных job
-- Если падает любой шаг (typecheck/build/lint и т.д.), CI считается неуспешным
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGc...
+VITE_BLOG_OWNER_ID=00000000-0000-0000-0000-000000000000
+VITE_SITE_URL=http://localhost:5173
 ```
 
-### Правила веток и PR:
+Откуда взять значения:
 
-```text
-- Нельзя пушить напрямую в main
-- Работать нужно в feature-ветке (например, feature/auth)
-- Изменения попадают через Pull Request с ревью
-- Перед merge PR должен быть в статусе CI Passed
+- `VITE_SUPABASE_URL` и `VITE_SUPABASE_ANON_KEY` — в Supabase Dashboard → Settings → API
+- `VITE_BLOG_OWNER_ID` — UUID пользователя в `auth.users` который будет владельцем блога
+- `VITE_SITE_URL` — `http://localhost:5173` для dev, прод-URL для production
+
+### Развёртывание базы данных
+
+В Supabase Dashboard → SQL Editor выполнить по очереди:
+
+1. `frontend/supabase/schema.sql` — создаёт таблицы (profiles, posts, comments, stories, works), RLS-политики, триггеры
+2. `frontend/supabase/seed-data.sql` — наполняет демо-данными (замени `<OWNER_UUID>` на свой UUID перед запуском)
+
+### Запуск
+
+```bash
+cd frontend
+npm run dev
 ```
 
-### Процесс работы с Pull Request:
+Откроется `http://localhost:5173`.
 
-**Каждая задача выполняется в отдельной ветке:**
+## 📜 npm-скрипты
 
-```text
-feature/<название-задачи>
+```bash
+npm run dev         # dev-сервер
+npm run build       # production-сборка (tsc + vite build)
+npm run preview     # локальный просмотр production-сборки
+npm run lint        # ESLint
+npm run typecheck   # проверка типов без сборки
+npm run format      # форматирование Prettier
+npm run test        # юнит-тесты (Vitest)
+npm run test:run    # тесты без watch
 ```
 
----
-
-## Техническое задание
-
-Стек: React TypeScript Vite Supabase  
-Продолжительность практики: 3 недели  
-Формат работы: командный (8–10 человек)  
-
-Регистрация: https://team-signup-kohl.vercel.app/  
-API документация: https://inquisitive-gnome-861106.netlify.app/  
-Ссылка на макет: Figma  
-
----
-
-## 1. Описание проекта
-
-Необходимо реализовать персональный блог фронтенд-разработчика по предоставленному макету.
-
-Проект представляет собой полноценное SPA-приложение с:
-- авторизацией
-- лентой статей
-- страницами публикаций
-- поиском
-- разделом «Мои работы»
-
-Данные хранятся и управляются через Supabase.
-
----
-
-## 2. Страницы и экраны
-
-1. Home (лента)  
-   Список постов с пагинацией, сторис-панель, поле создания поста  
-
-2. Text Page (пост)  
-   Полный текст публикации, блок «Интересно почитать», раздел комментариев  
-
-3. Search Result  
-   Результаты поиска по заголовку и тексту  
-
-4. Works  
-   Список работ автора с тегами и ссылками  
-
-5. Auth  
-   Форма входа / регистрации / восстановления пароля  
-
-6. Profile  
-   Редактирование имени, смена пароля, загрузка аватара  
-
-7. Mobile Menu  
-   Бургер-меню для мобильной версии  
-
-8. Modal: Contact  
-   Форма обратной связи (имя, email, текст) — вывод в консоль  
-
-9. Modal: Story  
-   Просмотр сторис в полноэкранном режиме  
-
-Каждая страница должна соответствовать десктопному и мобильному макетам.
-
----
-
-## 3. Функциональные требования
-
-### 3.1 Авторизация (Supabase Auth)
-
-- Регистрация по email и паролю  
-- Вход в существующий аккаунт  
-- Восстановление пароля через Supabase  
-- Редирект после входа на главную страницу  
-- Неавторизованный пользователь не имеет доступа к Profile и созданию поста  
-- Выход из аккаунта  
-
----
-
-### 3.2 Лента постов (Home)
-
-- Получение постов из Supabase с пагинацией (3 на страницу)  
-- Отображение: изображение, заголовок, дата, тег, анонс  
-- Переход на страницу поста  
-- Создание поста только владельцем  
-- Сторис из таблицы stories  
-
----
-
-### 3.3 Страница поста (Text Page)
-
-- Полный текст, изображение, дата, тег  
-- Кнопка назад (navigate(-1))  
-- Share modal (заглушка)  
-- Блок «Интересно почитать»  
-- Комментарии с ответами  
-
----
-
-### 3.4 Поиск
-
-- Поиск в хедере  
-- По заголовку и тексту (ilike)  
-- Страница Search Result  
-
----
-
-### 3.5 Создание поста
-
-- Только владелец  
-- URL изображения  
-- Без перезагрузки  
-- File upload — опционально  
-
----
-
-### 3.6 Комментарии
-
-- Добавление (только авторизованные)  
-- Просмотр (все)  
-- Ответы через parent_id  
-
----
-
-### 3.7 Профиль
-
-- Имя, email  
-- Изменение имени  
-- Смена пароля  
-- URL аватара  
-- Сохранение  
-
----
-
-### 3.8 Модальные окна
-
-Contact:
-- имя, email, сообщение  
-- закрытие  
-
-Share:
-- копирование ссылки  
-- заглушки соцсетей  
-
-Story:
-- fullscreen изображение  
-
----
-
-### 3.9 Мои работы
-
-- данные из таблицы works  
-- без формы добавления  
-
----
-
-### 3.10 Адаптивность
-
-- бургер-меню  
-- минимум 375px  
-
----
-
-## 4. Технические требования
-
-### Архитектура
-
-- Vite + React 18 + TypeScript  
-- Supabase  
-- React Router v6  
-- Context API / Redux Toolkit  
-- CSS Modules / styled-components  
-
----
-
-### Структура проекта
-
-src/
-  components/
-  pages/
-  features/
-  hooks/
-  lib/
-  types/
-
----
-
-### Требования к коду
-
-- запрещен any  
-- функциональные компоненты  
-- try/catch  
-- валидация  
-- защищенные роуты  
-- ESLint без ошибок  
-
----
-
-## Supabase: схема БД
-
-profiles  
-posts  
-comments  
-stories  
-works  
-
----
-
-## 5. Календарный план
-
-### Неделя 1
-- setup  
-- auth  
-- layout  
-- home  
-- works  
-
-### Неделя 2
-- post  
-- comments  
-- create post  
-- profile  
-- search  
-
-### Неделя 3
-- modals  
-- adaptive  
-- bugfix  
-- final  
-
----
-
-## 6. Критерии оценки
-
-Минимум:
-- auth работает  
-- посты есть  
-- комментарии есть  
-- создание поста  
-- поиск  
-
-Хорошо:
-- все страницы  
-- модалки  
-- адаптив  
-- обработка ошибок  
-
-Отлично:
-- pixel perfect  
-- storage  
-- realtime  
-- чистый код  
-
----
-
-## 7. Задачи повышенной сложности
-
-- редактирование поста  
-- realtime комментарии  
-- infinite scroll  
-- optimistic UI  
-- фильтрация  
-
----
-
-## 8. Организация командной работы
-
-Ветки:
-- main — стабильная  
-- dev — разработка  
-- feature/*  
-
-Правила:
-- только PR  
-- ревью обязательно  
-- понятные коммиты  
-
----
-
-## Сдача проекта
-
-- GitHub  
-- деплой  
-- README  
-- .env.example  
-
----
-
-## 9. Что нельзя делать
-
-- хранить ключи в коде  
-- использовать any  
-- оставлять console.log  
-- копировать код  
-- пушить в main без PR  
+## 📁 Структура проекта
+
+```
+Personal_blog_2026_02_04/
+├── frontend/
+│   ├── src/
+│   │   ├── app/           — маршрутизация, провайдеры
+│   │   ├── pages/         — страницы (Home, TextPage, Profile, Auth, ...)
+│   │   ├── features/      — бизнес-модули (posts, comments, auth, profile, stories, works)
+│   │   ├── components/    — переиспользуемые UI-компоненты (Button, Modal, Input, ...)
+│   │   ├── hooks/         — общие хуки
+│   │   ├── lib/           — утилиты (format-date, get-error-message, is-video-url, ...)
+│   │   ├── styles/        — глобальные стили и design tokens
+│   │   └── types/         — глобальные TypeScript типы
+│   ├── supabase/          — SQL-скрипты для развёртывания БД
+│   └── package.json
+├── .github/workflows/     — CI/CD (typecheck + lint + build на каждый PR)
+└── package.json           — husky pre-commit hooks
+```
+
+## 🧪 Тесты
+
+```bash
+cd frontend
+npm run test
+```
+
+Покрытие — utility-функции (`build-comment-tree`, `is-video-url`, `format-date`, `truncate`, `get-error-message`).
+
+## 📐 Стандарты кода
+
+- **Airbnb JavaScript / React Style Guide** через `eslint-config-airbnb`
+- **TypeScript strict** — запрет `any`
+- **Prettier** — единое форматирование (одинарные кавычки, без точки с запятой, 100 char width)
+- **Conventional Commits** — `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`
+- **Husky pre-commit** — автоматический запуск lint, format, typecheck перед каждым коммитом
+- **CSS Modules** — изоляция стилей, без глобальных классов
