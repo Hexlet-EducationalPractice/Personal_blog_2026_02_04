@@ -1,0 +1,232 @@
+.page {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.titleActions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: var(--space-8);
+}
+
+.serverState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.adminBtn,
+.shareTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-1) var(--space-2);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-family-accent);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.adminBtn:hover,
+.shareTrigger:hover {
+  color: var(--color-link);
+}
+
+.shareTrigger:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
+}
+
+.shareLabel {
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.shareIcon {
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.title {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-accent);
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  line-height: var(--line-height-relaxed);
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-family-accent);
+}
+
+.dateTag {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.metaSep {
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+.tagPlain {
+  color: var(--color-text-muted);
+}
+
+.date {
+  color: var(--color-text-muted);
+}
+
+.body {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-relaxed);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.postFooter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.blockDivider {
+  height: 1px;
+  width: 100%;
+  margin: 0;
+  border: none;
+  background-color: var(--color-surface-dark);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-top: var(--space-2);
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-accent);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  line-height: var(--line-height-normal);
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5) var(--space-8);
+}
+
+.relatedLink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: inherit;
+}
+
+.relatedTitle {
+  font-family: var(--font-family-accent);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  line-height: var(--line-height-normal);
+  color: var(--color-accent-soft);
+  transition: color 0.2s ease;
+}
+
+.relatedLink:hover .relatedTitle {
+  color: var(--color-accent);
+}
+
+.relatedDate {
+  font-family: var(--font-family-accent);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1024px) {
+  .page {
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .titleActions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .title {
+    font-size: var(--font-size-xl);
+  }
+
+  .relatedGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .body {
+    font-size: var(--font-size-sm);
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}

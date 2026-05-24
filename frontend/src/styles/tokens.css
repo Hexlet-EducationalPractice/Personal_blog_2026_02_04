@@ -1,0 +1,75 @@
+:root {
+  --color-bg: #181818;
+  --color-surface: #202020;
+  --color-surface-muted: #121212;
+  --color-surface-dark: #0d0d0d;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #d2d2d2;
+  --color-text-muted: #828282;
+  --color-text-subtle: #757575;
+  --color-text-inverse: #ffffff;
+  --color-primary: #3137c9;
+  --color-primary-hover: #2f2be5;
+  --color-link: #107eff;
+  --color-link-hover: #104be3;
+  --color-accent: #ea8c1e;
+  --color-accent-soft: #f3eba2;
+  --color-danger: #ed3024;
+  --color-border: #3f3f3f;
+  --color-border-strong: #1c1c1c;
+  --color-placeholder: #c4c4c4;
+
+  --font-family-base:
+    'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell,
+    'Helvetica Neue', sans-serif;
+  --font-family-accent: 'Lato', var(--font-family-base);
+  --font-size-2xs: 11px;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 15px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 21px;
+  --font-size-2xl: 24px;
+  --line-height-tight: 18px;
+  --line-height-normal: 21px;
+  --line-height-relaxed: 27px;
+
+  --space-0: 2px;
+  --space-1: 4px;
+  --space-1-5: 6px;
+  --space-2: 8px;
+  --space-2-5: 10px;
+  --space-3: 12px;
+  --space-3-5: 14px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 30px;
+  --space-8: 40px;
+  --space-9: 44px;
+  --space-10: 45px;
+
+  --radius-2xs: 2px;
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 25px;
+  --radius-full: 9999px;
+
+  --shadow-card: 0 15px 25px rgb(0 0 0 / 35%);
+  --shadow-modal: 0 10px 35px rgb(0 0 0 / 25%);
+  --shadow-header-soft: 0 2px 10px rgb(0 0 0 / 15%);
+  --shadow-header-strong: 0 5px 22px rgb(0 0 0 / 25%);
+  --shadow-button-primary: 0 4px 15px -7px rgb(48 55 201 / 30%);
+  --shadow-button-danger: 0 7px 17px -10px rgb(242 63 63 / 20%);
+  --shadow-button-secondary: 0 7px 17px -10px rgb(32 84 219 / 35%);
+  --shadow-pagination: 0 0 10px rgb(0 0 0 / 15%);
+  --shadow-story: 0 5px 15px rgb(0 0 0 / 20%);
+  --shadow-search: -7px 1px 10px rgb(0 0 0 / 30%);
+  --shadow-sidebar: 5px 0 15px rgb(5 5 5 / 10%);
+
+  --container-width: 1000px;
+  --sidebar-width: 300px;
+  --header-height: 40px;
+  --search-width: 212px;
+}

@@ -1,0 +1,130 @@
+.adminBtn,
+.link {
+  text-decoration: none;
+  color: var(--color-link);
+  font-size: var(--font-size-sm);
+  line-height: var(--space-4);
+  transition: color 0.2s ease;
+}
+
+.adminBtn:hover,
+.link:hover {
+  color: var(--color-link-hover);
+}
+
+.card {
+  width: 100%;
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-surface);
+  font-size: var(--font-size-sm);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+}
+
+.title {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  line-height: var(--line-height-normal);
+}
+
+.preview {
+  margin: 0 0 var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.metaData {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-text-muted);
+  font-family: var(--font-family-accent);
+  font-size: var(--font-size-xs);
+  line-height: var(--font-size-sm);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.date,
+.tag {
+  white-space: nowrap;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.tag::before {
+  content: '';
+  width: var(--space-1-5);
+  height: var(--space-1-5);
+  background: var(--color-placeholder);
+  border-radius: var(--radius-full);
+}
+
+.bottomActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deleteConfirm {
+  padding: var(--space-4) 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.date,
+.tag {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .ownerActions {
+    display: none;
+  }
+}

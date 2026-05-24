@@ -1,0 +1,113 @@
+.ownerToolbar {
+  display: flex;
+}
+
+.createPostField {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border: none;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+  text-align: left;
+  cursor: pointer;
+}
+
+.createPostField:hover {
+  color: var(--color-text-secondary);
+}
+
+.createPostField:focus,
+.createPostField:focus-visible {
+  outline: none;
+}
+
+.pageWithToolbar {
+  padding: var(--space-6);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8);
+  color: var(--color-text-secondary);
+}
+
+.tagContainer {
+  display: flex;
+  gap: var(--space-2);
+  flex-direction: row;
+  align-items: center;
+}
+
+.tagContainer p {
+  margin: 0;
+}
+
+.tagContainer button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .pageWithToolbar {
+    padding: var(--space-4);
+  }
+
+  .list {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+
+  .pageWithToolbar {
+    padding: var(--space-3);
+  }
+
+  .list {
+    gap: var(--space-3);
+  }
+
+  .tagContainer {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    padding: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .pageWithToolbar {
+    padding: var(--space-2);
+  }
+}

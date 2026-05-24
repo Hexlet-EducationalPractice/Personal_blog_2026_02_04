@@ -1,0 +1,125 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--space-8) + var(--space-5)) var(--space-10) 0;
+  color: var(--color-text-primary);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  line-height: var(--line-height-relaxed);
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-top: calc(var(--space-8) + var(--space-3-5));
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2-5);
+  width: 340px;
+  margin-right: 30px;
+}
+
+.input {
+  min-height: var(--space-8);
+  padding: 0 0 var(--space-2);
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.45;
+}
+
+.input:focus {
+  border-bottom-color: var(--color-link);
+  outline: none;
+}
+
+.input[aria-invalid='true'] {
+  border-bottom-color: var(--color-danger);
+}
+
+.readOnlyInput {
+  color: var(--color-text-primary);
+  cursor: not-allowed;
+}
+
+.success {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+.profileButton {
+  width: 90px;
+  padding: 0;
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+}
+
+.avatarBlock {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatarImage,
+.avatarPlaceholder {
+  width: 150px;
+  height: 150px;
+  box-shadow: var(--shadow-modal);
+}
+
+.avatarImage {
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-placeholder);
+  color: var(--color-surface-dark);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  .form {
+    width: 100%;
+  }
+}
