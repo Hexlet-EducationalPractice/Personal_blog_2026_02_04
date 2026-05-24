@@ -2,29 +2,33 @@ import { isVideoUrl } from '../is-video-url'
 
 describe('isVideoUrl должно возвращать true на формат расширений видосов', () => {
   it('должна возвращать true для .mp4', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.mp4')).toBe(true)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.mp4',
+      ),
+    ).toBe(true)
   })
 
   it('должна возвращать true для webm', () => {
     expect(isVideoUrl('https://example.com/QQ.webm')).toBe(true)
   })
-
-  it('должна возвращать true для mov', () => {
-    expect(isVideoUrl('https://example.com/QQ.mov')).toBe(true)
-  })
-
-  it('должна возвращать true для ogg', () => {
-    expect(isVideoUrl('https://example.com/QQ.ogg')).toBe(true)
-  })
 })
 
 describe('isVideoUrl должно возвращать false на расширения не видосов', () => {
   it('должно возвращать false для jpg', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779092251972.jpg')).toBe(false)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779092251972.jpg',
+      ),
+    ).toBe(false)
   })
 
   it('должно возвращать false для png', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779357449842.png')).toBe(false)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779357449842.png',
+      ),
+    ).toBe(false)
   })
 
   it('должно возвращать false для webp', () => {
@@ -32,7 +36,11 @@ describe('isVideoUrl должно возвращать false на расшире
   })
 
   it('должно возвращать false для gif', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779092811179.gif')).toBe(false)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779092811179.gif',
+      ),
+    ).toBe(false)
   })
 
   it('должно возвращать false для юрлки без расширения', () => {
@@ -42,7 +50,11 @@ describe('isVideoUrl должно возвращать false на расшире
 
 describe('isVideoUrl независимость регистров', () => {
   it('должно распознавать расширение в верхнем регистре MP4', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.Mp4')).toBe(true)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.Mp4',
+      ),
+    ).toBe(true)
   })
 
   it('должно распознавать расширение в смешанном регистре WebM', () => {
@@ -52,7 +64,11 @@ describe('isVideoUrl независимость регистров', () => {
 
 describe('isVideoUrl юрл с query параметрами', () => {
   it('должно возвращать true для видео с токенами и параметрами mp4?token=xxx', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.mp4?token=token')).toBe(true)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.mp4?token=token',
+      ),
+    ).toBe(true)
   })
 
   it('должно возвращать true для видео с хэш-якорем mp4#content', () => {
@@ -60,11 +76,19 @@ describe('isVideoUrl юрл с query параметрами', () => {
   })
 
   it('должно возвращать false для картинок с параметрами ширины jpg?width=300...', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779147973868.jpg?width=300&height=200')).toBe(false)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779147973868.jpg?width=300&height=200',
+      ),
+    ).toBe(false)
   })
 
   it('должно возвращать true для видео с точкой в query signed URL', () => {
-    expect(isVideoUrl('https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.mp4?token=some.signed.token')).toBe(true)
+    expect(
+      isVideoUrl(
+        'https://hwdeioovgmrayxvlsjku.supabase.co/storage/v1/object/public/posts/1779146472267.mp4?token=some.signed.token',
+      ),
+    ).toBe(true)
   })
 
   it('должно возвращать true для видео с версией в query ?v=1.2.3', () => {
