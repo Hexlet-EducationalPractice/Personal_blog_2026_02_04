@@ -134,3 +134,10 @@ npm run test
 - **Conventional Commits** — `feat:`, `fix:`, `chore:`, `refactor:`, `docs:`
 - **Husky pre-commit** — автоматический запуск lint, format, typecheck перед каждым коммитом
 - **CSS Modules** — изоляция стилей, без глобальных классов
+
+## Команда
+
+Учебный командный проект Hexlet College, апрель — май 2026.
+
+- **Ирина Давиденко** ([@Ira-Ivaa](https://github.com/Ira-Ivaa)) — Team Lead: архитектура, схема БД, процесс разработки, code review
+- **Участники:** [@1VolDam1](https://github.com/1VolDam1), [@Vova0211](https://github.com/Vova0211), [@Asikuru](https://github.com/Asikuru), [@Dimokra](https://github.com/Dimokra), [@Eoka-rust](https://github.com/Eoka-rust), [@feattempl](https://github.com/feattempl), [@Holdaa](https://github.com/Holdaa), [@MihailC404](https://github.com/MihailC404), [@miifff-fs](https://github.com/miifff-fs), [@NyakishTwT](https://github.com/NyakishTwT), [@tantolina](https://github.com/tantolina)
